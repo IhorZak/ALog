@@ -1,0 +1,17 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "23.0.3"
+
+    defaultConfig {
+        minSdkVersion 1
+        targetSdkVersion 23
+        versionCode 1
+        versionName "0.1"
+    }
+}
+
+dependencies {
+    testCompile 'junit:junit:4.12'
+}
