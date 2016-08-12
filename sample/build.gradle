@@ -4,12 +4,15 @@ android {
     compileSdkVersion 23
     buildToolsVersion "23.0.3"
 
+    def versionProperties = new Properties()
+    versionProperties.load(new FileInputStream('version.properties'))
+
     defaultConfig {
         applicationId "ua.pp.ihorzak.alog"
         minSdkVersion 7
         targetSdkVersion 23
-        versionCode 1
-        versionName "0.1"
+        versionCode Integer.parseInt(versionProperties.getProperty('VERSION_CODE'))
+        versionName versionProperties.getProperty('VERSION_NAME')
     }
 
     buildTypes {
@@ -21,7 +24,20 @@ android {
         release {
             debuggable false
             minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            //noinspection GrUnresolvedAccess
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    //noinspection GrUnresolvedAccess
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            def file = output.outputFile
+            //noinspection GroovyAssignabilityCheck,GrUnresolvedAccess
+            def fileName = 'alog-sample-' + variant.buildType.name + '-' +
+                    defaultConfig.versionName + '-' + defaultConfig.versionCode + '.apk'
+            //noinspection GroovyAssignabilityCheck
+            output.outputFile = new File(file.parent, fileName)
         }
     }
 }

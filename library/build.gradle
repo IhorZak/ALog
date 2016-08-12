@@ -4,11 +4,26 @@ android {
     compileSdkVersion 23
     buildToolsVersion "23.0.3"
 
+    def versionProperties = new Properties()
+    versionProperties.load(new FileInputStream('version.properties'))
+
     defaultConfig {
         minSdkVersion 1
         targetSdkVersion 23
-        versionCode 1
-        versionName "0.1"
+        versionCode Integer.parseInt(versionProperties.getProperty('VERSION_CODE'))
+        versionName versionProperties.getProperty('VERSION_NAME')
+    }
+
+    //noinspection GrUnresolvedAccess
+    libraryVariants.all { variant ->
+        variant.outputs.each { output ->
+            def file = output.outputFile
+            //noinspection GroovyAssignabilityCheck,GrUnresolvedAccess
+            def fileName = 'alog-' + variant.buildType.name + '-' +
+                    defaultConfig.versionName + '-' + defaultConfig.versionCode + '.aar'
+            //noinspection GroovyAssignabilityCheck
+            output.outputFile = new File(file.parent, fileName)
+        }
     }
 }
 
