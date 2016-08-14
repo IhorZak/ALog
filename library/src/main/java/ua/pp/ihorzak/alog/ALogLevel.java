@@ -16,6 +16,8 @@
 
 package ua.pp.ihorzak.alog;
 
+import android.util.Log;
+
 /**
  * Represents logging levels. Minimal value is the highest logging level, maximal value is the
  * lowest logging level.
@@ -28,30 +30,67 @@ public enum ALogLevel {
      * "What a Terrible Failure" logging level, which corresponds to
      * {@link android.util.Log#ASSERT} Android logging level.
      */
-    WTF,
+    WTF {
+        @Override
+        protected int getAndroidPriority() {
+            return Log.ASSERT;
+        }
+    },
     /**
      * Error logging level, which corresponds to {@link android.util.Log#ERROR} Android logging
      * level.
      */
-    ERROR,
+    ERROR {
+        @Override
+        protected int getAndroidPriority() {
+            return Log.ERROR;
+        }
+    },
     /**
      * Warning logging level, which corresponds to {@link android.util.Log#WARN} Android logging
      * level.
      */
-    WARNING,
+    WARNING {
+        @Override
+        protected int getAndroidPriority() {
+            return Log.WARN;
+        }
+    },
     /**
      * Information logging level, which corresponds to {@link android.util.Log#INFO} Android
      * logging level.
      */
-    INFO,
+    INFO {
+        @Override
+        protected int getAndroidPriority() {
+            return Log.INFO;
+        }
+    },
     /**
      * Debug logging level, which corresponds to {@link android.util.Log#DEBUG} Android logging
      * level.
      */
-    DEBUG,
+    DEBUG {
+        @Override
+        protected int getAndroidPriority() {
+            return Log.DEBUG;
+        }
+    },
     /**
      * Verbose logging level, which corresponds to {@link android.util.Log#VERBOSE} Android logging
      * level.
      */
-    VERBOSE
+    VERBOSE {
+        @Override
+        protected int getAndroidPriority() {
+            return Log.VERBOSE;
+        }
+    };
+
+    /**
+     * Gets corresponding Android {@link Log} logging level.
+     *
+     * @return Corresponding Android {@link Log} logging level.
+     */
+    protected abstract int getAndroidPriority();
 }
