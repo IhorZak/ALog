@@ -39,6 +39,7 @@ public final class ALogConfiguration {
     private static final ALogLevel DEFAULT_JSON_LEVEL = ALogLevel.INFO;
     private static final ALogLevel DEFAULT_XML_LEVEL = ALogLevel.INFO;
     private static final String DEFAULT_TAG = null;
+    private static final boolean DEFAULT_IS_THREAD_PREFIX_ENABLED = true;
     private static final boolean DEFAULT_IS_CLASS_PREFIX_ENABLED = false;
     private static final boolean DEFAULT_IS_METHOD_PREFIX_ENABLED = true;
     private static final boolean DEFAULT_IS_LINE_LOCATION_PREFIX_ENABLED = true;
@@ -52,6 +53,7 @@ public final class ALogConfiguration {
 
     final String mTag;
 
+    final boolean mIsThreadPrefixEnabled;
     final boolean mIsClassPrefixEnabled;
     final boolean mIsMethodPrefixEnabled;
     final boolean mIsLineLocationPrefixEnabled;
@@ -63,6 +65,7 @@ public final class ALogConfiguration {
                               ALogLevel jsonLevel,
                               ALogLevel xmlLevel,
                               String tag,
+                              boolean isThreadPrefixEnabled,
                               boolean isClassPrefixEnabled,
                               boolean isMethodPrefixEnabled,
                               boolean isLineLocationPrefixEnabled,
@@ -72,6 +75,7 @@ public final class ALogConfiguration {
         mJsonLevel = jsonLevel;
         mXmlLevel = xmlLevel;
         mTag = tag;
+        mIsThreadPrefixEnabled = isThreadPrefixEnabled;
         mIsClassPrefixEnabled = isClassPrefixEnabled;
         mIsMethodPrefixEnabled = isMethodPrefixEnabled;
         mIsLineLocationPrefixEnabled = isLineLocationPrefixEnabled;
@@ -91,6 +95,7 @@ public final class ALogConfiguration {
         private ALogLevel mJsonLevel;
         private ALogLevel mXmlLevel;
         private String mTag;
+        private boolean mIsThreadPrefixEnabled;
         private boolean mIsClassPrefixEnabled;
         private boolean mIsMethodPrefixEnabled;
         private boolean mIsLineLocationPrefixEnabled;
@@ -102,6 +107,7 @@ public final class ALogConfiguration {
             mJsonLevel = DEFAULT_JSON_LEVEL;
             mXmlLevel = DEFAULT_XML_LEVEL;
             mTag = DEFAULT_TAG;
+            mIsThreadPrefixEnabled = DEFAULT_IS_THREAD_PREFIX_ENABLED;
             mIsClassPrefixEnabled = DEFAULT_IS_CLASS_PREFIX_ENABLED;
             mIsMethodPrefixEnabled = DEFAULT_IS_METHOD_PREFIX_ENABLED;
             mIsLineLocationPrefixEnabled = DEFAULT_IS_LINE_LOCATION_PREFIX_ENABLED;
@@ -114,6 +120,7 @@ public final class ALogConfiguration {
             mJsonLevel = configuration.mJsonLevel;
             mXmlLevel = configuration.mXmlLevel;
             mTag = configuration.mTag;
+            mIsThreadPrefixEnabled = configuration.mIsThreadPrefixEnabled;
             mIsClassPrefixEnabled = configuration.mIsClassPrefixEnabled;
             mIsMethodPrefixEnabled = configuration.mIsMethodPrefixEnabled;
             mIsLineLocationPrefixEnabled = configuration.mIsLineLocationPrefixEnabled;
@@ -190,6 +197,19 @@ public final class ALogConfiguration {
         }
 
         /**
+         * Enables/disables thread name in message prefix. If not called by default this option is
+         * enabled.
+         *
+         * @param isThreadPrefixEnabled true if logging message prefix should contain thread name of
+         *                              logging method call location, otherwise false.
+         * @return This builder instance.
+         */
+        public Builder threadPrefixEnabled(boolean isThreadPrefixEnabled) {
+            mIsThreadPrefixEnabled = isThreadPrefixEnabled;
+            return this;
+        }
+
+        /**
          * Enables/disables location class name in message prefix. If not called by default this
          * option is disabled.
          *
@@ -248,8 +268,8 @@ public final class ALogConfiguration {
          */
         public ALogConfiguration build() {
             return new ALogConfiguration(mIsEnabled, mMinimalLevel, mJsonLevel, mXmlLevel, mTag,
-                    mIsClassPrefixEnabled, mIsMethodPrefixEnabled, mIsLineLocationPrefixEnabled,
-                    mStackTraceLineCount);
+                    mIsThreadPrefixEnabled, mIsClassPrefixEnabled, mIsMethodPrefixEnabled,
+                    mIsLineLocationPrefixEnabled, mStackTraceLineCount);
         }
     }
 }
