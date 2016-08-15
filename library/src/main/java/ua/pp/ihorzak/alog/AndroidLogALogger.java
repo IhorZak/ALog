@@ -25,6 +25,8 @@ import android.util.Log;
  * @since 13.08.2016
  */
 final class AndroidLogALogger extends BaseALogger {
+    private static final int MAX_TAG_LENGTH = 23;
+
     private ALogConfiguration mConfiguration;
 
     public AndroidLogALogger(ALogConfiguration configuration) {
@@ -33,32 +35,32 @@ final class AndroidLogALogger extends BaseALogger {
 
     @Override
     public void v(Throwable throwable, String message, Object... args) {
-        // TODO Implement
+        log(ALogLevel.VERBOSE, throwable, message, args);
     }
 
     @Override
     public void d(Throwable throwable, String message, Object... args) {
-        // TODO Implement
+        log(ALogLevel.DEBUG, throwable, message, args);
     }
 
     @Override
     public void i(Throwable throwable, String message, Object... args) {
-        // TODO Implement
+        log(ALogLevel.INFO, throwable, message, args);
     }
 
     @Override
     public void w(Throwable throwable, String message, Object... args) {
-        // TODO Implement
+        log(ALogLevel.WARNING, throwable, message, args);
     }
 
     @Override
     public void e(Throwable throwable, String message, Object... args) {
-        // TODO Implement
+        log(ALogLevel.ERROR, throwable, message, args);
     }
 
     @Override
     public void wtf(Throwable throwable, String message, Object... args) {
-        // TODO Implement
+        log(ALogLevel.WTF, throwable, message, args);
     }
 
     @Override
@@ -79,5 +81,48 @@ final class AndroidLogALogger extends BaseALogger {
     @Override
     public void xml(ALogLevel level, String xml) {
         // TODO Implement
+    }
+
+    @SuppressWarnings("WrongConstant")
+    private void log(ALogLevel level, Throwable throwable, String message, Object... args) {
+        String tag = mConfiguration.mTag;
+        StringBuilder messageBuilder = new StringBuilder();
+        boolean isAutoTag = tag == null;
+        boolean needStackTrace = isAutoTag ||
+                mConfiguration.mIsClassPrefixEnabled ||
+                mConfiguration.mIsMethodPrefixEnabled ||
+                mConfiguration.mIsLineLocationPrefixEnabled ||
+                mConfiguration.mStackTraceLineCount > 0;
+        if (mConfiguration.mIsThreadPrefixEnabled || needStackTrace) {
+            messageBuilder.append('[');
+            Thread currentThread = Thread.currentThread();
+            if (mConfiguration.mIsThreadPrefixEnabled) {
+                messageBuilder.append(currentThread.getName());
+            }
+            if (needStackTrace) {
+                if (messageBuilder.length() > 0) {
+                    messageBuilder.append('|');
+                }
+                StackTraceElement[] stackTrace = currentThread.getStackTrace();
+                // TODO Implement
+            }
+            messageBuilder.append(']');
+        }
+        if (message != null) {
+            if (messageBuilder.length() > 0) {
+                messageBuilder.append(' ');
+            }
+            messageBuilder.append(args.length == 0 ? message : String.format(message, args));
+        }
+        if (throwable != null) {
+            if (messageBuilder.length() > 0) {
+                messageBuilder.append('\n');
+            }
+            messageBuilder.append(Log.getStackTraceString(throwable));
+        }
+        if (tag.length() > MAX_TAG_LENGTH) {
+            tag = tag.substring(0, MAX_TAG_LENGTH);
+        }
+        Log.println(level.getAndroidPriority(), tag, messageBuilder.toString());
     }
 }
