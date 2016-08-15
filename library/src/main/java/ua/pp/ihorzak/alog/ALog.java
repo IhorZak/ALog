@@ -104,7 +104,7 @@ public final class ALog {
      */
     public static void v(String message, Object... args) {
         verifyInitialization();
-        if (configuration.mIsEnabled && configuration.mMinimalLevel.compareTo(ALogLevel.VERBOSE) <= 0) {
+        if (configuration.mIsEnabled && configuration.mMinimalLevel.compareTo(ALogLevel.VERBOSE) >= 0) {
             logger.v(message, args);
         }
     }
@@ -116,7 +116,7 @@ public final class ALog {
      */
     public static void v(Throwable throwable) {
         verifyInitialization();
-        if (configuration.mIsEnabled && configuration.mMinimalLevel.compareTo(ALogLevel.VERBOSE) <= 0) {
+        if (configuration.mIsEnabled && configuration.mMinimalLevel.compareTo(ALogLevel.VERBOSE) >= 0) {
             logger.v(throwable);
         }
     }
@@ -130,7 +130,7 @@ public final class ALog {
      */
     public static void v(Throwable throwable, String message, Object... args) {
         verifyInitialization();
-        if (configuration.mIsEnabled && configuration.mMinimalLevel.compareTo(ALogLevel.VERBOSE) <= 0) {
+        if (configuration.mIsEnabled && configuration.mMinimalLevel.compareTo(ALogLevel.VERBOSE) >= 0) {
             logger.v(throwable, message, args);
         }
     }
@@ -143,7 +143,7 @@ public final class ALog {
      */
     public static void d(String message, Object... args) {
         verifyInitialization();
-        if (configuration.mIsEnabled && configuration.mMinimalLevel.compareTo(ALogLevel.DEBUG) <= 0) {
+        if (configuration.mIsEnabled && configuration.mMinimalLevel.compareTo(ALogLevel.DEBUG) >= 0) {
             logger.d(message, args);
         }
     }
@@ -155,7 +155,7 @@ public final class ALog {
      */
     public static void d(Throwable throwable) {
         verifyInitialization();
-        if (configuration.mIsEnabled && configuration.mMinimalLevel.compareTo(ALogLevel.DEBUG) <= 0) {
+        if (configuration.mIsEnabled && configuration.mMinimalLevel.compareTo(ALogLevel.DEBUG) >= 0) {
             logger.d(throwable);
         }
     }
@@ -169,7 +169,7 @@ public final class ALog {
      */
     public static void d(Throwable throwable, String message, Object... args) {
         verifyInitialization();
-        if (configuration.mIsEnabled && configuration.mMinimalLevel.compareTo(ALogLevel.DEBUG) <= 0) {
+        if (configuration.mIsEnabled && configuration.mMinimalLevel.compareTo(ALogLevel.DEBUG) >= 0) {
             logger.d(throwable, message, args);
         }
     }
@@ -182,7 +182,7 @@ public final class ALog {
      */
     public static void i(String message, Object... args) {
         verifyInitialization();
-        if (configuration.mIsEnabled && configuration.mMinimalLevel.compareTo(ALogLevel.INFO) <= 0) {
+        if (configuration.mIsEnabled && configuration.mMinimalLevel.compareTo(ALogLevel.INFO) >= 0) {
             logger.i(message, args);
         }
     }
@@ -194,7 +194,7 @@ public final class ALog {
      */
     public static void i(Throwable throwable) {
         verifyInitialization();
-        if (configuration.mIsEnabled && configuration.mMinimalLevel.compareTo(ALogLevel.INFO) <= 0) {
+        if (configuration.mIsEnabled && configuration.mMinimalLevel.compareTo(ALogLevel.INFO) >= 0) {
             logger.i(throwable);
         }
     }
@@ -208,7 +208,7 @@ public final class ALog {
      */
     public static void i(Throwable throwable, String message, Object... args) {
         verifyInitialization();
-        if (configuration.mIsEnabled && configuration.mMinimalLevel.compareTo(ALogLevel.INFO) <= 0) {
+        if (configuration.mIsEnabled && configuration.mMinimalLevel.compareTo(ALogLevel.INFO) >= 0) {
             logger.i(throwable, message, args);
         }
     }
@@ -221,7 +221,7 @@ public final class ALog {
      */
     public static void w(String message, Object... args) {
         verifyInitialization();
-        if (configuration.mIsEnabled && configuration.mMinimalLevel.compareTo(ALogLevel.WARNING) <= 0) {
+        if (configuration.mIsEnabled && configuration.mMinimalLevel.compareTo(ALogLevel.WARNING) >= 0) {
             logger.w(message, args);
         }
     }
@@ -233,7 +233,7 @@ public final class ALog {
      */
     public static void w(Throwable throwable) {
         verifyInitialization();
-        if (configuration.mIsEnabled && configuration.mMinimalLevel.compareTo(ALogLevel.WARNING) <= 0) {
+        if (configuration.mIsEnabled && configuration.mMinimalLevel.compareTo(ALogLevel.WARNING) >= 0) {
             logger.w(throwable);
         }
     }
