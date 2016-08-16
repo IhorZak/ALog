@@ -18,6 +18,10 @@ package ua.pp.ihorzak.alog;
 
 import android.util.Log;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  * {@link ALogger} implementation that uses {@link Log} to perform logging.
  *
@@ -28,6 +32,9 @@ final class AndroidLogALogger extends BaseALogger {
     private static final int MAX_TAG_LENGTH = 23;
 
     private static final String ALOG_PACKAGE_NAME = "ua.pp.ihorzak.alog";
+
+    private static final int JSON_INDENT_SPACE_COUNT = 2;
+    private static final int XML_INDENT_SPACE_COUNT = 2;
 
     private ALogConfiguration mConfiguration;
 
@@ -94,7 +101,28 @@ final class AndroidLogALogger extends BaseALogger {
 
     @Override
     public void json(ALogLevel level, String json) {
-        // TODO Implement
+        String message;
+        if (json == null) {
+            message = "Passed JSON string is null";
+        } else {
+            json = json.trim();
+            if (json.length() == 0) {
+                message = "Passed JSON string is empty";
+            } else {
+                try {
+                    if (json.startsWith("{")) {
+                        message = "JSON:\n" + new JSONObject(json).toString(JSON_INDENT_SPACE_COUNT);
+                    } else if (json.startsWith("[")) {
+                        message = "JSON:\n" + new JSONArray(json).toString(JSON_INDENT_SPACE_COUNT);
+                    } else {
+                        message = "Invalid JSON string: " + json;
+                    }
+                } catch (JSONException e) {
+                    message = "Invalid JSON string: " + json;
+                }
+            }
+        }
+        log(level, null, message);
     }
 
     @Override
