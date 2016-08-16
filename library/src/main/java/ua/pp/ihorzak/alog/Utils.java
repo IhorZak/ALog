@@ -35,4 +35,23 @@ final class Utils {
     public static boolean equals(Object o1, Object o2) {
         return o1 == o2 || !(o1 == null || o2 == null) && o1.equals(o2);
     }
+
+    /**
+     * Gets simple class name from full class name.
+     *
+     * @param className Full class name.
+     * @return Simple class name.
+     */
+    public static String getSimpleClassName(String className) {
+        String simpleClassName = null;
+        if (className != null) {
+            int packageNameEnd = className.lastIndexOf('.');
+            if (packageNameEnd == -1) {
+                simpleClassName = className;
+            } else {
+                simpleClassName = className.substring(packageNameEnd + 1);
+            }
+        }
+        return simpleClassName;
+    }
 }

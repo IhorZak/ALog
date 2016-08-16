@@ -89,7 +89,7 @@ public final class ALog {
      */
     public static ALogger tst(String tag, int stackTraceLineCount) {
         verifyInitialization();
-        if (configuration.mIsEnabled && Utils.equals(configuration.mTag, tag) && configuration.mStackTraceLineCount != stackTraceLineCount) {
+        if (configuration.mIsEnabled && (!Utils.equals(configuration.mTag, tag) || configuration.mStackTraceLineCount != stackTraceLineCount)) {
             return new AndroidLogALogger(configuration.copyBuilder().tag(tag).stackTraceLineCount(stackTraceLineCount).build());
         } else {
             return logger;

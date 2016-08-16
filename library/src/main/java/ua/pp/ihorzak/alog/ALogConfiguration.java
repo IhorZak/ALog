@@ -256,7 +256,7 @@ public final class ALogConfiguration {
          * @return This builder instance.
          */
         public Builder stackTraceLineCount(int stackTraceLineCount) {
-            mStackTraceLineCount = Math.min(stackTraceLineCount, 0);
+            mStackTraceLineCount = Math.max(stackTraceLineCount, 0);
             return this;
         }
 

@@ -27,7 +27,31 @@ import android.util.Log;
 final class AndroidLogALogger extends BaseALogger {
     private static final int MAX_TAG_LENGTH = 23;
 
+    private static final String ALOG_PACKAGE_NAME = "ua.pp.ihorzak.alog";
+
     private ALogConfiguration mConfiguration;
+
+    private static int findStartStackTraceIndex(StackTraceElement[] elements) {
+        int startStackTraceIndex = -1;
+        boolean isALogStackTracePassed = false;
+        for (int i = 0; i < elements.length; ++i) {
+            String className = elements[i].getClassName();
+            int packageNameEnd = className.lastIndexOf('.');
+            boolean isALogElement = false;
+            if (packageNameEnd != -1) {
+                String packageName = className.substring(0, packageNameEnd);
+                if (ALOG_PACKAGE_NAME.equals(packageName)) {
+                    isALogElement = true;
+                    isALogStackTracePassed = true;
+                }
+            }
+            if (!isALogElement && isALogStackTracePassed) {
+                startStackTraceIndex = i;
+                break;
+            }
+        }
+        return startStackTraceIndex;
+    }
 
     public AndroidLogALogger(ALogConfiguration configuration) {
         mConfiguration = configuration;
@@ -87,6 +111,7 @@ final class AndroidLogALogger extends BaseALogger {
     private void log(ALogLevel level, Throwable throwable, String message, Object... args) {
         String tag = mConfiguration.mTag;
         StringBuilder messageBuilder = new StringBuilder();
+        StringBuilder stackTraceSuffixBuilder = null;
         boolean isAutoTag = tag == null;
         boolean needStackTrace = isAutoTag ||
                 mConfiguration.mIsClassPrefixEnabled ||
@@ -100,11 +125,42 @@ final class AndroidLogALogger extends BaseALogger {
                 messageBuilder.append(currentThread.getName());
             }
             if (needStackTrace) {
-                if (messageBuilder.length() > 0) {
-                    messageBuilder.append('|');
+                StackTraceElement[] stackTraceElements = currentThread.getStackTrace();
+                int startStackIndex = findStartStackTraceIndex(stackTraceElements);
+                if (startStackIndex > -1) {
+                    StackTraceElement startStackTraceElement = stackTraceElements[startStackIndex];
+                    if (isAutoTag) {
+                        tag = Utils.getSimpleClassName(startStackTraceElement.getClassName());
+                    }
+                    if (mConfiguration.mIsClassPrefixEnabled) {
+                        if (messageBuilder.length() > 0) {
+                            messageBuilder.append('|');
+                        }
+                        messageBuilder.append(Utils.getSimpleClassName(startStackTraceElement.getClassName()));
+                    }
+                    if (mConfiguration.mIsMethodPrefixEnabled) {
+                        if (messageBuilder.length() > 0) {
+                            messageBuilder.append('|');
+                        }
+                        messageBuilder.append(startStackTraceElement.getMethodName());
+                    }
+                    if (mConfiguration.mIsLineLocationPrefixEnabled) {
+                        if (messageBuilder.length() > 0) {
+                            messageBuilder.append('|');
+                        }
+                        messageBuilder.append('(')
+                                      .append(startStackTraceElement.getFileName())
+                                      .append(':')
+                                      .append(startStackTraceElement.getLineNumber())
+                                      .append(')');
+                    }
+                    if (mConfiguration.mStackTraceLineCount > 0) {
+                        stackTraceSuffixBuilder = new StringBuilder();
+                        for (int i = startStackIndex; i < startStackIndex + mConfiguration.mStackTraceLineCount; ++i) {
+                            stackTraceSuffixBuilder.append(stackTraceElements[i].toString()).append('\n');
+                        }
+                    }
                 }
-                StackTraceElement[] stackTrace = currentThread.getStackTrace();
-                // TODO Implement
             }
             messageBuilder.append(']');
         }
@@ -120,8 +176,11 @@ final class AndroidLogALogger extends BaseALogger {
             }
             messageBuilder.append(Log.getStackTraceString(throwable));
         }
-        if (tag.length() > MAX_TAG_LENGTH) {
-            tag = tag.substring(0, MAX_TAG_LENGTH);
+        if (stackTraceSuffixBuilder != null) {
+            messageBuilder.append("\nStack trace:\n").append(stackTraceSuffixBuilder);
+        }
+        if (tag != null && tag.length() > MAX_TAG_LENGTH) {
+            tag = tag.substring(0, MAX_TAG_LENGTH - 1) + '\u2026';
         }
         Log.println(level.getAndroidPriority(), tag, messageBuilder.toString());
     }
