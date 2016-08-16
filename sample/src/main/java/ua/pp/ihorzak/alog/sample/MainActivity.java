@@ -94,6 +94,18 @@ public class MainActivity extends AppCompatActivity {
                 public void run() {
                     ALog.tst("Tag", 5).d("Message, %d, %s", 20, "Argument");
                 }
+            }),
+            new ListItem("ALog.json(\"{\"id\":456,\"data\":[\"a\",\"b\",\"c\"]}\")", new Runnable() {
+                @Override
+                public void run() {
+                    ALog.json("{\"id\":456,\"data\":[\"a\",\"b\",\"c\"]}");
+                }
+            }),
+            new ListItem("ALog.xml(\"<root><object name=\"title\"><child/><child id=\"1\"><item/><item/></child></root>\")", new Runnable() {
+                @Override
+                public void run() {
+                    ALog.xml("<root><object name=\"title\"><child/><child id=\"1\"><item/><item/></child></root>");
+                }
             })
     };
 
