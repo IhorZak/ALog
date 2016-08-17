@@ -14,19 +14,17 @@
  * limitations under the License.
  */
 
-package ua.pp.ihorzak.alog.test;
+package ua.pp.ihorzak.alog;
 
 import android.util.Log;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import ua.pp.ihorzak.alog.ALog;
-import ua.pp.ihorzak.alog.ALogConfiguration;
-import ua.pp.ihorzak.alog.ALogger;
-import ua.pp.ihorzak.alog.base.BaseTest;
+import ua.pp.ihorzak.alog.test.*;
+import ua.pp.ihorzak.alog.test.Utils;
 
-import static ua.pp.ihorzak.alog.base.Utils.assertLog;
+import static ua.pp.ihorzak.alog.test.Utils.*;
 
 /**
  * {@link ALog} unit tests.
@@ -194,17 +192,18 @@ public class ALogTest extends BaseTest {
         assertLog(null, customTag, null);
 
         ALogger autoTagLogger = ALog.t(null);
-        autoTagLogger.v(message);
-        assertLog(null, getClass().getSimpleName(), null);
-        autoTagLogger.d(message);
-        assertLog(null, getClass().getSimpleName(), null);
-        autoTagLogger.i(message);
-        assertLog(null, getClass().getSimpleName(), null);
-        autoTagLogger.w(message);
-        assertLog(null, getClass().getSimpleName(), null);
-        autoTagLogger.e(message);
-        assertLog(null, getClass().getSimpleName(), null);
-        autoTagLogger.wtf(message);
-        assertLog(null, getClass().getSimpleName(), null);
+        String autoTag = Utils.class.getSimpleName();
+        v(autoTagLogger, null, message);
+        assertLog(null, autoTag, null);
+        d(autoTagLogger, null, message);
+        assertLog(null, autoTag, null);
+        i(autoTagLogger, null, message);
+        assertLog(null, autoTag, null);
+        w(autoTagLogger, null, message);
+        assertLog(null, autoTag, null);
+        e(autoTagLogger, null, message);
+        assertLog(null, autoTag, null);
+        wtf(autoTagLogger, null, message);
+        assertLog(null, autoTag, null);
     }
 }
