@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package ua.pp.ihorzak.alog.test;
+package ua.pp.ihorzak.alog.base;
 
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
