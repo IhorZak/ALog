@@ -66,32 +66,44 @@ final class AndroidLogALogger extends BaseALogger {
 
     @Override
     public void v(Throwable throwable, String message, Object... args) {
-        log(ALogLevel.VERBOSE, throwable, message, args);
+        if (mConfiguration.mMinimalLevel.compareTo(ALogLevel.VERBOSE) >= 0) {
+            log(ALogLevel.VERBOSE, throwable, message, args);
+        }
     }
 
     @Override
     public void d(Throwable throwable, String message, Object... args) {
-        log(ALogLevel.DEBUG, throwable, message, args);
+        if (mConfiguration.mMinimalLevel.compareTo(ALogLevel.DEBUG) >= 0) {
+            log(ALogLevel.DEBUG, throwable, message, args);
+        }
     }
 
     @Override
     public void i(Throwable throwable, String message, Object... args) {
-        log(ALogLevel.INFO, throwable, message, args);
+        if (mConfiguration.mMinimalLevel.compareTo(ALogLevel.INFO) >= 0) {
+            log(ALogLevel.INFO, throwable, message, args);
+        }
     }
 
     @Override
     public void w(Throwable throwable, String message, Object... args) {
-        log(ALogLevel.WARNING, throwable, message, args);
+        if (mConfiguration.mMinimalLevel.compareTo(ALogLevel.WARNING) >= 0) {
+            log(ALogLevel.WARNING, throwable, message, args);
+        }
     }
 
     @Override
     public void e(Throwable throwable, String message, Object... args) {
-        log(ALogLevel.ERROR, throwable, message, args);
+        if (mConfiguration.mMinimalLevel.compareTo(ALogLevel.ERROR) >= 0) {
+            log(ALogLevel.ERROR, throwable, message, args);
+        }
     }
 
     @Override
     public void wtf(Throwable throwable, String message, Object... args) {
-        log(ALogLevel.WTF, throwable, message, args);
+        if (mConfiguration.mMinimalLevel.compareTo(ALogLevel.WTF) >= 0) {
+            log(ALogLevel.WTF, throwable, message, args);
+        }
     }
 
     @Override
@@ -101,6 +113,9 @@ final class AndroidLogALogger extends BaseALogger {
 
     @Override
     public void json(ALogLevel level, String json) {
+        if (mConfiguration.mMinimalLevel.compareTo(mConfiguration.mJsonLevel) < 0) {
+            return;
+        }
         String message;
         if (json == null) {
             message = "Passed JSON string is null";
@@ -132,6 +147,9 @@ final class AndroidLogALogger extends BaseALogger {
 
     @Override
     public void xml(ALogLevel level, String xml) {
+        if (mConfiguration.mMinimalLevel.compareTo(mConfiguration.mXmlLevel) < 0) {
+            return;
+        }
         // TODO Implement
     }
 
