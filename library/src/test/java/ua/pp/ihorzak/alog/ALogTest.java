@@ -16,7 +16,14 @@
 
 package ua.pp.ihorzak.alog;
 
+import android.util.Log;
+
+import org.junit.Before;
 import org.junit.Test;
+
+import ua.pp.ihorzak.alog.test.*;
+
+import static ua.pp.ihorzak.alog.test.Utils.assertLog;
 
 /**
  * {@link ALog} unit tests.
@@ -24,9 +31,24 @@ import org.junit.Test;
  * @author Ihor Zakhozhyi <ihorzak@gmail.com>
  * @since 12.08.2016
  */
-public class ALogTest {
+public class ALogTest extends BaseTest {
+    private static final String TAG = "Test";
+
+    @Before
+    public void setUp() {
+        ALogConfiguration configuration = ALogConfiguration.builder()
+                .tag(TAG)
+                .threadPrefixEnabled(false)
+                .methodPrefixEnabled(false)
+                .lineLocationPrefixEnabled(false)
+                .build();
+        ALog.initialize(configuration);
+    }
+
     @Test
-    public void test() {
-        // TODO Implement
+    public void testV() {
+        String message = "Message";
+        ALog.v(message);
+        assertLog(Log.VERBOSE, TAG, message);
     }
 }
