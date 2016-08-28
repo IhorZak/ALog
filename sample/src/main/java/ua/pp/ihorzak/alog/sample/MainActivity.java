@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
             new ListItem("ALog.xml(\"<root><object name=\"title\"><child/><child id=\"1\"><item/><item/></child></root>\")", new Runnable() {
                 @Override
                 public void run() {
-                    ALog.xml("<root><object name=\"title\"><child/><child id=\"1\"><item/><item/></child></root>");
+                    ALog.xml("<root><object name=\"title\"><child/><child id=\"1\"><item/><item/></child></object></root>");
                 }
             })
     };

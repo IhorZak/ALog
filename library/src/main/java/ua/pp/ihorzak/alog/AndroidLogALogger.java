@@ -18,9 +18,17 @@ package ua.pp.ihorzak.alog;
 
 import android.util.Log;
 
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.DocumentHelper;
+import org.dom4j.io.OutputFormat;
+import org.dom4j.io.XMLWriter;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.StringWriter;
 
 /**
  * {@link ALogger} implementation that uses {@link Log} to perform logging.
@@ -150,7 +158,29 @@ final class AndroidLogALogger extends BaseALogger {
         if (mConfiguration.mMinimalLevel.compareTo(mConfiguration.mXmlLevel) < 0) {
             return;
         }
-        // TODO Implement
+        String message;
+        if (xml == null) {
+            message = "Passed XML string is null";
+        } else {
+            xml = xml.trim();
+            if (xml.length() == 0) {
+                message = "Passed XML string is empty";
+            } else {
+                try {
+                    Document document = DocumentHelper.parseText(xml);
+                    StringWriter stringWriter = new StringWriter();
+                    OutputFormat format = OutputFormat.createPrettyPrint();
+                    format.setIndent(true);
+                    format.setIndentSize(XML_INDENT_SPACE_COUNT);
+                    XMLWriter xmlWriter = new XMLWriter(stringWriter, format);
+                    xmlWriter.write(document);
+                    message = "XML:\n" + stringWriter.toString();
+                } catch (DocumentException | IOException e) {
+                    message = "Invalid XML string: " + xml;
+                }
+            }
+        }
+        log(level, null, message);
     }
 
     @SuppressWarnings("WrongConstant")
