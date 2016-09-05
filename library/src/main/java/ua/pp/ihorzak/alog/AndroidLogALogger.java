@@ -41,9 +41,6 @@ final class AndroidLogALogger extends BaseALogger {
 
     private static final String ALOG_PACKAGE_NAME = "ua.pp.ihorzak.alog";
 
-    private static final int JSON_INDENT_SPACE_COUNT = 2;
-    private static final int XML_INDENT_SPACE_COUNT = 2;
-
     private ALogConfiguration mConfiguration;
 
     private static int findStartStackTraceIndex(StackTraceElement[] elements) {
@@ -134,9 +131,9 @@ final class AndroidLogALogger extends BaseALogger {
             } else {
                 try {
                     if (json.startsWith("{")) {
-                        message = "JSON:\n" + new JSONObject(json).toString(JSON_INDENT_SPACE_COUNT);
+                        message = "JSON:\n" + new JSONObject(json).toString(mConfiguration.mJsonIndentSpaceCount);
                     } else if (json.startsWith("[")) {
-                        message = "JSON:\n" + new JSONArray(json).toString(JSON_INDENT_SPACE_COUNT);
+                        message = "JSON:\n" + new JSONArray(json).toString(mConfiguration.mJsonIndentSpaceCount);
                     } else {
                         message = "Invalid JSON string: " + json;
                     }
@@ -171,7 +168,7 @@ final class AndroidLogALogger extends BaseALogger {
                     StringWriter stringWriter = new StringWriter();
                     OutputFormat format = OutputFormat.createPrettyPrint();
                     format.setIndent(true);
-                    format.setIndentSize(XML_INDENT_SPACE_COUNT);
+                    format.setIndentSize(mConfiguration.mXmlIndentSpaceCount);
                     XMLWriter xmlWriter = new XMLWriter(stringWriter, format);
                     xmlWriter.write(document);
                     message = "XML:\n" + stringWriter.toString();

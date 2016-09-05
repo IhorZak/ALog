@@ -36,6 +36,8 @@ public class ALogSampleApplication extends Application {
         ALogConfiguration aLogConfiguration = ALogConfiguration.builder()
                 .tag("ALogSampleApplication")
                 .classPrefixEnabled(true)
+                .jsonIndentSpaceCount(4)
+                .xmlIndentSpaceCount(4)
                 .build();
         ALog.initialize(aLogConfiguration);
     }

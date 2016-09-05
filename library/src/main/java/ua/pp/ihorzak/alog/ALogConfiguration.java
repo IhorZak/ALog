@@ -44,6 +44,8 @@ public final class ALogConfiguration {
     private static final boolean DEFAULT_IS_METHOD_PREFIX_ENABLED = true;
     private static final boolean DEFAULT_IS_LINE_LOCATION_PREFIX_ENABLED = true;
     private static final int DEFAULT_STACK_TRACE_LINE_COUNT = 0;
+    private static final int DEFAULT_JSON_INDENT_SPACE_COUNT = 2;
+    private static final int DEFAULT_XML_INDENT_SPACE_COUNT = 2;
 
     final boolean mIsEnabled;
 
@@ -60,6 +62,9 @@ public final class ALogConfiguration {
 
     final int mStackTraceLineCount;
 
+    final int mJsonIndentSpaceCount;
+    final int mXmlIndentSpaceCount;
+
     private ALogConfiguration(boolean isEnabled,
                               ALogLevel minimalLevel,
                               ALogLevel jsonLevel,
@@ -69,7 +74,9 @@ public final class ALogConfiguration {
                               boolean isClassPrefixEnabled,
                               boolean isMethodPrefixEnabled,
                               boolean isLineLocationPrefixEnabled,
-                              int stackTraceLineCount) {
+                              int stackTraceLineCount,
+                              int jsonIndentSpaceCount,
+                              int xmlIndentSpaceCount) {
         mIsEnabled = isEnabled;
         mMinimalLevel = minimalLevel;
         mJsonLevel = jsonLevel;
@@ -80,6 +87,8 @@ public final class ALogConfiguration {
         mIsMethodPrefixEnabled = isMethodPrefixEnabled;
         mIsLineLocationPrefixEnabled = isLineLocationPrefixEnabled;
         mStackTraceLineCount = stackTraceLineCount;
+        mJsonIndentSpaceCount = jsonIndentSpaceCount;
+        mXmlIndentSpaceCount = xmlIndentSpaceCount;
     }
 
     Builder copyBuilder() {
@@ -100,6 +109,8 @@ public final class ALogConfiguration {
         private boolean mIsMethodPrefixEnabled;
         private boolean mIsLineLocationPrefixEnabled;
         private int mStackTraceLineCount;
+        private int mJsonIndentSpaceCount;
+        private int mXmlIndentSpaceCount;
 
         private Builder() {
             mIsEnabled = DEFAULT_IS_ENABLED;
@@ -112,6 +123,8 @@ public final class ALogConfiguration {
             mIsMethodPrefixEnabled = DEFAULT_IS_METHOD_PREFIX_ENABLED;
             mIsLineLocationPrefixEnabled = DEFAULT_IS_LINE_LOCATION_PREFIX_ENABLED;
             mStackTraceLineCount = DEFAULT_STACK_TRACE_LINE_COUNT;
+            mJsonIndentSpaceCount = DEFAULT_JSON_INDENT_SPACE_COUNT;
+            mXmlIndentSpaceCount = DEFAULT_XML_INDENT_SPACE_COUNT;
         }
 
         private Builder(ALogConfiguration configuration) {
@@ -125,6 +138,8 @@ public final class ALogConfiguration {
             mIsMethodPrefixEnabled = configuration.mIsMethodPrefixEnabled;
             mIsLineLocationPrefixEnabled = configuration.mIsLineLocationPrefixEnabled;
             mStackTraceLineCount = configuration.mStackTraceLineCount;
+            mJsonIndentSpaceCount = configuration.mJsonIndentSpaceCount;
+            mXmlIndentSpaceCount = configuration.mXmlIndentSpaceCount;
         }
 
         /**
@@ -261,6 +276,32 @@ public final class ALogConfiguration {
         }
 
         /**
+         * Sets the count of indent space count for {@link ALog#json(ALogLevel, String)} and
+         * {@link ALog#json(String)} log messages.
+         *
+         * @param jsonIndentSpaceCount Indent space count for {@link ALog#json(ALogLevel, String)}
+         *                             and {@link ALog#json(String)} log messages.
+         * @return This builder instance.
+         */
+        public Builder jsonIndentSpaceCount(int jsonIndentSpaceCount) {
+            mJsonIndentSpaceCount = Math.max(jsonIndentSpaceCount, 0);
+            return this;
+        }
+
+        /**
+         * Sets the count of indent space count for {@link ALog#xml(ALogLevel, String)} and
+         * {@link ALog#xml(String)} log messages.
+         *
+         * @param xmlIndentSpaceCount Indent space count for {@link ALog#xml(ALogLevel, String)}
+         *                             and {@link ALog#xml(String)} log messages.
+         * @return This builder instance.
+         */
+        public Builder xmlIndentSpaceCount(int xmlIndentSpaceCount) {
+            mXmlIndentSpaceCount = Math.max(xmlIndentSpaceCount, 0);
+            return this;
+        }
+
+        /**
          * Builds new {@link ALogConfiguration} instance with set to this builder instance
          * parameters.
          *
@@ -269,7 +310,8 @@ public final class ALogConfiguration {
         public ALogConfiguration build() {
             return new ALogConfiguration(mIsEnabled, mMinimalLevel, mJsonLevel, mXmlLevel, mTag,
                     mIsThreadPrefixEnabled, mIsClassPrefixEnabled, mIsMethodPrefixEnabled,
-                    mIsLineLocationPrefixEnabled, mStackTraceLineCount);
+                    mIsLineLocationPrefixEnabled, mStackTraceLineCount, mJsonIndentSpaceCount,
+                    mXmlIndentSpaceCount);
         }
     }
 }
