@@ -26,6 +26,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import ua.pp.ihorzak.alog.ALog;
+import ua.pp.ihorzak.alog.ALogLevel;
 
 /**
  * Main activity of ALog library sample application.
@@ -101,10 +102,46 @@ public class MainActivity extends AppCompatActivity {
                     ALog.json("{\"id\":456,\"data\":[\"a\",\"b\",\"c\"]}");
                 }
             }),
+            new ListItem("ALog.json(ALogLevel.ERROR, \"{\"id\":456,\"data\":[\"a\",\"b\",\"c\"]}\")", new Runnable() {
+                @Override
+                public void run() {
+                    ALog.json(ALogLevel.ERROR, "{\"id\":456,\"data\":[\"a\",\"b\",\"c\"]}");
+                }
+            }),
+            new ListItem("ALog.json(\"\")", new Runnable() {
+                @Override
+                public void run() {
+                    ALog.json("");
+                }
+            }),
+            new ListItem("ALog.json(\"{45, \"id\"}\")", new Runnable() {
+                @Override
+                public void run() {
+                    ALog.json("{45, \"id\"}");
+                }
+            }),
             new ListItem("ALog.xml(\"<root><object name=\"title\"><child/><child id=\"1\"><item/><item/></child></root>\")", new Runnable() {
                 @Override
                 public void run() {
                     ALog.xml("<root><object name=\"title\"><child/><child id=\"1\"><item/><item/></child></object></root>");
+                }
+            }),
+            new ListItem("ALog.xml(ALogLevel.WARNING, \"<root><object name=\"title\"><child/><child id=\"1\"><item/><item/></child></root>\")", new Runnable() {
+                @Override
+                public void run() {
+                    ALog.xml(ALogLevel.WARNING, "<root><object name=\"title\"><child/><child id=\"1\"><item/><item/></child></object></root>");
+                }
+            }),
+            new ListItem("ALog.xml(\"\")", new Runnable() {
+                @Override
+                public void run() {
+                    ALog.xml("");
+                }
+            }),
+            new ListItem("ALog.xml(\"<root><item/><item2><root/>\")", new Runnable() {
+                @Override
+                public void run() {
+                    ALog.xml("<root><item/><item2><root/>");
                 }
             })
     };
