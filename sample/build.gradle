@@ -8,11 +8,20 @@ android {
     versionProperties.load(new FileInputStream('version.properties'))
 
     defaultConfig {
-        applicationId "ua.pp.ihorzak.alog"
+        applicationId 'ua.pp.ihorzak.alog.sample'
         minSdkVersion 7
         targetSdkVersion 23
         versionCode Integer.parseInt(versionProperties.getProperty('VERSION_CODE'))
         versionName versionProperties.getProperty('VERSION_NAME')
+    }
+
+    signingConfigs {
+        release {
+            storeFile file('sample.keystore')
+            storePassword 'alogsample'
+            keyAlias 'release'
+            keyPassword 'alogsample'
+        }
     }
 
     buildTypes {
@@ -26,6 +35,8 @@ android {
             minifyEnabled true
             //noinspection GrUnresolvedAccess
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            //noinspection GroovyAssignabilityCheck
+            signingConfig signingConfigs.release
         }
     }
 
