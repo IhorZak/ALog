@@ -206,4 +206,60 @@ public class ALogTest extends BaseTest {
         wtf(autoTagLogger, null, message);
         assertLog(null, autoTag, null);
     }
+
+    @Test
+    public void testJson() {
+        ALog.json(null);
+        assertLog(null, null, "Passed JSON string is null");
+
+        ALog.json("");
+        assertLog(null, null, "Passed JSON string is empty");
+
+        String invalidJson = "{\"id\":1234, \"name\":\"John Doe\", \"arr\":[\"a\", \"b\"}]}";
+        ALog.json(invalidJson);
+        assertLog(null, null, "Invalid JSON string: " + invalidJson);
+
+        String validJson = "{\"id\":1234, \"name\":\"John Doe\", \"arr\":[\"a\", \"b\"]}";
+        String formattedValidJson = "JSON:\n" +
+                "{\n" +
+                "  \"id\": 1234,\n" +
+                "  \"name\": \"John Doe\",\n" +
+                "  \"arr\": [\n" +
+                "    \"a\",\n" +
+                "    \"b\"\n" +
+                "  ]\n" +
+                "}";
+        ALog.json(validJson);
+        assertLog(null, null, formattedValidJson);
+        ALog.json(ALogLevel.ERROR, validJson);
+        assertLog(Log.ERROR, null, formattedValidJson);
+    }
+    
+    @Test
+    public void testXml() {
+        ALog.xml(null);
+        assertLog(null, null, "Passed XML string is null");
+
+        ALog.xml("");
+        assertLog(null, null, "Passed XML string is empty");
+
+        String invalidXml = "<note><to>Tove</to><from>Jani</Ffrom><heading>Reminder</heading><body>Don't forget me this weekend!</body></note>";
+        ALog.xml(invalidXml);
+        assertLog(null, null, "Invalid XML string: " + invalidXml);
+
+        String validXml = "<note><to>Tove</to><from>Jani</from><heading>Reminder</heading><body>Don't forget me this weekend!</body></note>";
+        String formattedValidXml = "XML:\n" +
+                "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
+                "\n" +
+                "<note>\n" +
+                "  <to>Tove</to>\n" +
+                "  <from>Jani</from>\n" +
+                "  <heading>Reminder</heading>\n" +
+                "  <body>Don't forget me this weekend!</body>\n" +
+                "</note>\n";
+        ALog.xml(validXml);
+        assertLog(null, null, formattedValidXml);
+        ALog.xml(ALogLevel.ERROR, validXml);
+        assertLog(Log.ERROR, null, formattedValidXml);
+    }
 }
