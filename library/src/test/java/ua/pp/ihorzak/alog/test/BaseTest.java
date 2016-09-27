@@ -27,5 +27,5 @@ import org.robolectric.annotation.Config;
  * @since 17.08.16
  */
 @RunWith(RobolectricTestRunner.class)
-@Config(constants = ua.pp.ihorzak.alog.BuildConfig.class)
+@Config(constants = ua.pp.ihorzak.alog.BuildConfig.class, sdk = 23)
 public abstract class BaseTest {}

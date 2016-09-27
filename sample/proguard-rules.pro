@@ -40,7 +40,3 @@
     public *** json(...);
     public *** xml(...);
 }
--dontwarn org.dom4j.**
--dontwarn org.jaxen.jdom.**
--dontwarn org.jaxen.xom.**
--dontwarn org.w3c.dom.**

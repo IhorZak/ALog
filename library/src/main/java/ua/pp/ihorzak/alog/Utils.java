@@ -16,6 +16,15 @@
 
 package ua.pp.ihorzak.alog;
 
+import android.util.SparseBooleanArray;
+
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlPullParserFactory;
+
+import java.io.IOException;
+import java.io.StringReader;
+
 /**
  * Util static methods.
  *
@@ -32,7 +41,7 @@ final class Utils {
      * @param o2 Second object.
      * @return true if objects are equal, otherwise false.
      */
-    public static boolean equals(Object o1, Object o2) {
+    static boolean equals(Object o1, Object o2) {
         return o1 == o2 || !(o1 == null || o2 == null) && o1.equals(o2);
     }
 
@@ -42,7 +51,7 @@ final class Utils {
      * @param className Full class name.
      * @return Simple class name.
      */
-    public static String getSimpleClassName(String className) {
+    static String getSimpleClassName(String className) {
         String simpleClassName = null;
         if (className != null) {
             int packageNameEnd = className.lastIndexOf('.');
@@ -53,5 +62,19 @@ final class Utils {
             }
         }
         return simpleClassName;
+    }
+
+    /**
+     * Formats XML string.
+     *
+     * @param xml XML string to be formatted.
+     * @param indentSpaceCount Identation space count.
+     * @return Formatted XML string.
+     * @throws XmlPullParserException If XML string is invalid.
+     * @throws IOException If some error occurred while reading XML string.
+     */
+    static String formatXml(String xml, int indentSpaceCount) throws XmlPullParserException,
+                                                                     IOException {
+        return null;
     }
 }

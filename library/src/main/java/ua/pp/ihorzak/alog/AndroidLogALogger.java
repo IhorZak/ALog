@@ -18,17 +18,12 @@ package ua.pp.ihorzak.alog;
 
 import android.util.Log;
 
-import org.dom4j.Document;
-import org.dom4j.DocumentException;
-import org.dom4j.DocumentHelper;
-import org.dom4j.io.OutputFormat;
-import org.dom4j.io.XMLWriter;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
-import java.io.StringWriter;
 
 /**
  * {@link ALogger} implementation that uses {@link Log} to perform logging.
@@ -164,15 +159,8 @@ final class AndroidLogALogger extends BaseALogger {
                 message = "Passed XML string is empty";
             } else {
                 try {
-                    Document document = DocumentHelper.parseText(xml);
-                    StringWriter stringWriter = new StringWriter();
-                    OutputFormat format = OutputFormat.createPrettyPrint();
-                    format.setIndent(true);
-                    format.setIndentSize(mConfiguration.mXmlIndentSpaceCount);
-                    XMLWriter xmlWriter = new XMLWriter(stringWriter, format);
-                    xmlWriter.write(document);
-                    message = "XML:\n" + stringWriter.toString();
-                } catch (DocumentException | IOException e) {
+                    message = "XML:\n" + Utils.formatXml(xml, mConfiguration.mXmlIndentSpaceCount);
+                } catch (XmlPullParserException | IOException e) {
                     message = "Invalid XML string: " + xml;
                 }
             }
