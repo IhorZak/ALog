@@ -249,8 +249,6 @@ public class ALogTest extends BaseTest {
 
         String validXml = "<note><to>Tove</to><from>Jani</from><heading>Reminder</heading><body>Don't forget me this weekend!</body></note>";
         String formattedValidXml = "XML:\n" +
-                "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-                "\n" +
                 "<note>\n" +
                 "  <to>Tove</to>\n" +
                 "  <from>Jani</from>\n" +
