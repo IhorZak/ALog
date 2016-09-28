@@ -246,17 +246,75 @@ public class ALogTest extends BaseTest {
         ALog.xml(invalidXml);
         assertLog(null, null, "Invalid XML string: " + invalidXml);
 
-        String validXml = "<note><to>Tove</to><from>Jani</from><heading>Reminder</heading><body>Don't forget me this weekend!</body></note>";
-        String formattedValidXml = "XML:\n" +
+        String validXml1 = "<note><to>Tove</to><from>Jani</from><heading>Reminder</heading><body>Don't forget me this weekend!</body></note>";
+        String formattedValidXml1 = "XML:\n" +
                 "<note>\n" +
                 "  <to>Tove</to>\n" +
                 "  <from>Jani</from>\n" +
                 "  <heading>Reminder</heading>\n" +
-                "  <body>Don't forget me this weekend!</body>\n" +
+                "  <body>Don&apos;t forget me this weekend!</body>\n" +
                 "</note>\n";
-        ALog.xml(validXml);
-        assertLog(null, null, formattedValidXml);
-        ALog.xml(ALogLevel.ERROR, validXml);
-        assertLog(Log.ERROR, null, formattedValidXml);
+        ALog.xml(validXml1);
+        assertLog(null, null, formattedValidXml1);
+        ALog.xml(ALogLevel.ERROR, validXml1);
+        assertLog(Log.ERROR, null, formattedValidXml1);
+
+        String validXml2 = "<student nickname='Rob \"The Dog\"'><name>Robert</name><grade>A+</grade></student>";
+        String formattedValidXml2 = "XML:\n" +
+                "<student nickname=\"Rob &quot;The Dog&quot;\">\n" +
+                "  <name>Robert</name>\n" +
+                "  <grade>A+</grade>\n" +
+                "</student>\n";
+        ALog.xml(validXml2);
+        assertLog(null, null, formattedValidXml2);
+        ALog.xml(ALogLevel.DEBUG, validXml2);
+        assertLog(Log.DEBUG, null, formattedValidXml2);
+
+        String validXml3 = "<note day=\"12\" month=\"11\" year=\"99\" to=\"Tove\" from=\"Jani\" heading=\"Reminder\" body=\"Don't forget me this weekend!\"></note>";
+        String formattedValidXml3 = "XML:\n" +
+                "<note day=\"12\"\n" +
+                "      month=\"11\"\n" +
+                "      year=\"99\"\n" +
+                "      to=\"Tove\"\n" +
+                "      from=\"Jani\"\n" +
+                "      heading=\"Reminder\"\n" +
+                "      body=\"Don&apos;t forget me this weekend!\"/>\n";
+        ALog.xml(validXml3);
+        assertLog(null, null, formattedValidXml3);
+        ALog.xml(ALogLevel.VERBOSE, validXml3);
+        assertLog(Log.VERBOSE, null, formattedValidXml3);
+
+        String validXml4 = "<catalog> <book id=\"bk101\"> <author>Gambardella, Matthew</author> <title>XML Developer's Guide</title> <genre>Computer</genre> <price>44.95</price> <publish_date>2000-10-01</publish_date> <description>An in-depth look at creating applications with XML.</description> </book> <book id=\"bk102\"> <author>Ralls, Kim</author> <title>Midnight Rain</title> <genre>Fantasy</genre> <price>5.95</price> <publish_date>2000-12-16</publish_date> <description>A former architect battles corporate zombies, an evil sorceress, and her own childhood to become queen of the world.</description> </book> <book id=\"bk103\"> <author>Corets, Eva</author> <title>Maeve Ascendant</title> <genre>Fantasy</genre> <price>5.95</price> <publish_date>2000-11-17</publish_date> <description>After the collapse of a nanotechnology society in England, the young survivors lay the foundation for a new society.</description> </book> </catalog>";
+        String formattedValidXml4 = "XML:\n" +
+                "<catalog>\n" +
+                "  <book id=\"bk101\">\n" +
+                "    <author>Gambardella, Matthew</author>\n" +
+                "    <title>XML Developer&apos;s Guide</title>\n" +
+                "    <genre>Computer</genre>\n" +
+                "    <price>44.95</price>\n" +
+                "    <publish_date>2000-10-01</publish_date>\n" +
+                "    <description>An in-depth look at creating applications with XML.</description>\n" +
+                "  </book>\n" +
+                "  <book id=\"bk102\">\n" +
+                "    <author>Ralls, Kim</author>\n" +
+                "    <title>Midnight Rain</title>\n" +
+                "    <genre>Fantasy</genre>\n" +
+                "    <price>5.95</price>\n" +
+                "    <publish_date>2000-12-16</publish_date>\n" +
+                "    <description>A former architect battles corporate zombies, an evil sorceress, and her own childhood to become queen of the world.</description>\n" +
+                "  </book>\n" +
+                "  <book id=\"bk103\">\n" +
+                "    <author>Corets, Eva</author>\n" +
+                "    <title>Maeve Ascendant</title>\n" +
+                "    <genre>Fantasy</genre>\n" +
+                "    <price>5.95</price>\n" +
+                "    <publish_date>2000-11-17</publish_date>\n" +
+                "    <description>After the collapse of a nanotechnology society in England, the young survivors lay the foundation for a new society.</description>\n" +
+                "  </book>\n" +
+                "</catalog>\n";
+        ALog.xml(validXml4);
+        assertLog(null, null, formattedValidXml4);
+        ALog.xml(ALogLevel.WTF, validXml4);
+        assertLog(Log.ASSERT, null, formattedValidXml4);
     }
 }

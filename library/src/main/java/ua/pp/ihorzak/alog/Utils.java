@@ -40,7 +40,7 @@ final class Utils {
      * @param o2 Second object.
      * @return true if objects are equal, otherwise false.
      */
-    static boolean equals(Object o1, Object o2) {
+    public static boolean equals(Object o1, Object o2) {
         return o1 == o2 || !(o1 == null || o2 == null) && o1.equals(o2);
     }
 
@@ -50,7 +50,7 @@ final class Utils {
      * @param className Full class name.
      * @return Simple class name.
      */
-    static String getSimpleClassName(String className) {
+    public static String getSimpleClassName(String className) {
         String simpleClassName = null;
         if (className != null) {
             int packageNameEnd = className.lastIndexOf('.');
@@ -72,7 +72,7 @@ final class Utils {
      * @throws XmlPullParserException If XML string is invalid.
      * @throws IOException If some error occurred while reading XML string.
      */
-    static String formatXml(String xml, int indentSpaceCount) throws XmlPullParserException,
+    public static String formatXml(String xml, int indentSpaceCount) throws XmlPullParserException,
                                                                      IOException {
         XmlPullParser parser = XmlPullParserFactory.newInstance().newPullParser();
         StringBuilder stringBuilder = new StringBuilder();
@@ -86,7 +86,10 @@ final class Utils {
             switch (eventType) {
                 case XmlPullParser.START_TAG:
                     if (parentCount > 0 && !hasChildrenArray.get(parentCount - 1)) {
-                        stringBuilder.append('>').append('\n');
+                        if (!hasTextArray.get(parentCount - 1)) {
+                            stringBuilder.append('>');
+                        }
+                        stringBuilder.append('\n');
                         hasChildrenArray.put(parentCount - 1, true);
                     }
                     for (int i = 0; i < currentIndent; ++i) {
@@ -101,7 +104,7 @@ final class Utils {
                             stringBuilder.append(parser.getAttributeName(i))
                                     .append('=')
                                     .append('"')
-                                    .append(parser.getAttributeValue(i))
+                                    .append(escapeXmlSpecialCharacters(parser.getAttributeValue(i)))
                                     .append('"')
                                     .append('\n');
                             for (int j = 0; j < attributeIndent; ++j) {
@@ -111,7 +114,7 @@ final class Utils {
                         stringBuilder.append(parser.getAttributeName(attributeCount - 1))
                                 .append('=')
                                 .append('"')
-                                .append(parser.getAttributeValue(attributeCount - 1))
+                                .append(escapeXmlSpecialCharacters(parser.getAttributeValue(attributeCount - 1)))
                                 .append('"');
                     }
                     hasChildrenArray.put(parentCount, false);
@@ -138,15 +141,26 @@ final class Utils {
                     stringBuilder.append('\n');
                     break;
                 case XmlPullParser.TEXT:
-                    if (parentCount > 0 && !hasChildrenArray.get(parentCount - 1)) {
+                    if (parentCount > 0 && !hasChildrenArray.get(parentCount - 1) && !hasTextArray.get(parentCount - 1)) {
                         stringBuilder.append('>');
-                        hasTextArray.put(parentCount - 1, true);
                     }
-                    stringBuilder.append(parser.getText());
+                    hasTextArray.put(parentCount - 1, true);
+                    String text = parser.getText().trim();
+                    if (text.length() > 0) {
+                        stringBuilder.append(escapeXmlSpecialCharacters(text));
+                    }
                     break;
             }
             eventType = parser.next();
         }
         return stringBuilder.toString();
+    }
+
+    private static String escapeXmlSpecialCharacters(String s) {
+        return s.replace("&", "&amp;")
+                .replace("\"", "&quot;")
+                .replace("'", "&apos;")
+                .replace("<", "&lt;")
+                .replace(">", "&gt;");
     }
 }
