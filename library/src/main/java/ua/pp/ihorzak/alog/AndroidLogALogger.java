@@ -29,7 +29,6 @@ import java.io.IOException;
  * {@link ALogger} implementation that uses {@link Log} to perform logging.
  *
  * @author Ihor Zakhozhyi <ihorzak@gmail.com>
- * @since 13.08.2016
  */
 final class AndroidLogALogger extends BaseALogger {
     private static final int MAX_TAG_LENGTH = 23;

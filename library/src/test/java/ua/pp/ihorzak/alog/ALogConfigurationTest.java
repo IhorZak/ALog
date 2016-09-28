@@ -30,7 +30,6 @@ import static org.junit.Assert.assertTrue;
  * {@link ALogConfiguration} unit tests.
  *
  * @author Ihor Zakhozhyi <ihorzak@gmail.com>
- * @since 17.08.16
  */
 public class ALogConfigurationTest extends BaseTest {
     @Test

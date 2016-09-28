@@ -29,7 +29,6 @@ import java.io.StringReader;
  * Util static methods.
  *
  * @author Ihor Zakhozhyi <ihorzak@gmail.com>
- * @since 13.08.2016
  */
 final class Utils {
     private Utils() {}

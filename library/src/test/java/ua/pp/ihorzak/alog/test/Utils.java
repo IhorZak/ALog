@@ -28,7 +28,6 @@ import static org.junit.Assert.assertEquals;
  * Unit tests util methods.
  *
  * @author Ihor Zakhozhyi <ihorzak@gmail.com>
- * @since 17.08.16
  */
 public final class Utils {
     private Utils() {}

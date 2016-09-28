@@ -26,7 +26,6 @@ import android.app.Application;
  * initialized on the first log method call with default configuration.
  *
  * @author Ihor Zakhozhyi <ihorzak@gmail.com>
- * @since 12.08.2016
  */
 public final class ALog {
     private ALog() {}

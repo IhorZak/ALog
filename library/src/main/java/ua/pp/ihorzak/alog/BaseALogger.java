@@ -20,7 +20,6 @@ package ua.pp.ihorzak.alog;
  * Base abstract {@link ALogger} implementation.
  *
  * @author Ihor Zakhozhyi <ihorzak@gmail.com>
- * @since 13.08.2016
  */
 abstract class BaseALogger implements ALogger {
     @Override

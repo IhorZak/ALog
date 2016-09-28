@@ -24,7 +24,6 @@ import org.robolectric.annotation.Config;
  * Base unit tests class with configured robolectric.
  *
  * @author Ihor Zakhozhyi <ihorzak@gmail.com>
- * @since 17.08.16
  */
 @RunWith(RobolectricTestRunner.class)
 @Config(constants = ua.pp.ihorzak.alog.BuildConfig.class, sdk = 23)

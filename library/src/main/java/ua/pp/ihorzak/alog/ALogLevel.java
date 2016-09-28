@@ -23,7 +23,6 @@ import android.util.Log;
  * lowest logging level.
  *
  * @author Ihor Zakhozhyi <ihorzak@gmail.com>
- * @since 13.08.2016
  */
 public enum ALogLevel {
     /**

@@ -20,7 +20,6 @@ package ua.pp.ihorzak.alog;
  * Interface to send logging messages.
  *
  * @author Ihor Zakhozhyi <ihorzak@gmail.com>
- * @since 12.08.2016
  */
 public interface ALogger {
     /**

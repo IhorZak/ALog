@@ -32,7 +32,6 @@ import ua.pp.ihorzak.alog.ALogLevel;
  * Main activity of ALog library sample application.
  *
  * @author Ihor Zakhozhyi <ihorzak@gmail.com>
- * @since 12.08.2016
  */
 public class MainActivity extends AppCompatActivity {
     private static final ListItem[] LIST_ITEMS = {

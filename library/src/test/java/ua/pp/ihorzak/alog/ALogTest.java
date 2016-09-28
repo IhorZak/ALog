@@ -30,7 +30,6 @@ import static ua.pp.ihorzak.alog.test.Utils.*;
  * {@link ALog} unit tests.
  *
  * @author Ihor Zakhozhyi <ihorzak@gmail.com>
- * @since 12.08.2016
  */
 public class ALogTest extends BaseTest {
     private static final String TAG = "Test";

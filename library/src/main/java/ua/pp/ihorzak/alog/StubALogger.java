@@ -21,7 +21,6 @@ package ua.pp.ihorzak.alog;
  * {@link ALogConfiguration}.
  *
  * @author Ihor Zakhozhyi <ihorzak@gmail.com>
- * @since 13.08.2016
  */
 final class StubALogger extends BaseALogger {
     @Override

@@ -22,7 +22,6 @@ package ua.pp.ihorzak.alog;
  * can be obtained via {@link #builder()} call.
  *
  * @author Ihor Zakhozhyi <ihorzak@gmail.com>
- * @since 13.08.2016
  */
 public final class ALogConfiguration {
     /**

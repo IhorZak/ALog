@@ -25,7 +25,6 @@ import ua.pp.ihorzak.alog.ALogConfiguration;
  * ALog sample application.
  *
  * @author Ihor Zakhozhyi <ihorzak@gmail.com>
- * @since 14.08.2016
  */
 public class ALogSampleApplication extends Application {
     @Override
