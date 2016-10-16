@@ -41,7 +41,7 @@ final class Utils {
      * @param o2 Second object.
      * @return true if objects are equal, otherwise false.
      */
-    public static boolean equals(Object o1, Object o2) {
+    static boolean equals(Object o1, Object o2) {
         return o1 == o2 || !(o1 == null || o2 == null) && o1.equals(o2);
     }
 
@@ -51,7 +51,7 @@ final class Utils {
      * @param className Full class name.
      * @return Simple class name.
      */
-    public static String getSimpleClassName(String className) {
+    static String getSimpleClassName(String className) {
         String simpleClassName = null;
         if (className != null) {
             int packageNameEnd = className.lastIndexOf('.');
@@ -73,7 +73,7 @@ final class Utils {
      * @throws XmlPullParserException If XML string is invalid.
      * @throws IOException If some error occurred while reading XML string.
      */
-    public static String formatXml(String xml, int indentSpaceCount) throws XmlPullParserException,
+    static String formatXml(String xml, int indentSpaceCount) throws XmlPullParserException,
                                                                      IOException {
         XmlPullParserFactory parserFactory = XmlPullParserFactory.newInstance();
         parserFactory.setNamespaceAware(true);

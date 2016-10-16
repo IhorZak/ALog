@@ -97,6 +97,7 @@ public final class ALogConfiguration {
     /**
      * Builder to create configured {@link ALogConfiguration} instance.
      */
+    @SuppressWarnings("WeakerAccess")
     public static class Builder {
         private boolean mIsEnabled;
         private ALogLevel mMinimalLevel;

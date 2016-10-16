@@ -59,7 +59,7 @@ final class AndroidLogALogger extends BaseALogger {
         return startStackTraceIndex;
     }
 
-    public AndroidLogALogger(ALogConfiguration configuration) {
+    AndroidLogALogger(ALogConfiguration configuration) {
         mConfiguration = configuration;
     }
 

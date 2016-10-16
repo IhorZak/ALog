@@ -27,6 +27,7 @@ import android.app.Application;
  *
  * @author Ihor Zakhozhyi <ihorzak@gmail.com>
  */
+@SuppressWarnings("WeakerAccess")
 public final class ALog {
     private ALog() {}
 
