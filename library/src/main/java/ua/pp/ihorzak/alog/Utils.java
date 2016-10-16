@@ -89,7 +89,8 @@ final class Utils {
         while (eventType != XmlPullParser.END_DOCUMENT) {
             switch (eventType) {
                 case XmlPullParser.START_TAG:
-                    String startName = parser.getName();
+                    String startPrefix = parser.getPrefix();
+                    String startName = (startPrefix != null ? startPrefix + ':' : "") + parser.getName();
                     nameStack.push(startName);
                     if (parentCount > 0 && !hasChildrenArray.get(parentCount - 1)) {
                         if (!hasTextArray.get(parentCount - 1)) {
@@ -129,7 +130,8 @@ final class Utils {
                     currentIndent += indentSpaceCount;
                     break;
                 case XmlPullParser.END_TAG:
-                    String endName = parser.getName();
+                    String endPrefix = parser.getPrefix();
+                    String endName = (endPrefix != null ? endPrefix + ':' : "") + parser.getName();
                     boolean isNameStackEmpty = nameStack.empty();
                     String expectedName = nameStack.pop();
                     if (isNameStackEmpty || !endName.equals(expectedName)) {

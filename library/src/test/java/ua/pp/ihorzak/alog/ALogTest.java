@@ -336,7 +336,7 @@ public class ALogTest extends BaseTest {
                 "                version=\"1\">\n" +
                 "      <dif:name>test name</dif:name>\n" +
                 "      <dif:description lang=\"en\">test description</dif:description>\n" +
-                "    </dif:person >\n" +
+                "    </dif:person>\n" +
                 "</res:resource>";
         ALog.xml(validXml5);
         assertLogEquals(null, null, formattedValidXml5);
