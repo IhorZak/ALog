@@ -132,7 +132,7 @@ final class AndroidLogALogger extends BaseALogger {
                         message = "Invalid JSON string: " + json;
                     }
                 } catch (JSONException e) {
-                    message = "Invalid JSON string: " + json;
+                    message = "Invalid JSON string: " + e.getMessage();
                 }
             }
         }
@@ -160,7 +160,7 @@ final class AndroidLogALogger extends BaseALogger {
                 try {
                     message = "XML:\n" + Utils.formatXml(xml, mConfiguration.mXmlIndentSpaceCount);
                 } catch (XmlPullParserException | IOException e) {
-                    message = "Invalid XML string: " + xml;
+                    message = "Invalid XML string: " + e.getMessage();
                 }
             }
         }

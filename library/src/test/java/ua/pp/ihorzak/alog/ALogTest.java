@@ -49,126 +49,126 @@ public class ALogTest extends BaseTest {
     public void testV() {
         String message = "Message";
         ALog.v(message);
-        assertLog(Log.VERBOSE, TAG, message);
+        assertLogEquals(Log.VERBOSE, TAG, message);
 
         String messageFormat = "Message %s, %d";
         String stringArg = "title";
         int intArg = 100;
         String formattedMessage = "Message title, 100";
         ALog.v(messageFormat, stringArg, intArg);
-        assertLog(Log.VERBOSE, TAG, formattedMessage);
+        assertLogEquals(Log.VERBOSE, TAG, formattedMessage);
 
         Throwable throwable = new RuntimeException();
         ALog.v(throwable);
-        assertLog(Log.VERBOSE, TAG, Log.getStackTraceString(throwable));
+        assertLogEquals(Log.VERBOSE, TAG, Log.getStackTraceString(throwable));
 
         ALog.v(throwable, messageFormat, stringArg, intArg);
-        assertLog(Log.VERBOSE, TAG, formattedMessage + '\n' + Log.getStackTraceString(throwable));
+        assertLogEquals(Log.VERBOSE, TAG, formattedMessage + '\n' + Log.getStackTraceString(throwable));
     }
 
     @Test
     public void testD() {
         String message = "Message";
         ALog.d(message);
-        assertLog(Log.DEBUG, TAG, message);
+        assertLogEquals(Log.DEBUG, TAG, message);
 
         String messageFormat = "Message %s, %d";
         String stringArg = "title";
         int intArg = 100;
         String formattedMessage = "Message title, 100";
         ALog.d(messageFormat, stringArg, intArg);
-        assertLog(Log.DEBUG, TAG, formattedMessage);
+        assertLogEquals(Log.DEBUG, TAG, formattedMessage);
 
         Throwable throwable = new RuntimeException();
         ALog.d(throwable);
-        assertLog(Log.DEBUG, TAG, Log.getStackTraceString(throwable));
+        assertLogEquals(Log.DEBUG, TAG, Log.getStackTraceString(throwable));
 
         ALog.d(throwable, messageFormat, stringArg, intArg);
-        assertLog(Log.DEBUG, TAG, formattedMessage + '\n' + Log.getStackTraceString(throwable));
+        assertLogEquals(Log.DEBUG, TAG, formattedMessage + '\n' + Log.getStackTraceString(throwable));
     }
 
     @Test
     public void testI() {
         String message = "Message";
         ALog.i(message);
-        assertLog(Log.INFO, TAG, message);
+        assertLogEquals(Log.INFO, TAG, message);
 
         String messageFormat = "Message %s, %d";
         String stringArg = "title";
         int intArg = 100;
         String formattedMessage = "Message title, 100";
         ALog.i(messageFormat, stringArg, intArg);
-        assertLog(Log.INFO, TAG, formattedMessage);
+        assertLogEquals(Log.INFO, TAG, formattedMessage);
 
         Throwable throwable = new RuntimeException();
         ALog.i(throwable);
-        assertLog(Log.INFO, TAG, Log.getStackTraceString(throwable));
+        assertLogEquals(Log.INFO, TAG, Log.getStackTraceString(throwable));
 
         ALog.i(throwable, messageFormat, stringArg, intArg);
-        assertLog(Log.INFO, TAG, formattedMessage + '\n' + Log.getStackTraceString(throwable));
+        assertLogEquals(Log.INFO, TAG, formattedMessage + '\n' + Log.getStackTraceString(throwable));
     }
 
     @Test
     public void testW() {
         String message = "Message";
         ALog.w(message);
-        assertLog(Log.WARN, TAG, message);
+        assertLogEquals(Log.WARN, TAG, message);
 
         String messageFormat = "Message %s, %d";
         String stringArg = "title";
         int intArg = 100;
         String formattedMessage = "Message title, 100";
         ALog.w(messageFormat, stringArg, intArg);
-        assertLog(Log.WARN, TAG, formattedMessage);
+        assertLogEquals(Log.WARN, TAG, formattedMessage);
 
         Throwable throwable = new RuntimeException();
         ALog.w(throwable);
-        assertLog(Log.WARN, TAG, Log.getStackTraceString(throwable));
+        assertLogEquals(Log.WARN, TAG, Log.getStackTraceString(throwable));
 
         ALog.w(throwable, messageFormat, stringArg, intArg);
-        assertLog(Log.WARN, TAG, formattedMessage + '\n' + Log.getStackTraceString(throwable));
+        assertLogEquals(Log.WARN, TAG, formattedMessage + '\n' + Log.getStackTraceString(throwable));
     }
 
     @Test
     public void testE() {
         String message = "Message";
         ALog.e(message);
-        assertLog(Log.ERROR, TAG, message);
+        assertLogEquals(Log.ERROR, TAG, message);
 
         String messageFormat = "Message %s, %d";
         String stringArg = "title";
         int intArg = 100;
         String formattedMessage = "Message title, 100";
         ALog.e(messageFormat, stringArg, intArg);
-        assertLog(Log.ERROR, TAG, formattedMessage);
+        assertLogEquals(Log.ERROR, TAG, formattedMessage);
 
         Throwable throwable = new RuntimeException();
         ALog.e(throwable);
-        assertLog(Log.ERROR, TAG, Log.getStackTraceString(throwable));
+        assertLogEquals(Log.ERROR, TAG, Log.getStackTraceString(throwable));
 
         ALog.e(throwable, messageFormat, stringArg, intArg);
-        assertLog(Log.ERROR, TAG, formattedMessage + '\n' + Log.getStackTraceString(throwable));
+        assertLogEquals(Log.ERROR, TAG, formattedMessage + '\n' + Log.getStackTraceString(throwable));
     }
 
     @Test
     public void testWtf() {
         String message = "Message";
         ALog.wtf(message);
-        assertLog(Log.ASSERT, TAG, message);
+        assertLogEquals(Log.ASSERT, TAG, message);
 
         String messageFormat = "Message %s, %d";
         String stringArg = "title";
         int intArg = 100;
         String formattedMessage = "Message title, 100";
         ALog.wtf(messageFormat, stringArg, intArg);
-        assertLog(Log.ASSERT, TAG, formattedMessage);
+        assertLogEquals(Log.ASSERT, TAG, formattedMessage);
 
         Throwable throwable = new RuntimeException();
         ALog.wtf(throwable);
-        assertLog(Log.ASSERT, TAG, Log.getStackTraceString(throwable));
+        assertLogEquals(Log.ASSERT, TAG, Log.getStackTraceString(throwable));
 
         ALog.wtf(throwable, messageFormat, stringArg, intArg);
-        assertLog(Log.ASSERT, TAG, formattedMessage + '\n' + Log.getStackTraceString(throwable));
+        assertLogEquals(Log.ASSERT, TAG, formattedMessage + '\n' + Log.getStackTraceString(throwable));
     }
 
     @Test
@@ -178,45 +178,45 @@ public class ALogTest extends BaseTest {
 
         ALogger customTagLogger = ALog.t(customTag);
         customTagLogger.v(message);
-        assertLog(null, customTag, null);
+        assertLogEquals(null, customTag, null);
         customTagLogger.d(message);
-        assertLog(null, customTag, null);
+        assertLogEquals(null, customTag, null);
         customTagLogger.i(message);
-        assertLog(null, customTag, null);
+        assertLogEquals(null, customTag, null);
         customTagLogger.w(message);
-        assertLog(null, customTag, null);
+        assertLogEquals(null, customTag, null);
         customTagLogger.e(message);
-        assertLog(null, customTag, null);
+        assertLogEquals(null, customTag, null);
         customTagLogger.wtf(message);
-        assertLog(null, customTag, null);
+        assertLogEquals(null, customTag, null);
 
         ALogger autoTagLogger = ALog.t(null);
         String autoTag = Utils.class.getSimpleName();
         v(autoTagLogger, null, message);
-        assertLog(null, autoTag, null);
+        assertLogEquals(null, autoTag, null);
         d(autoTagLogger, null, message);
-        assertLog(null, autoTag, null);
+        assertLogEquals(null, autoTag, null);
         i(autoTagLogger, null, message);
-        assertLog(null, autoTag, null);
+        assertLogEquals(null, autoTag, null);
         w(autoTagLogger, null, message);
-        assertLog(null, autoTag, null);
+        assertLogEquals(null, autoTag, null);
         e(autoTagLogger, null, message);
-        assertLog(null, autoTag, null);
+        assertLogEquals(null, autoTag, null);
         wtf(autoTagLogger, null, message);
-        assertLog(null, autoTag, null);
+        assertLogEquals(null, autoTag, null);
     }
 
     @Test
     public void testJson() {
         ALog.json(null);
-        assertLog(null, null, "Passed JSON string is null");
+        assertLogEquals(null, null, "Passed JSON string is null");
 
         ALog.json("");
-        assertLog(null, null, "Passed JSON string is empty");
+        assertLogEquals(null, null, "Passed JSON string is empty");
 
         String invalidJson = "{\"id\":1234, \"name\":\"John Doe\", \"arr\":[\"a\", \"b\"}]}";
         ALog.json(invalidJson);
-        assertLog(null, null, "Invalid JSON string: " + invalidJson);
+        assertLogEquals(null, null, "Invalid JSON string: Unterminated array at character 47 of " + invalidJson);
 
         String validJson = "{\"id\":1234, \"name\":\"John Doe\", \"arr\":[\"a\", \"b\"]}";
         String formattedValidJson = "JSON:\n" +
@@ -229,22 +229,22 @@ public class ALogTest extends BaseTest {
                 "  ]\n" +
                 "}";
         ALog.json(validJson);
-        assertLog(null, null, formattedValidJson);
+        assertLogEquals(null, null, formattedValidJson);
         ALog.json(ALogLevel.ERROR, validJson);
-        assertLog(Log.ERROR, null, formattedValidJson);
+        assertLogEquals(Log.ERROR, null, formattedValidJson);
     }
     
     @Test
     public void testXml() {
         ALog.xml(null);
-        assertLog(null, null, "Passed XML string is null");
+        assertLogEquals(null, null, "Passed XML string is null");
 
         ALog.xml("");
-        assertLog(null, null, "Passed XML string is empty");
+        assertLogEquals(null, null, "Passed XML string is empty");
 
         String invalidXml = "<note><to>Tove</to><from>Jani</Ffrom><heading>Reminder</heading><body>Don't forget me this weekend!</body></note>";
         ALog.xml(invalidXml);
-        assertLog(null, null, "Invalid XML string: " + invalidXml);
+        assertLogStartsWith(null, null, "Invalid XML string: ");
 
         String validXml1 = "<note><to>Tove</to><from>Jani</from><heading>Reminder</heading><body>Don't forget me this weekend!</body></note>";
         String formattedValidXml1 = "XML:\n" +
@@ -255,9 +255,9 @@ public class ALogTest extends BaseTest {
                 "  <body>Don&apos;t forget me this weekend!</body>\n" +
                 "</note>\n";
         ALog.xml(validXml1);
-        assertLog(null, null, formattedValidXml1);
+        assertLogEquals(null, null, formattedValidXml1);
         ALog.xml(ALogLevel.ERROR, validXml1);
-        assertLog(Log.ERROR, null, formattedValidXml1);
+        assertLogEquals(Log.ERROR, null, formattedValidXml1);
 
         String validXml2 = "<student nickname='Rob \"The Dog\"'><name>Robert</name><grade>A+</grade></student>";
         String formattedValidXml2 = "XML:\n" +
@@ -266,9 +266,9 @@ public class ALogTest extends BaseTest {
                 "  <grade>A+</grade>\n" +
                 "</student>\n";
         ALog.xml(validXml2);
-        assertLog(null, null, formattedValidXml2);
+        assertLogEquals(null, null, formattedValidXml2);
         ALog.xml(ALogLevel.DEBUG, validXml2);
-        assertLog(Log.DEBUG, null, formattedValidXml2);
+        assertLogEquals(Log.DEBUG, null, formattedValidXml2);
 
         String validXml3 = "<note day=\"12\" month=\"11\" year=\"99\" to=\"Tove\" from=\"Jani\" heading=\"Reminder\" body=\"Don't forget me this weekend!\"></note>";
         String formattedValidXml3 = "XML:\n" +
@@ -280,9 +280,9 @@ public class ALogTest extends BaseTest {
                 "      heading=\"Reminder\"\n" +
                 "      body=\"Don&apos;t forget me this weekend!\"/>\n";
         ALog.xml(validXml3);
-        assertLog(null, null, formattedValidXml3);
+        assertLogEquals(null, null, formattedValidXml3);
         ALog.xml(ALogLevel.VERBOSE, validXml3);
-        assertLog(Log.VERBOSE, null, formattedValidXml3);
+        assertLogEquals(Log.VERBOSE, null, formattedValidXml3);
 
         String validXml4 = "<catalog> <book id=\"bk101\"> <author>Gambardella, Matthew</author> <title>XML Developer's Guide</title> <genre>Computer</genre> <price>44.95</price> <publish_date>2000-10-01</publish_date> <description>An in-depth look at creating applications with XML.</description> </book> <book id=\"bk102\"> <author>Ralls, Kim</author> <title>Midnight Rain</title> <genre>Fantasy</genre> <price>5.95</price> <publish_date>2000-12-16</publish_date> <description>A former architect battles corporate zombies, an evil sorceress, and her own childhood to become queen of the world.</description> </book> <book id=\"bk103\"> <author>Corets, Eva</author> <title>Maeve Ascendant</title> <genre>Fantasy</genre> <price>5.95</price> <publish_date>2000-11-17</publish_date> <description>After the collapse of a nanotechnology society in England, the young survivors lay the foundation for a new society.</description> </book> </catalog>";
         String formattedValidXml4 = "XML:\n" +
@@ -313,8 +313,8 @@ public class ALogTest extends BaseTest {
                 "  </book>\n" +
                 "</catalog>\n";
         ALog.xml(validXml4);
-        assertLog(null, null, formattedValidXml4);
+        assertLogEquals(null, null, formattedValidXml4);
         ALog.xml(ALogLevel.WTF, validXml4);
-        assertLog(Log.ASSERT, null, formattedValidXml4);
+        assertLogEquals(Log.ASSERT, null, formattedValidXml4);
     }
 }

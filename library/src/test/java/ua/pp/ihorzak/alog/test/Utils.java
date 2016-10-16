@@ -23,6 +23,8 @@ import java.util.List;
 import ua.pp.ihorzak.alog.ALogger;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Unit tests util methods.
@@ -33,23 +35,34 @@ public final class Utils {
     private Utils() {}
 
     /**
-     * Asserts last logged message.
+     * Asserts last logged message and checks equality of expected message data and actual message
+     * data.
      *
      * @param priority Expected priority of last logged message or null to ignore priority check.
      * @param tag Expected tag of last logged message or null to ignore tag check.
      * @param message Expected message data of last logged message or null to ignore message data check.
      */
-    public static void assertLog(Integer priority, String tag, String message) {
-        List<ShadowLog.LogItem> logItemList = ShadowLog.getLogs();
-        ShadowLog.LogItem logItem = logItemList.get(logItemList.size() - 1);
-        if (priority != null) {
-            assertEquals((int) priority, logItem.type);
-        }
-        if (tag != null) {
-            assertEquals(tag, logItem.tag);
-        }
+    public static void assertLogEquals(Integer priority, String tag, String message) {
+        ShadowLog.LogItem logItem = getLastLogItem(priority, tag);
         if (message != null) {
             assertEquals(message, logItem.msg);
+        }
+    }
+
+    /**
+     * Asserts last logged message and checks equality of expected message data prefix and actual
+     * message data prefix.
+     *
+     * @param priority Expected priority of last logged message or null to ignore priority check.
+     * @param tag Expected tag of last logged message or null to ignore tag check.
+     * @param prefix Expected message data prefix of last logged message or null to ignore message
+     *               data prefix check.
+     */
+    public static void assertLogStartsWith(Integer priority, String tag, String prefix) {
+        ShadowLog.LogItem logItem = getLastLogItem(priority, tag);
+        if (prefix != null) {
+            assertNotNull(logItem.msg);
+            assertTrue(logItem.msg.startsWith(prefix));
         }
     }
 
@@ -123,5 +136,17 @@ public final class Utils {
      */
     public static void wtf(ALogger logger, Throwable throwable, String message, Object... args) {
         logger.wtf(throwable, message, args);
+    }
+
+    private static ShadowLog.LogItem getLastLogItem(Integer priority, String tag) {
+        List<ShadowLog.LogItem> logItemList = ShadowLog.getLogs();
+        ShadowLog.LogItem logItem = logItemList.get(logItemList.size() - 1);
+        if (priority != null) {
+            assertEquals((int) priority, logItem.type);
+        }
+        if (tag != null) {
+            assertEquals(tag, logItem.tag);
+        }
+        return logItem;
     }
 }
