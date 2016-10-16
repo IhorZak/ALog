@@ -320,5 +320,27 @@ public class ALogTest extends BaseTest {
         assertLogEquals(null, null, formattedValidXml4);
         ALog.xml(ALogLevel.WTF, validXml4);
         assertLogEquals(Log.ASSERT, null, formattedValidXml4);
+
+        String validXml5 = "<res:resource xmlns:res=\"http://www.example.com/ns/server/resource\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.example.com/ns/server/resource resource.xsd\" version=\"1\">  <res:message httpCode=\"200\" type=\"ok\">   <![CDATA[Sample Success Response]]>    </res:message>    <dif:person xmlns:dif=\"http://www.example.com/ns/server/resource\"                xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.example.com/ns/server/person person.xsd\" version=\"1\"> <dif:name>test name</dif:name><dif:description lang=\"en\">test description</dif:description>    </dif:person ></res:resource>";
+        String formattedValidXml5 = "XML:\n" +
+                "<res:resource xmlns:res=\"http://www.example.com/ns/server/resource\"\n" +
+                "              xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n" +
+                "              xsi:schemaLocation=\"http://www.example.com/ns/server/resource resource.xsd\"\n" +
+                "              version=\"1\">\n" +
+                "  <res:message httpCode=\"200\" type=\"ok\">\n" +
+                "    <![CDATA[Sample Success Response]]>\n" +
+                "    </res:message>\n" +
+                "    <dif:person xmlns:dif=\"http://www.example.com/ns/server/resource\"\n" +
+                "                xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n" +
+                "                xsi:schemaLocation=\"http://www.example.com/ns/server/person person.xsd\"\n" +
+                "                version=\"1\">\n" +
+                "      <dif:name>test name</dif:name>\n" +
+                "      <dif:description lang=\"en\">test description</dif:description>\n" +
+                "    </dif:person >\n" +
+                "</res:resource>";
+        ALog.xml(validXml5);
+        assertLogEquals(null, null, formattedValidXml5);
+        ALog.xml(ALogLevel.INFO, validXml5);
+        assertLogEquals(Log.INFO, null, formattedValidXml5);
     }
 }

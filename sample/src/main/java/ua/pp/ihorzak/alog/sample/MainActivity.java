@@ -17,6 +17,7 @@
 package ua.pp.ihorzak.alog.sample;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -142,6 +143,12 @@ public class MainActivity extends AppCompatActivity {
                 public void run() {
                     ALog.xml("<root><item/><item2><root/>");
                 }
+            }),
+            new ListItem("ALog.xml(\"<res:resource xmlns:res=\\\"http://www.example.com/ns/server/resource\\\" xmlns:xsi=\\\"http://www.w3.org/2001/XMLSchema-instance\\\" xsi:schemaLocation=\\\"http://www.example.com/ns/server/resource resource.xsd\\\" version=\\\"1\\\">  <res:message httpCode=\\\"200\\\" type=\\\"ok\\\">   <![CDATA[Sample Success Response]]>    </res:message>    <dif:person xmlns:dif=\\\"http://www.example.com/ns/server/resource\\\"                xmlns:xsi=\\\"http://www.w3.org/2001/XMLSchema-instance\\\" xsi:schemaLocation=\\\"http://www.example.com/ns/server/person person.xsd\\\" version=\\\"1\\\"> <dif:name>test name</dif:name><dif:description lang=\\\"en\\\">test description</dif:description>    </dif:person ></res:resource>\")", new Runnable() {
+                @Override
+                public void run() {
+                    ALog.xml("<res:resource xmlns:res=\"http://www.example.com/ns/server/resource\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.example.com/ns/server/resource resource.xsd\" version=\"1\">  <res:message httpCode=\"200\" type=\"ok\">   <![CDATA[Sample Success Response]]>    </res:message>    <dif:person xmlns:dif=\"http://www.example.com/ns/server/resource\"                xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.example.com/ns/server/person person.xsd\" version=\"1\"> <dif:name>test name</dif:name><dif:description lang=\"en\">test description</dif:description>    </dif:person ></res:resource>");
+                }
             })
     };
 
@@ -163,10 +170,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private static class ListItem {
-        public final String mTitle;
-        public final Runnable mAction;
+        final String mTitle;
+        final Runnable mAction;
 
-        public ListItem(String title, Runnable action) {
+        ListItem(@NonNull String title, @NonNull Runnable action) {
             mTitle = title;
             mAction = action;
         }
