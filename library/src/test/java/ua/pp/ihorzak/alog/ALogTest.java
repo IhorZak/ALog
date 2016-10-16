@@ -242,8 +242,12 @@ public class ALogTest extends BaseTest {
         ALog.xml("");
         assertLogEquals(null, null, "Passed XML string is empty");
 
-        String invalidXml = "<note><to>Tove</to><from>Jani</Ffrom><heading>Reminder</heading><body>Don't forget me this weekend!</body></note>";
-        ALog.xml(invalidXml);
+        String invalidXml1 = "<note><to>Tove</to><from>Jani</Ffrom><heading>Reminder</heading><body>Don't forget me this weekend!</body></note>";
+        ALog.xml(invalidXml1);
+        assertLogStartsWith(null, null, "Invalid XML string: ");
+
+        String invalidXml2 = "<root><item/><item2><root/>";
+        ALog.xml(invalidXml2);
         assertLogStartsWith(null, null, "Invalid XML string: ");
 
         String validXml1 = "<note><to>Tove</to><from>Jani</from><heading>Reminder</heading><body>Don't forget me this weekend!</body></note>";
