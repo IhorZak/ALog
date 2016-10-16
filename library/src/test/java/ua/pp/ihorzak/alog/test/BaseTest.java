@@ -26,5 +26,5 @@ import org.robolectric.annotation.Config;
  * @author Ihor Zakhozhyi <ihorzak@gmail.com>
  */
 @RunWith(RobolectricTestRunner.class)
-@Config(constants = ua.pp.ihorzak.alog.BuildConfig.class, sdk = 23)
+@Config(manifest = "src/main/AndroidManifest.xml", sdk = 23)
 public abstract class BaseTest {}
