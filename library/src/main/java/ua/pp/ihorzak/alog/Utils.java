@@ -16,6 +16,8 @@
 
 package ua.pp.ihorzak.alog;
 
+import android.text.TextUtils;
+import android.util.SparseArray;
 import android.util.SparseBooleanArray;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -24,6 +26,8 @@ import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.io.IOException;
 import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Stack;
 
 /**
@@ -32,6 +36,8 @@ import java.util.Stack;
  * @author Ihor Zakhozhyi <ihorzak@gmail.com>
  */
 final class Utils {
+    private static final String PREFIX_XMLNS = "xmlns";
+
     private Utils() {}
 
     /**
@@ -83,6 +89,7 @@ final class Utils {
         int eventType = parser.getEventType();
         int parentCount = 0;
         Stack<String> nameStack = new Stack<>();
+        SparseArray<List<String>> namespaceArray = new SparseArray<>();
         SparseBooleanArray hasChildrenArray = new SparseBooleanArray();
         SparseBooleanArray hasTextArray = new SparseBooleanArray();
         int currentIndent = 0;
@@ -103,11 +110,63 @@ final class Utils {
                         stringBuilder.append(' ');
                     }
                     stringBuilder.append('<').append(startName);
+                    boolean hasNamespaces = false;
+                    int namespaceCount = parser.getNamespaceCount(parentCount + 1);
+                    if (namespaceCount > 0) {
+                        List<String> newNamespaceList = null;
+                        for (int i = 0; i < namespaceCount; ++i) {
+                            String namespacePrefix = parser.getNamespacePrefix(i);
+                            String namespaceUri = parser.getNamespace(namespacePrefix);
+                            String namespace = namespacePrefix + '=' + '\"' +
+                                    escapeXmlSpecialCharacters(namespaceUri) + '\"';
+                            boolean isNew = true;
+                            for (int j = 0; j < namespaceArray.size() && isNew; ++j) {
+                                List<String> namespaceList = namespaceArray.get(namespaceArray.keyAt(j));
+                                if (namespaceList != null && !namespaceList.isEmpty()) {
+                                    isNew = !namespaceList.contains(namespace);
+                                }
+                            }
+                            if (isNew) {
+                                if (newNamespaceList == null) {
+                                    newNamespaceList = new ArrayList<>();
+                                }
+                                if (!newNamespaceList.contains(namespace)) {
+                                    newNamespaceList.add(namespace);
+                                }
+                            }
+                        }
+                        if (newNamespaceList != null && !newNamespaceList.isEmpty()) {
+                            hasNamespaces = true;
+                            int namespaceIndent = currentIndent + startName.length() + 2;
+                            stringBuilder.append(' ');
+                            for (int i = 0; i < newNamespaceList.size() - 1; ++i) {
+                                stringBuilder.append(PREFIX_XMLNS)
+                                        .append(':')
+                                        .append(newNamespaceList.get(i))
+                                        .append('\n');
+                                for (int j = 0; j < namespaceIndent; ++j) {
+                                    stringBuilder.append(' ');
+                                }
+                            }
+                            stringBuilder.append(PREFIX_XMLNS)
+                                    .append(':')
+                                    .append(newNamespaceList.get(newNamespaceList.size() - 1))
+                                    .append('\n');
+                        }
+                        namespaceArray.put(parentCount, newNamespaceList);
+                    }
                     int attributeCount = parser.getAttributeCount();
                     if (attributeCount > 0) {
+                        String attributePrefix;
                         int attributeIndent = currentIndent + startName.length() + 2;
-                        stringBuilder.append(' ');
+                        for (int j = 0; j < (hasNamespaces ? attributeIndent : 1); ++j) {
+                            stringBuilder.append(' ');
+                        }
                         for (int i = 0; i < attributeCount - 1; ++i) {
+                            attributePrefix = parser.getAttributePrefix(i);
+                            if (!TextUtils.isEmpty(attributePrefix)) {
+                                stringBuilder.append(attributePrefix).append(':');
+                            }
                             stringBuilder.append(parser.getAttributeName(i))
                                     .append('=')
                                     .append('"')
@@ -117,6 +176,10 @@ final class Utils {
                             for (int j = 0; j < attributeIndent; ++j) {
                                 stringBuilder.append(' ');
                             }
+                        }
+                        attributePrefix = parser.getAttributePrefix(attributeCount - 1);
+                        if (!TextUtils.isEmpty(attributePrefix)) {
+                            stringBuilder.append(attributePrefix).append(':');
                         }
                         stringBuilder.append(parser.getAttributeName(attributeCount - 1))
                                 .append('=')
@@ -154,6 +217,7 @@ final class Utils {
                         stringBuilder.append('/').append('>');
                     }
                     stringBuilder.append('\n');
+                    namespaceArray.delete(parentCount);
                     break;
                 case XmlPullParser.TEXT:
                     if (parentCount > 0 && !hasChildrenArray.get(parentCount - 1) && !hasTextArray.get(parentCount - 1)) {
