@@ -37,6 +37,8 @@ import java.util.Stack;
  */
 final class Utils {
     private static final String PREFIX_XMLNS = "xmlns";
+    private static final String PREFIX_CDATA = "<![CDATA[";
+    private static final String SUFFIX_CDATA = "]]>";
 
     private Utils() {}
 
@@ -229,8 +231,18 @@ final class Utils {
                         stringBuilder.append(escapeXmlSpecialCharacters(text));
                     }
                     break;
+                case XmlPullParser.CDSECT:
+                    if (parentCount > 0 && !hasChildrenArray.get(parentCount - 1) && !hasTextArray.get(parentCount - 1)) {
+                        stringBuilder.append('>');
+                    }
+                    hasTextArray.put(parentCount - 1, true);
+                    String cData = parser.getText().trim();
+                    if (cData.length() > 0) {
+                        stringBuilder.append(PREFIX_CDATA).append(cData).append(SUFFIX_CDATA);
+                    }
+                    break;
             }
-            eventType = parser.next();
+            eventType = parser.nextToken();
         }
         if (!nameStack.empty()) {
             throw new XmlPullParserException("Expected \"" + nameStack.pop() + "\" close tag");

@@ -328,9 +328,7 @@ public class ALogTest extends BaseTest {
                 "              xsi:schemaLocation=\"http://www.example.com/ns/server/resource resource.xsd\"\n" +
                 "              version=\"1\">\n" +
                 "  <res:message httpCode=\"200\"\n" +
-                "               type=\"ok\">\n" +
-                "    <![CDATA[Sample Success Response]]>\n" +
-                "    </res:message>\n" +
+                "               type=\"ok\"><![CDATA[Sample Success Response]]></res:message>\n" +
                 "    <dif:person xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance-1\"\n" +
                 "                xmlns:dif=\"http://www.example.com/ns/server/resource\"\n" +
                 "                xsi:schemaLocation=\"http://www.example.com/ns/server/person person.xsd\"\n" +
