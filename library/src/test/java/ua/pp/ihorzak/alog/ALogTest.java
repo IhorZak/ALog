@@ -341,5 +341,13 @@ public class ALogTest extends BaseTest {
         assertLogEquals(null, null, formattedValidXml5);
         ALog.xml(ALogLevel.INFO, validXml5);
         assertLogEquals(Log.INFO, null, formattedValidXml5);
+
+        String validXml6 = "<example>\n<!-- This is a comment -->\n</example>";
+        String formattedValidXml6 = "XML:\n" +
+                "<example><!-- This is a comment --></example>\n";
+        ALog.xml(validXml6);
+        assertLogEquals(null, null, formattedValidXml6);
+        ALog.xml(ALogLevel.DEBUG, validXml6);
+        assertLogEquals(Log.DEBUG, null, formattedValidXml6);
     }
 }

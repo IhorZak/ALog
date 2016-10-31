@@ -39,6 +39,8 @@ final class Utils {
     private static final String PREFIX_XMLNS = "xmlns";
     private static final String PREFIX_CDATA = "<![CDATA[";
     private static final String SUFFIX_CDATA = "]]>";
+    private static final String PREFIX_COMMENT = "<!--";
+    private static final String SUFFIX_COMMENT = "-->";
 
     private Utils() {}
 
@@ -236,9 +238,19 @@ final class Utils {
                         stringBuilder.append('>');
                     }
                     hasTextArray.put(parentCount - 1, true);
-                    String cData = parser.getText().trim();
+                    String cData = parser.getText();
                     if (cData.length() > 0) {
                         stringBuilder.append(PREFIX_CDATA).append(cData).append(SUFFIX_CDATA);
+                    }
+                    break;
+                case XmlPullParser.COMMENT:
+                    if (parentCount > 0 && !hasChildrenArray.get(parentCount - 1) && !hasTextArray.get(parentCount - 1)) {
+                        stringBuilder.append('>');
+                    }
+                    hasTextArray.put(parentCount - 1, true);
+                    String comment = parser.getText();
+                    if (comment.length() > 0) {
+                        stringBuilder.append(PREFIX_COMMENT).append(comment).append(SUFFIX_COMMENT);
                     }
                     break;
             }
