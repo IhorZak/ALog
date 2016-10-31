@@ -329,13 +329,13 @@ public class ALogTest extends BaseTest {
                 "              version=\"1\">\n" +
                 "  <res:message httpCode=\"200\"\n" +
                 "               type=\"ok\"><![CDATA[Sample Success Response]]></res:message>\n" +
-                "    <dif:person xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance-1\"\n" +
-                "                xmlns:dif=\"http://www.example.com/ns/server/resource\"\n" +
-                "                xsi:schemaLocation=\"http://www.example.com/ns/server/person person.xsd\"\n" +
-                "                version=\"1\">\n" +
-                "      <dif:name>test name</dif:name>\n" +
-                "      <dif:description lang=\"en\">test description</dif:description>\n" +
-                "    </dif:person>\n" +
+                "  <dif:person xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance-1\"\n" +
+                "              xmlns:dif=\"http://www.example.com/ns/server/resource\"\n" +
+                "              xsi:schemaLocation=\"http://www.example.com/ns/server/person person.xsd\"\n" +
+                "              version=\"1\">\n" +
+                "    <dif:name>test name</dif:name>\n" +
+                "    <dif:description lang=\"en\">test description</dif:description>\n" +
+                "  </dif:person>\n" +
                 "</res:resource>\n";
         ALog.xml(validXml5);
         assertLogEquals(null, null, formattedValidXml5);
