@@ -1,11 +1,15 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.jfrog.bintray'
+
+def Properties localProperties = new Properties()
+localProperties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+def versionProperties = new Properties()
+versionProperties.load(new FileInputStream('version.properties'))
 
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.0"
-
-    def versionProperties = new Properties()
-    versionProperties.load(new FileInputStream('version.properties'))
 
     defaultConfig {
         minSdkVersion 1
@@ -32,4 +36,18 @@ android {
 dependencies {
     testCompile 'junit:junit:4.12'
     testCompile "org.robolectric:robolectric:3.1.2"
+}
+
+project.archivesBaseName = 'alog'
+group 'ua.pp.ihorzak'
+version versionProperties.getProperty('VERSION_NAME')
+
+bintray {
+    user = localProperties.getProperty('bintray.user')
+    key = localProperties.getProperty('bintray.key')
+    pkg {
+        repo = 'maven'
+        name = 'ALog'
+        configurations = ['archives']
+    }
 }
