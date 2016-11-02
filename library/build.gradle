@@ -1,11 +1,19 @@
 apply plugin: 'com.android.library'
 apply plugin: 'com.jfrog.bintray'
+apply plugin: 'com.github.dcendents.android-maven'
 
 def Properties localProperties = new Properties()
-localProperties.load(project.rootProject.file('local.properties').newDataInputStream())
+localProperties.load(rootProject.file('local.properties').newDataInputStream())
 
 def versionProperties = new Properties()
 versionProperties.load(new FileInputStream('version.properties'))
+
+def siteUrl = 'https://github.com/IhorZak/ALog'
+def gitUrl = 'https://github.com/IhorZak/ALog.git'
+
+project.archivesBaseName = 'alog'
+group 'ua.pp.ihorzak'
+version versionProperties.getProperty('VERSION_NAME')
 
 android {
     compileSdkVersion 25
@@ -35,19 +43,46 @@ android {
 
 dependencies {
     testCompile 'junit:junit:4.12'
-    testCompile "org.robolectric:robolectric:3.1.2"
+    testCompile 'org.robolectric:robolectric:3.1.2'
 }
 
-project.archivesBaseName = 'alog'
-group 'ua.pp.ihorzak'
-version versionProperties.getProperty('VERSION_NAME')
+install {
+    repositories.mavenInstaller {
+        pom {
+            project {
+                packaging 'aar'
+                name 'ALog'
+                url siteUrl
+
+                licenses {
+                    license {
+                        name 'The Apache Software License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+
+                developers {
+                    developer {
+                        name 'Ihor Zakhozhyi'
+                        email 'ihorzak@gmail.com'
+                    }
+                }
+            }
+        }
+    }
+}
 
 bintray {
     user = localProperties.getProperty('bintray.user')
     key = localProperties.getProperty('bintray.key')
+
+    configurations = ['archives']
+
     pkg {
         repo = 'maven'
         name = 'ALog'
-        configurations = ['archives']
+        websiteUrl = siteUrl
+        vcsUrl = gitUrl
+        licenses = ['Apache-2.0']
     }
 }
