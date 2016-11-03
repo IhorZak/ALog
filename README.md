@@ -14,6 +14,55 @@ Other important features of ALog are:
 - Formatted output of JSON and XML
 - Automatic providing of log message tag based on class name
 
+## Usage
+ALog supports all Android API versions starting from API 1.
+
+ALog can be configured with the initialize method. It is recommended to do it once in application's `onCreate()` method. If ALog will not be initialized explicitly it will be initialized implicitly on the first call with default configuration.
+Example:
+```java
+ALogConfiguration aLogConfiguration = ALogConfiguration.builder()
+         .tag("ALogSampleApplication")
+         .classPrefixEnabled(true)
+         .jsonIndentSpaceCount(4)
+         .xmlIndentSpaceCount(4)
+         .build();
+ALog.initialize(aLogConfiguration);
+```
+
+Logging with ALog is simple:
+```java
+ALog.v("Message, %d, %s", 20, "Argument");
+ALog.d("Message, %d, %s", 20, "Argument");
+ALog.i("Message, %d, %s", 20, "Argument");
+ALog.w("Message, %d, %s", 20, "Argument");
+ALog.e("Message, %d, %s", 20, "Argument");
+ALog.wtf("Message, %d, %s", 20, "Argument"
+ALog.json("{\"id\":456,\"data\":[\"a\",\"b\",\"c\"]}");
+ALog.xml(ALogLevel.WARNING, "<root><object name=\"title\"><child/><child id=\"1\"><item/><item/></child></object></root>");
+ALog.w(new IOException("Message");
+```
+
+There is also possibility to change log tag for some log messages:
+```java
+ALog.t("Tag").d("Message, %d, %s", 20, "Argument");
+```
+
+Also providing stack trace lines for some log messages is available:
+```java
+ALog.st(3).d("Message, %d, %s", 20, "Argument");
+```
+If some log message should have custom tag and contain custom stack trace lines count `tst(String tag, int stackTraceLineCount)` method should be used:
+```java
+ALog.tst("Tag", 5).d("Message, %d, %s", 20, "Argument");
+```
+
+If you need to log few messages with the same custom tag and/or the same custom count of stack trace lines it is strictly recommended to keep ALogger instance as each call to `t(String tag)`, `st(int stackTraceLineCount)` or `tst(String tag, int stackTraceLineCount)` creates new ALogger instance:
+```java
+ALogger logger = ALog.tst("Tag", 3);
+logger.w("Message, %d, %s", 20, "Argument");
+logger.wtf(new RuntimeException("Fatal error"), "Message, %d, %s", 20, "Argument");
+```
+
 ## Download
 The latest version is available via [JCenter][1].
 For example, to grab it via Gradle you can use next snippet:
