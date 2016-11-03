@@ -1,3 +1,5 @@
+[ ![Download](https://api.bintray.com/packages/ihorzak/maven/ALog/images/download.svg) ](https://bintray.com/ihorzak/maven/ALog/_latestVersion)
+
 # ALog
 Simple Android logger based on android.util.Log.
 
@@ -13,10 +15,51 @@ Other important features of ALog are:
 - Automatic providing of log message tag based on class name
 
 ## Download
-Provide code examples and explanations of how to get the project.
+The latest version is available via [JCenter][1].
+For example, to grab it via Gradle you can use next snippet:
+```groovy
+buildscript {
+    repositories {
+        jcenter()
+    }
+}
+
+dependencies {
+    compile 'ua.pp.ihorzak:alog:0.1.0'
+}
+```
 
 ## API Reference
-[Javadoc][1]
+[Javadoc][2]
+
+## ProGuard Configuration
+If you want to remove ALog calls from release builds, you can use next ProGuard rules:
+```
+-assumenosideeffects class ua.pp.ihorzak.alog.ALog {
+    public static *** initialize(...);
+    public static *** t(...);
+    public static *** st(...);
+    public static *** tst(...);
+    public static *** v(...);
+    public static *** d(...);
+    public static *** i(...);
+    public static *** w(...);
+    public static *** e(...);
+    public static *** wtf(...);
+    public static *** json(...);
+    public static *** xml(...);
+}
+-assumenosideeffects class ua.pp.ihorzak.alog.ALogger {
+    public *** v(...);
+    public *** d(...);
+    public *** i(...);
+    public *** w(...);
+    public *** e(...);
+    public *** wtf(...);
+    public *** json(...);
+    public *** xml(...);
+}
+```
 
 # License
 <pre>
@@ -35,4 +78,5 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </pre>
 
-  [1]: https://ihorzak.github.io/ALog/
+  [1]: https://bintray.com/ihorzak/maven/ALog
+  [2]: https://ihorzak.github.io/ALog/
