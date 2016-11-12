@@ -1,15 +1,27 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.3"
+    compileSdkVersion 25
+    buildToolsVersion "25.0.0"
+
+    def versionProperties = new Properties()
+    versionProperties.load(new FileInputStream('version.properties'))
 
     defaultConfig {
-        applicationId "ua.pp.ihorzak.alog"
-        minSdkVersion 7
-        targetSdkVersion 23
-        versionCode 1
-        versionName "0.1"
+        applicationId 'ua.pp.ihorzak.alog.sample'
+        minSdkVersion 9
+        targetSdkVersion 25
+        versionCode Integer.parseInt(versionProperties.getProperty('VERSION_CODE'))
+        versionName versionProperties.getProperty('VERSION_NAME')
+    }
+
+    signingConfigs {
+        release {
+            storeFile file('sample.keystore')
+            storePassword 'alogsample'
+            keyAlias 'release'
+            keyPassword 'alogsample'
+        }
     }
 
     buildTypes {
@@ -21,13 +33,29 @@ android {
         release {
             debuggable false
             minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            //noinspection GrUnresolvedAccess
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            //noinspection GroovyAssignabilityCheck
+            signingConfig signingConfigs.release
         }
     }
+
+    //noinspection GrUnresolvedAccess
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            def file = output.outputFile
+            //noinspection GroovyAssignabilityCheck,GrUnresolvedAccess
+            def fileName = 'alog-sample-' + variant.buildType.name + '-' +
+                    defaultConfig.versionName + '-' + defaultConfig.versionCode + '.apk'
+            //noinspection GroovyAssignabilityCheck
+            output.outputFile = new File(file.parent, fileName)
+        }
+    }
+
+    return void
 }
 
 dependencies {
     compile project(':library')
-    //noinspection GradleDependency
-    compile 'com.android.support:appcompat-v7:23.4.0'
+    compile 'com.android.support:appcompat-v7:25.0.0'
 }

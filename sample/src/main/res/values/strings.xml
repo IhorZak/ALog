@@ -18,4 +18,5 @@
 
 <resources>
     <string name="app_name">ALog Sample</string>
+    <string name="log_message_was_sent">Log message was sent</string>
 </resources>
