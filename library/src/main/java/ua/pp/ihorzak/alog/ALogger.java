@@ -23,6 +23,11 @@ package ua.pp.ihorzak.alog;
  */
 public interface ALogger {
     /**
+     * Sends empty {@link ALogLevel#VERBOSE} logging message.
+     */
+    void v();
+
+    /**
      * Sends {@link ALogLevel#VERBOSE} logging message.
      *
      * @param message Message. Can be a <a href="../util/Formatter.html#syntax">format string</a>.
@@ -45,6 +50,11 @@ public interface ALogger {
      * @param args Arguments for format string in message.
      */
     void v(Throwable throwable, String message, Object... args);
+
+    /**
+     * Sends empty {@link ALogLevel#DEBUG} logging message.
+     */
+    void d();
 
     /**
      * Sends {@link ALogLevel#DEBUG} logging message.
@@ -71,6 +81,11 @@ public interface ALogger {
     void d(Throwable throwable, String message, Object... args);
 
     /**
+     * Sends empty {@link ALogLevel#INFO} logging message.
+     */
+    void i();
+
+    /**
      * Sends {@link ALogLevel#INFO} logging message.
      *
      * @param message Message. Can be a <a href="../util/Formatter.html#syntax">format string</a>.
@@ -93,6 +108,11 @@ public interface ALogger {
      * @param args Arguments for format string in message.
      */
     void i(Throwable throwable, String message, Object... args);
+
+    /**
+     * Sends empty {@link ALogLevel#WARNING} logging message.
+     */
+    void w();
 
     /**
      * Sends {@link ALogLevel#WARNING} logging message.
@@ -119,6 +139,11 @@ public interface ALogger {
     void w(Throwable throwable, String message, Object... args);
 
     /**
+     * Sends empty {@link ALogLevel#ERROR} logging message.
+     */
+    void e();
+
+    /**
      * Sends {@link ALogLevel#ERROR} logging message.
      *
      * @param message Message. Can be a <a href="../util/Formatter.html#syntax">format string</a>.
@@ -141,6 +166,11 @@ public interface ALogger {
      * @param args Arguments for format string in message.
      */
     void e(Throwable throwable, String message, Object... args);
+
+    /**
+     * Sends empty {@link ALogLevel#WTF} logging message.
+     */
+    void wtf();
 
     /**
      * Sends {@link ALogLevel#WTF} logging message.
