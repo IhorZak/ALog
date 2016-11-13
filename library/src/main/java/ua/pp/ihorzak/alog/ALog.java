@@ -97,6 +97,16 @@ public final class ALog {
     }
 
     /**
+     * Sends empty {@link ALogLevel#VERBOSE} logging message.
+     */
+    public static void v() {
+        verifyInitialization();
+        if (configuration.mIsEnabled && configuration.mMinimalLevel.compareTo(ALogLevel.VERBOSE) >= 0) {
+            logger.v();
+        }
+    }
+
+    /**
      * Sends {@link ALogLevel#VERBOSE} logging message.
      *
      * @param message Message. Can be a <a href="../util/Formatter.html#syntax">format string</a>.
@@ -132,6 +142,16 @@ public final class ALog {
         verifyInitialization();
         if (configuration.mIsEnabled && configuration.mMinimalLevel.compareTo(ALogLevel.VERBOSE) >= 0) {
             logger.v(throwable, message, args);
+        }
+    }
+
+    /**
+     * Sends empty {@link ALogLevel#DEBUG} logging message.
+     */
+    public static void d() {
+        verifyInitialization();
+        if (configuration.mIsEnabled && configuration.mMinimalLevel.compareTo(ALogLevel.VERBOSE) >= 0) {
+            logger.d();
         }
     }
 
@@ -175,6 +195,16 @@ public final class ALog {
     }
 
     /**
+     * Sends empty {@link ALogLevel#INFO} logging message.
+     */
+    public static void i() {
+        verifyInitialization();
+        if (configuration.mIsEnabled && configuration.mMinimalLevel.compareTo(ALogLevel.VERBOSE) >= 0) {
+            logger.i();
+        }
+    }
+
+    /**
      * Sends {@link ALogLevel#INFO} logging message.
      *
      * @param message Message. Can be a <a href="../util/Formatter.html#syntax">format string</a>.
@@ -210,6 +240,16 @@ public final class ALog {
         verifyInitialization();
         if (configuration.mIsEnabled && configuration.mMinimalLevel.compareTo(ALogLevel.INFO) >= 0) {
             logger.i(throwable, message, args);
+        }
+    }
+
+    /**
+     * Sends empty {@link ALogLevel#WARNING} logging message.
+     */
+    public static void w() {
+        verifyInitialization();
+        if (configuration.mIsEnabled && configuration.mMinimalLevel.compareTo(ALogLevel.VERBOSE) >= 0) {
+            logger.w();
         }
     }
 
@@ -253,6 +293,16 @@ public final class ALog {
     }
 
     /**
+     * Sends empty {@link ALogLevel#ERROR} logging message.
+     */
+    public static void e() {
+        verifyInitialization();
+        if (configuration.mIsEnabled && configuration.mMinimalLevel.compareTo(ALogLevel.VERBOSE) >= 0) {
+            logger.e();
+        }
+    }
+
+    /**
      * Sends {@link ALogLevel#ERROR} logging message.
      *
      * @param message Message. Can be a <a href="../util/Formatter.html#syntax">format string</a>.
@@ -288,6 +338,16 @@ public final class ALog {
         verifyInitialization();
         if (configuration.mIsEnabled && configuration.mMinimalLevel.compareTo(ALogLevel.ERROR) >= 0) {
             logger.e(throwable, message, args);
+        }
+    }
+
+    /**
+     * Sends empty {@link ALogLevel#WTF} logging message.
+     */
+    public static void wtf() {
+        verifyInitialization();
+        if (configuration.mIsEnabled && configuration.mMinimalLevel.compareTo(ALogLevel.VERBOSE) >= 0) {
+            logger.wtf();
         }
     }
 

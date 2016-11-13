@@ -36,6 +36,42 @@ import ua.pp.ihorzak.alog.ALogLevel;
  */
 public class MainActivity extends AppCompatActivity {
     private static final ListItem[] LIST_ITEMS = {
+            new ListItem("ALog.v()", new Runnable() {
+                @Override
+                public void run() {
+                    ALog.v();
+                }
+            }),
+            new ListItem("ALog.d()", new Runnable() {
+                @Override
+                public void run() {
+                    ALog.d();
+                }
+            }),
+            new ListItem("ALog.i()", new Runnable() {
+                @Override
+                public void run() {
+                    ALog.i();
+                }
+            }),
+            new ListItem("ALog.w()", new Runnable() {
+                @Override
+                public void run() {
+                    ALog.w();
+                }
+            }),
+            new ListItem("ALog.e()", new Runnable() {
+                @Override
+                public void run() {
+                    ALog.e();
+                }
+            }),
+            new ListItem("ALog.wtf()", new Runnable() {
+                @Override
+                public void run() {
+                    ALog.wtf();
+                }
+            }),
             new ListItem("ALog.v(\"Message, %d, %s\", 10, \"Argument\")", new Runnable() {
                 @Override
                 public void run() {

@@ -22,6 +22,13 @@ package ua.pp.ihorzak.alog;
  * @author Ihor Zakhozhyi <ihorzak@gmail.com>
  */
 abstract class BaseALogger implements ALogger {
+    private static Object[] EMPTY_ARRAY = new Object[0];
+
+    @Override
+    public void v() {
+        v(null, null, EMPTY_ARRAY);
+    }
+
     @Override
     public void v(String message, Object... args) {
         v(null, message, args);
@@ -30,6 +37,11 @@ abstract class BaseALogger implements ALogger {
     @Override
     public void v(Throwable throwable) {
         v(throwable, null);
+    }
+
+    @Override
+    public void d() {
+        d(null, null, EMPTY_ARRAY);
     }
 
     @Override
@@ -43,6 +55,11 @@ abstract class BaseALogger implements ALogger {
     }
 
     @Override
+    public void i() {
+        i(null, null, EMPTY_ARRAY);
+    }
+
+    @Override
     public void i(String message, Object... args) {
         i(null, message, args);
     }
@@ -50,6 +67,11 @@ abstract class BaseALogger implements ALogger {
     @Override
     public void i(Throwable throwable) {
         i(throwable, null);
+    }
+
+    @Override
+    public void w() {
+        w(null, null, EMPTY_ARRAY);
     }
 
     @Override
@@ -63,6 +85,11 @@ abstract class BaseALogger implements ALogger {
     }
 
     @Override
+    public void e() {
+        e(null, null, EMPTY_ARRAY);
+    }
+
+    @Override
     public void e(String message, Object... args) {
         e(null, message, args);
     }
@@ -70,6 +97,11 @@ abstract class BaseALogger implements ALogger {
     @Override
     public void e(Throwable throwable) {
         e(throwable, null);
+    }
+
+    @Override
+    public void wtf() {
+        wtf(null, null, EMPTY_ARRAY);
     }
 
     @Override

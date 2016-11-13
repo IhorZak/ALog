@@ -46,6 +46,12 @@ public class ALogTest extends BaseTest {
     }
 
     @Test
+    public void testV() {
+        ALog.v();
+        assertLogEquals(Log.VERBOSE, TAG, "");
+    }
+
+    @Test
     public void testV_Message() {
         String message = "Message";
         ALog.v(message);
@@ -78,6 +84,12 @@ public class ALogTest extends BaseTest {
         Throwable throwable = new RuntimeException();
         ALog.v(throwable, messageFormat, stringArg, intArg);
         assertLogEquals(Log.VERBOSE, TAG, formattedMessage + '\n' + Log.getStackTraceString(throwable));
+    }
+
+    @Test
+    public void testD() {
+        ALog.d();
+        assertLogEquals(Log.DEBUG, TAG, "");
     }
 
     @Test
@@ -116,6 +128,12 @@ public class ALogTest extends BaseTest {
     }
 
     @Test
+    public void testI() {
+        ALog.i();
+        assertLogEquals(Log.INFO, TAG, "");
+    }
+
+    @Test
     public void testI_Message() {
         String message = "Message";
         ALog.i(message);
@@ -148,6 +166,12 @@ public class ALogTest extends BaseTest {
         Throwable throwable = new RuntimeException();
         ALog.i(throwable, messageFormat, stringArg, intArg);
         assertLogEquals(Log.INFO, TAG, formattedMessage + '\n' + Log.getStackTraceString(throwable));
+    }
+
+    @Test
+    public void testW() {
+        ALog.w();
+        assertLogEquals(Log.WARN, TAG, "");
     }
 
     @Test
@@ -186,6 +210,12 @@ public class ALogTest extends BaseTest {
     }
 
     @Test
+    public void testE() {
+        ALog.e();
+        assertLogEquals(Log.ERROR, TAG, "");
+    }
+
+    @Test
     public void testE_Message() {
         String message = "Message";
         ALog.e(message);
@@ -218,6 +248,12 @@ public class ALogTest extends BaseTest {
         Throwable throwable = new RuntimeException();
         ALog.e(throwable, messageFormat, stringArg, intArg);
         assertLogEquals(Log.ERROR, TAG, formattedMessage + '\n' + Log.getStackTraceString(throwable));
+    }
+
+    @Test
+    public void testWtf() {
+        ALog.wtf();
+        assertLogEquals(Log.ASSERT, TAG, "");
     }
 
     @Test
