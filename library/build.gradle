@@ -43,7 +43,7 @@ android {
 
 dependencies {
     testCompile 'junit:junit:4.12'
-    testCompile 'org.robolectric:robolectric:3.1.2'
+    testCompile 'org.robolectric:robolectric:3.1.4'
 }
 
 task sourcesJar(type: Jar) {
@@ -58,6 +58,7 @@ task javadoc(type: Javadoc) {
 
 task javadocJar(type: Jar, dependsOn: javadoc) {
     classifier = 'javadoc'
+    //noinspection GroovyAccessibility
     from javadoc.destinationDir
 }
 
