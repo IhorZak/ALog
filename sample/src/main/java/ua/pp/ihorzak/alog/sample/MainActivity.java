@@ -191,6 +191,41 @@ public class MainActivity extends AppCompatActivity {
                 public void run() {
                     ALog.xml("<example>\n<!-- This is a comment -->\n</example>");
                 }
+            }),
+            new ListItem("byte[] bytes = {1, 2, 3};\nALog.d(\"Array formatted: %s\", (Object) bytes);", new Runnable() {
+                @Override
+                public void run() {
+                    byte[] bytes = {1, 2, 3};
+                    ALog.d("Array formatted: %s", (Object) bytes);
+                }
+            }),
+            new ListItem("int[] ints = {1, 2, 3, 4};\nALog.d(\"Array formatted: %s\", (Object) ints);", new Runnable() {
+                @Override
+                public void run() {
+                    int[] ints = {1, 2, 3, 4};
+                    ALog.d("Array formatted: %s", (Object) ints);
+                }
+            }),
+            new ListItem("Integer[] integers = {1, 2, 3, 4};\nALog.d(\"Array formatted: %s\", (Object) integers);", new Runnable() {
+                @Override
+                public void run() {
+                    Integer[] integers = {1, 2, 3, 4};
+                    ALog.d("Array formatted: %s", (Object) integers);
+                }
+            }),
+            new ListItem("String[] strings = {\"s1\", \"s2\", null};\nALog.d(\"Array formatted: %s\", (Object) strings);", new Runnable() {
+                @Override
+                public void run() {
+                    String[] strings = {"s1", "s2", null};
+                    ALog.d("Array formatted: %s", (Object) strings);
+                }
+            }),
+            new ListItem("long[][] longs = {{1L, 2L, 3L}, {3L, 2L, 1L}};\nALog.d(\"Array formatted: %s\", (Object) longs);", new Runnable() {
+                @Override
+                public void run() {
+                    long[][] longs = {{1L, 2L, 3L}, {3L, 2L, 1L}};
+                    ALog.d("Array formatted: %s", (Object) longs);
+                }
             })
     };
 

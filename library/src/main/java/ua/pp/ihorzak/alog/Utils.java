@@ -27,7 +27,9 @@ import org.xmlpull.v1.XmlPullParserFactory;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Stack;
 
 /**
@@ -260,6 +262,58 @@ final class Utils {
             throw new XmlPullParserException("Expected \"" + nameStack.pop() + "\" close tag");
         }
         return stringBuilder.toString();
+    }
+
+    static boolean isClassBoxedPrimitive(Class<?> clazz) {
+        return Byte.class.equals(clazz)
+                || Short.class.equals(clazz)
+                || Integer.class.equals(clazz)
+                || Long.class.equals(clazz)
+                || Float.class.equals(clazz)
+                || Double.class.equals(clazz)
+                || Boolean.class.equals(clazz)
+                || Character.class.equals(clazz);
+    }
+
+    static String formatMessageWithArguments(String message,
+                                             Object[] arguments,
+                                             ALogConfiguration configuration) {
+        if (message == null) {
+            return "";
+        }
+        if (arguments == null || arguments.length == 0) {
+            return message;
+        }
+        for (int i = 0; i < arguments.length; ++i) {
+            Object argument = arguments[i];
+            Class<?> argumentClass = argument.getClass();
+            if (!argumentClass.isPrimitive() && !isClassBoxedPrimitive(argumentClass)) {
+                arguments[i] = formatArgument(argument, configuration);
+            }
+        }
+        return String.format(message, arguments);
+    }
+
+    static String formatArgument(Object argument, ALogConfiguration configuration) {
+        String formattedArgument;
+        if (argument == null) {
+            formattedArgument = "null";
+        } else {
+            Class<?> argumentClass = argument.getClass();
+            if (configuration.mArrayFormatter != null && argumentClass.isArray()) {
+                formattedArgument = configuration.mArrayFormatter.format(argument);
+            } else if (configuration.mCollectionFormatter != null && Collection.class.isAssignableFrom(argumentClass)) {
+                formattedArgument = configuration.mCollectionFormatter.format(argument);
+            } else if (configuration.mMapFormatter != null && Map.class.isAssignableFrom(argumentClass)) {
+                formattedArgument = configuration.mMapFormatter.format(argument);
+            } else if (configuration.mFormatterMap.containsKey(argumentClass)) {
+                ALogFormatter<?> formatter = configuration.mFormatterMap.get(argumentClass);
+                formattedArgument = formatter.format(argument);
+            } else {
+                formattedArgument = argument.toString();
+            }
+        }
+        return formattedArgument;
     }
 
     private static String escapeXmlSpecialCharacters(String s) {
