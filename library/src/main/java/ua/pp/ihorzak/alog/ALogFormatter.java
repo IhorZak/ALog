@@ -26,6 +26,8 @@ public abstract class ALogFormatter<T> {
         return new DelegateALogFormatter<>(delegate);
     }
 
+    ALogFormatter() {}
+
     @SuppressWarnings("unchecked")
     String format(Object object) {
         return toLoggingString((T) object);
