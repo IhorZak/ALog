@@ -17,9 +17,16 @@
 package ua.pp.ihorzak.alog;
 
 /**
+ * {@link ALogFormatter} to transform arrays into logging strings.
+ *
  * @author Ihor Zakhozhyi <ihorzak@gmail.com>
  */
 final class ArrayALogFormatter extends ConfigurationALogFormatter<Object> {
+    /**
+     * Constructor.
+     *
+     * @param configuration {@link ALogConfiguration} instance.
+     */
     ArrayALogFormatter(ALogConfiguration configuration) {
         super(configuration);
     }

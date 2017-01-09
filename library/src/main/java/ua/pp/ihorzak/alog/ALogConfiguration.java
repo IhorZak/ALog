@@ -122,7 +122,7 @@ public final class ALogConfiguration {
     /**
      * Builder to create configured {@link ALogConfiguration} instance.
      */
-    @SuppressWarnings("WeakerAccess")
+    @SuppressWarnings({"WeakerAccess", "unused"})
     public static class Builder {
         private boolean mIsEnabled;
         private ALogLevel mMinimalLevel;
@@ -336,21 +336,55 @@ public final class ALogConfiguration {
             return this;
         }
 
+        /**
+         * Enables/disables custom formatting for arrays. If not called by default this option is
+         * enabled.
+         *
+         * @param isArrayFormatterEnabled true if custom arrays formatting should be enabled,
+         *                                false otherwise.
+         * @return This builder instance.
+         */
         public Builder arrayFormatterEnabled(boolean isArrayFormatterEnabled) {
             mIsArrayFormatterEnabled = isArrayFormatterEnabled;
             return this;
         }
 
+        /**
+         * Enables/disables custom formatting for collections. If not called by default this option
+         * is enabled.
+         *
+         * @param isCollectionFormatterEnabled true if custom collections formatting should be
+         *                                     enabled, false otherwise.
+         * @return This builder instance.
+         */
         public Builder collectionFormatterEnabled(boolean isCollectionFormatterEnabled) {
             mIsCollectionFormatterEnabled = isCollectionFormatterEnabled;
             return this;
         }
 
+        /**
+         * Enables/disables custom formatting for maps. If not called by default this option
+         * is enabled.
+         *
+         * @param isMapFormatterEnabled true if custom maps formatting should be enabled,
+         *                              false otherwise.
+         * @return This builder instance.
+         */
         public Builder mapFormatterEnabled(boolean isMapFormatterEnabled) {
             mIsMapFormatterEnabled = isMapFormatterEnabled;
             return this;
         }
 
+        /**
+         * Adds custom class instances logging formatter. Custom formatters are prohibited for
+         * primitive classes, primitive class wrappers, arrays, collections and maps.
+         *
+         * @param clazz Class instances of which should be formatted with passed logging formatter.
+         * @param formatter Custom logging formatter.
+         * @return This builder instance.
+         * @throws IllegalArgumentException If passed class is primitive class, primitive class
+         *                                  wrapper, array, collection or map.
+         */
         public Builder formatter(Class<?> clazz, ALogFormatter<?> formatter) {
             if (clazz.isPrimitive() || Utils.isClassBoxedPrimitive(clazz) || clazz.isArray() ||
                     Collection.class.isAssignableFrom(clazz) || Map.class.isAssignableFrom(clazz)) {

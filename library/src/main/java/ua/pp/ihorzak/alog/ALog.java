@@ -98,6 +98,15 @@ public final class ALog {
         }
     }
 
+    /**
+     * Gets {@link ALogger} instance which uses custom formatting for passed class instances with
+     * the help of passed {@link ALogFormatter} instance.
+     *
+     * @param clazz Class of instances to be formatted with custom formatter.
+     * @param formatter Custom formatter.
+     * @return {@link ALogger} instance which uses custom formatting for passed class instances with
+     *         the help of passed {@link ALogFormatter} instance.
+     */
     public static ALogger formatter(Class<?> clazz, ALogFormatter<?> formatter) {
         verifyInitialization();
         if (configuration.mIsEnabled) {
@@ -107,6 +116,14 @@ public final class ALog {
         }
     }
 
+    /**
+     * Gets {@link ALogger} instance which uses custom formatting for passed classes instances with
+     * the help of passed {@link ALogFormatter} instances.
+     *
+     * @param formatterMap Map of classes and corresponding custom formatters.
+     * @return {@link ALogger} instance which uses custom formatting for passed classes instances
+     *         with the help of passed {@link ALogFormatter} instances.
+     */
     public static ALogger formatters(Map<Class<?>, ALogFormatter<?>> formatterMap) {
         verifyInitialization();
         if (configuration.mIsEnabled) {
@@ -130,6 +147,11 @@ public final class ALog {
         }
     }
 
+    /**
+     * Sends {@link ALogLevel#VERBOSE} logging message.
+     *
+     * @param object Object to log.
+     */
     public static void v(Object object) {
         verifyInitialization();
         if (configuration.mIsEnabled && configuration.mMinimalLevel.compareTo(ALogLevel.VERBOSE) >= 0) {
@@ -186,6 +208,11 @@ public final class ALog {
         }
     }
 
+    /**
+     * Sends {@link ALogLevel#DEBUG} logging message.
+     *
+     * @param object Object to log.
+     */
     public static void d(Object object) {
         verifyInitialization();
         if (configuration.mIsEnabled && configuration.mMinimalLevel.compareTo(ALogLevel.DEBUG) >= 0) {
@@ -242,6 +269,11 @@ public final class ALog {
         }
     }
 
+    /**
+     * Sends {@link ALogLevel#INFO} logging message.
+     *
+     * @param object Object to log.
+     */
     public static void i(Object object) {
         verifyInitialization();
         if (configuration.mIsEnabled && configuration.mMinimalLevel.compareTo(ALogLevel.INFO) >= 0) {
@@ -298,6 +330,11 @@ public final class ALog {
         }
     }
 
+    /**
+     * Sends {@link ALogLevel#WARNING} logging message.
+     *
+     * @param object Object to log.
+     */
     public static void w(Object object) {
         verifyInitialization();
         if (configuration.mIsEnabled && configuration.mMinimalLevel.compareTo(ALogLevel.WARNING) >= 0) {
@@ -354,6 +391,11 @@ public final class ALog {
         }
     }
 
+    /**
+     * Sends {@link ALogLevel#ERROR} logging message.
+     *
+     * @param object Object to log.
+     */
     public static void e(Object object) {
         verifyInitialization();
         if (configuration.mIsEnabled && configuration.mMinimalLevel.compareTo(ALogLevel.ERROR) >= 0) {
@@ -410,6 +452,11 @@ public final class ALog {
         }
     }
 
+    /**
+     * Sends {@link ALogLevel#WTF} logging message.
+     *
+     * @param object Object to log.
+     */
     public static void wtf(Object object) {
         verifyInitialization();
         if (configuration.mIsEnabled && configuration.mMinimalLevel.compareTo(ALogLevel.WTF) >= 0) {

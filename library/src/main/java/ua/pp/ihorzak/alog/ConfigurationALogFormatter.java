@@ -17,11 +17,18 @@
 package ua.pp.ihorzak.alog;
 
 /**
+ * {@link ALogFormatter} which contains {@link ALogConfiguration} instance.
+ *
  * @author Ihor Zakhozhyi <ihorzak@gmail.com>
  */
 abstract class ConfigurationALogFormatter<T> extends ALogFormatter<T> {
     final ALogConfiguration mConfiguration;
 
+    /**
+     * Constructor.
+     *
+     * @param configuration {@link ALogConfiguration} instance.
+     */
     ConfigurationALogFormatter(ALogConfiguration configuration) {
         mConfiguration = configuration;
     }

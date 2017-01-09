@@ -27,6 +27,11 @@ public interface ALogger {
      */
     void v();
 
+    /**
+     * Sends {@link ALogLevel#VERBOSE} logging message.
+     *
+     * @param object Object to log.
+     */
     void v(Object object);
 
     /**
@@ -58,6 +63,11 @@ public interface ALogger {
      */
     void d();
 
+    /**
+     * Sends {@link ALogLevel#DEBUG} logging message.
+     *
+     * @param object Object to log.
+     */
     void d(Object object);
 
     /**
@@ -89,6 +99,11 @@ public interface ALogger {
      */
     void i();
 
+    /**
+     * Sends {@link ALogLevel#INFO} logging message.
+     *
+     * @param object Object to log.
+     */
     void i(Object object);
 
     /**
@@ -120,6 +135,11 @@ public interface ALogger {
      */
     void w();
 
+    /**
+     * Sends {@link ALogLevel#WARNING} logging message.
+     *
+     * @param object Object to log.
+     */
     void w(Object object);
 
     /**
@@ -151,6 +171,11 @@ public interface ALogger {
      */
     void e();
 
+    /**
+     * Sends {@link ALogLevel#ERROR} logging message.
+     *
+     * @param object Object to log.
+     */
     void e(Object object);
 
     /**
@@ -182,6 +207,11 @@ public interface ALogger {
      */
     void wtf();
 
+    /**
+     * Sends {@link ALogLevel#WTF} logging message.
+     *
+     * @param object Object to log.
+     */
     void wtf(Object object);
 
     /**

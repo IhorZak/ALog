@@ -20,9 +20,16 @@ import java.util.Iterator;
 import java.util.Map;
 
 /**
+ * {@link ALogFormatter} to transform maps into logging strings.
+ *
  * @author Ihor Zakhozhyi <ihorzak@gmail.com>
  */
 final class MapALogFormatter extends ConfigurationALogFormatter<Map<?,?>> {
+    /**
+     * Constructor.
+     *
+     * @param configuration {@link ALogConfiguration} instance.
+     */
     MapALogFormatter(ALogConfiguration configuration) {
         super(configuration);
     }

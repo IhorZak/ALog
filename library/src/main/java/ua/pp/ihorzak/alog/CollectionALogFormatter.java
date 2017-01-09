@@ -20,9 +20,16 @@ import java.util.Collection;
 import java.util.Iterator;
 
 /**
+ * {@link ALogFormatter} to transform collections into logging strings.
+ *
  * @author Ihor Zakhozhyi <ihorzak@gmail.com>
  */
 final class CollectionALogFormatter extends ConfigurationALogFormatter<Collection<?>> {
+    /**
+     * Constructor.
+     *
+     * @param configuration {@link ALogConfiguration} instance.
+     */
     CollectionALogFormatter(ALogConfiguration configuration) {
         super(configuration);
     }

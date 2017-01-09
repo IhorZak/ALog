@@ -17,11 +17,19 @@
 package ua.pp.ihorzak.alog;
 
 /**
+ * {@link ALogFormatter} which uses {@link ALogFormatterDelegate} for objects transformation to
+ * logging strings.
+ *
  * @author Ihor Zakhozhyi <ihorzak@gmail.com>
  */
 final class DelegateALogFormatter<T> extends ALogFormatter<T> {
     private final ALogFormatterDelegate<T> mDelegate;
 
+    /**
+     * Constructor.
+     *
+     * @param delegate {@link ALogFormatterDelegate} instance.
+     */
     DelegateALogFormatter(ALogFormatterDelegate<T> delegate) {
         mDelegate = delegate;
     }

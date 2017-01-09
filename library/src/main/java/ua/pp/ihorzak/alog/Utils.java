@@ -264,6 +264,12 @@ final class Utils {
         return stringBuilder.toString();
     }
 
+    /**
+     * Checks if passed class is primitive class wrapper.
+     *
+     * @param clazz Class to check.
+     * @return true if passed class is primitive class wrapper, false otherwise.
+     */
     static boolean isClassBoxedPrimitive(Class<?> clazz) {
         return Byte.class.equals(clazz)
                 || Short.class.equals(clazz)
@@ -275,6 +281,14 @@ final class Utils {
                 || Character.class.equals(clazz);
     }
 
+    /**
+     * Formats passed logging message format with passed arguments.
+     *
+     * @param message Logging message format.
+     * @param arguments Logging message arguments.
+     * @param configuration {@link ALog} configuration.
+     * @return Logging string.
+     */
     static String formatMessageWithArguments(String message,
                                              Object[] arguments,
                                              ALogConfiguration configuration) {
@@ -294,6 +308,13 @@ final class Utils {
         return String.format(message, arguments);
     }
 
+    /**
+     * Formats logging message argument to logging string.
+     *
+     * @param argument Logging message argument.
+     * @param configuration {@link ALog} configuration.
+     * @return Formatted logging string for passed logging argument.
+     */
     static String formatArgument(Object argument, ALogConfiguration configuration) {
         String formattedArgument;
         if (argument == null) {
