@@ -18,6 +18,8 @@ package ua.pp.ihorzak.alog;
 
 import android.app.Application;
 
+import java.util.Map;
+
 /**
  * Simple customizable logger for Android. Can be customized with the help of
  * {@link ALogConfiguration} instance which should be passed to
@@ -96,6 +98,28 @@ public final class ALog {
         }
     }
 
+    public static ALogger formatter(Class<?> clazz, ALogFormatter<?> formatter) {
+        verifyInitialization();
+        if (configuration.mIsEnabled) {
+            return new AndroidLogALogger(configuration.copyBuilder().formatter(clazz, formatter).build());
+        } else {
+            return logger;
+        }
+    }
+
+    public static ALogger formatters(Map<Class<?>, ALogFormatter<?>> formatterMap) {
+        verifyInitialization();
+        if (configuration.mIsEnabled) {
+            ALogConfiguration.Builder builder = configuration.copyBuilder();
+            for (Map.Entry<Class<?>, ALogFormatter<?>> formatterEntry : formatterMap.entrySet()) {
+                builder.formatter(formatterEntry.getKey(), formatterEntry.getValue());
+            }
+            return new AndroidLogALogger(builder.build());
+        } else {
+            return logger;
+        }
+    }
+
     /**
      * Sends empty {@link ALogLevel#VERBOSE} logging message.
      */
@@ -103,6 +127,13 @@ public final class ALog {
         verifyInitialization();
         if (configuration.mIsEnabled && configuration.mMinimalLevel.compareTo(ALogLevel.VERBOSE) >= 0) {
             logger.v();
+        }
+    }
+
+    public static void v(Object object) {
+        verifyInitialization();
+        if (configuration.mIsEnabled && configuration.mMinimalLevel.compareTo(ALogLevel.VERBOSE) >= 0) {
+            logger.v(object);
         }
     }
 
@@ -150,8 +181,15 @@ public final class ALog {
      */
     public static void d() {
         verifyInitialization();
-        if (configuration.mIsEnabled && configuration.mMinimalLevel.compareTo(ALogLevel.VERBOSE) >= 0) {
+        if (configuration.mIsEnabled && configuration.mMinimalLevel.compareTo(ALogLevel.DEBUG) >= 0) {
             logger.d();
+        }
+    }
+
+    public static void d(Object object) {
+        verifyInitialization();
+        if (configuration.mIsEnabled && configuration.mMinimalLevel.compareTo(ALogLevel.DEBUG) >= 0) {
+            logger.d(object);
         }
     }
 
@@ -199,8 +237,15 @@ public final class ALog {
      */
     public static void i() {
         verifyInitialization();
-        if (configuration.mIsEnabled && configuration.mMinimalLevel.compareTo(ALogLevel.VERBOSE) >= 0) {
+        if (configuration.mIsEnabled && configuration.mMinimalLevel.compareTo(ALogLevel.INFO) >= 0) {
             logger.i();
+        }
+    }
+
+    public static void i(Object object) {
+        verifyInitialization();
+        if (configuration.mIsEnabled && configuration.mMinimalLevel.compareTo(ALogLevel.INFO) >= 0) {
+            logger.i(object);
         }
     }
 
@@ -248,8 +293,15 @@ public final class ALog {
      */
     public static void w() {
         verifyInitialization();
-        if (configuration.mIsEnabled && configuration.mMinimalLevel.compareTo(ALogLevel.VERBOSE) >= 0) {
+        if (configuration.mIsEnabled && configuration.mMinimalLevel.compareTo(ALogLevel.WARNING) >= 0) {
             logger.w();
+        }
+    }
+
+    public static void w(Object object) {
+        verifyInitialization();
+        if (configuration.mIsEnabled && configuration.mMinimalLevel.compareTo(ALogLevel.WARNING) >= 0) {
+            logger.w(object);
         }
     }
 
@@ -297,8 +349,15 @@ public final class ALog {
      */
     public static void e() {
         verifyInitialization();
-        if (configuration.mIsEnabled && configuration.mMinimalLevel.compareTo(ALogLevel.VERBOSE) >= 0) {
+        if (configuration.mIsEnabled && configuration.mMinimalLevel.compareTo(ALogLevel.ERROR) >= 0) {
             logger.e();
+        }
+    }
+
+    public static void e(Object object) {
+        verifyInitialization();
+        if (configuration.mIsEnabled && configuration.mMinimalLevel.compareTo(ALogLevel.ERROR) >= 0) {
+            logger.e(object);
         }
     }
 
@@ -346,8 +405,15 @@ public final class ALog {
      */
     public static void wtf() {
         verifyInitialization();
-        if (configuration.mIsEnabled && configuration.mMinimalLevel.compareTo(ALogLevel.VERBOSE) >= 0) {
+        if (configuration.mIsEnabled && configuration.mMinimalLevel.compareTo(ALogLevel.WTF) >= 0) {
             logger.wtf();
+        }
+    }
+
+    public static void wtf(Object object) {
+        verifyInitialization();
+        if (configuration.mIsEnabled && configuration.mMinimalLevel.compareTo(ALogLevel.WTF) >= 0) {
+            logger.wtf(object);
         }
     }
 

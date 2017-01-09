@@ -27,6 +27,8 @@ public interface ALogger {
      */
     void v();
 
+    void v(Object object);
+
     /**
      * Sends {@link ALogLevel#VERBOSE} logging message.
      *
@@ -55,6 +57,8 @@ public interface ALogger {
      * Sends empty {@link ALogLevel#DEBUG} logging message.
      */
     void d();
+
+    void d(Object object);
 
     /**
      * Sends {@link ALogLevel#DEBUG} logging message.
@@ -85,6 +89,8 @@ public interface ALogger {
      */
     void i();
 
+    void i(Object object);
+
     /**
      * Sends {@link ALogLevel#INFO} logging message.
      *
@@ -113,6 +119,8 @@ public interface ALogger {
      * Sends empty {@link ALogLevel#WARNING} logging message.
      */
     void w();
+
+    void w(Object object);
 
     /**
      * Sends {@link ALogLevel#WARNING} logging message.
@@ -143,6 +151,8 @@ public interface ALogger {
      */
     void e();
 
+    void e(Object object);
+
     /**
      * Sends {@link ALogLevel#ERROR} logging message.
      *
@@ -171,6 +181,8 @@ public interface ALogger {
      * Sends empty {@link ALogLevel#WTF} logging message.
      */
     void wtf();
+
+    void wtf(Object object);
 
     /**
      * Sends {@link ALogLevel#WTF} logging message.
