@@ -19,7 +19,7 @@ package ua.pp.ihorzak.alog;
 /**
  * @author Ihor Zakhozhyi <ihorzak@gmail.com>
  */
-class DelegateALogFormatter<T> extends ALogFormatter<T> {
+final class DelegateALogFormatter<T> extends ALogFormatter<T> {
     private final ALogFormatterDelegate<T> mDelegate;
 
     DelegateALogFormatter(ALogFormatterDelegate<T> delegate) {
