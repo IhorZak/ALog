@@ -90,7 +90,8 @@ public final class ALogConfiguration {
                               int xmlIndentSpaceCount,
                               boolean isArrayFormatterEnabled,
                               boolean isCollectionFormatterEnabled,
-                              boolean isMapFormatterEnabled) {
+                              boolean isMapFormatterEnabled,
+                              Map<Class<?>, ALogFormatter<?>> formatterMap) {
         mIsEnabled = isEnabled;
         mMinimalLevel = minimalLevel;
         mJsonLevel = jsonLevel;
@@ -112,7 +113,7 @@ public final class ALogConfiguration {
         mMapFormatter = isMapFormatterEnabled
                 ? new MapALogFormatter(this)
                 : null;
-        mFormatterMap = new HashMap<>();
+        mFormatterMap = formatterMap;
     }
 
     Builder copyBuilder() {
@@ -157,6 +158,7 @@ public final class ALogConfiguration {
             mIsArrayFormatterEnabled = DEFAULT_IS_ARRAY_FORMATTER_ENABLED;
             mIsCollectionFormatterEnabled = DEFAULT_IS_COLLECTION_FORMATTER_ENABLED;
             mIsMapFormatterEnabled = DEFAULT_IS_MAP_FORMATTER_ENABLED;
+            mFormatterMap = new HashMap<>();
         }
 
         private Builder(ALogConfiguration configuration) {
@@ -175,6 +177,7 @@ public final class ALogConfiguration {
             mIsArrayFormatterEnabled = configuration.mArrayFormatter != null;
             mIsCollectionFormatterEnabled = configuration.mCollectionFormatter != null;
             mIsMapFormatterEnabled = configuration.mMapFormatter != null;
+            mFormatterMap = new HashMap<>(configuration.mFormatterMap);
         }
 
         /**
@@ -405,7 +408,7 @@ public final class ALogConfiguration {
                     mIsThreadPrefixEnabled, mIsClassPrefixEnabled, mIsMethodPrefixEnabled,
                     mIsLineLocationPrefixEnabled, mStackTraceLineCount, mJsonIndentSpaceCount,
                     mXmlIndentSpaceCount, mIsArrayFormatterEnabled, mIsCollectionFormatterEnabled,
-                    mIsMapFormatterEnabled);
+                    mIsMapFormatterEnabled, mFormatterMap);
         }
     }
 }
