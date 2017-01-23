@@ -21,10 +21,24 @@ import android.util.Log;
 import org.junit.Before;
 import org.junit.Test;
 
-import ua.pp.ihorzak.alog.test.*;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+import ua.pp.ihorzak.alog.test.BaseTest;
 import ua.pp.ihorzak.alog.test.Utils;
 
-import static ua.pp.ihorzak.alog.test.Utils.*;
+import static ua.pp.ihorzak.alog.test.Utils.assertLogEquals;
+import static ua.pp.ihorzak.alog.test.Utils.assertLogStartsWith;
+import static ua.pp.ihorzak.alog.test.Utils.d;
+import static ua.pp.ihorzak.alog.test.Utils.e;
+import static ua.pp.ihorzak.alog.test.Utils.i;
+import static ua.pp.ihorzak.alog.test.Utils.v;
+import static ua.pp.ihorzak.alog.test.Utils.w;
+import static ua.pp.ihorzak.alog.test.Utils.wtf;
 
 /**
  * {@link ALog} unit tests.
@@ -49,6 +63,88 @@ public class ALogTest extends BaseTest {
     public void testV() {
         ALog.v();
         assertLogEquals(Log.VERBOSE, TAG, "");
+    }
+
+    @Test
+    public void testV_ObjectNull() {
+        ALog.v((Object) null);
+        assertLogEquals(Log.VERBOSE, TAG, "null");
+    }
+
+    @Test
+    public void testV_ObjectPrimitiveArray() {
+        ALog.v(new int[] {1, 2, 3, 4});
+        assertLogEquals(Log.VERBOSE, TAG, "Array(size = 4) [1, 2, 3, 4]");
+    }
+
+    @Test
+    public void testV_ObjectPrimitiveWrapperArray() {
+        ALog.v(new Float[] {1.0f, 2.0f, 3.5f});
+        assertLogEquals(Log.VERBOSE, TAG, "Array(size = 3) [1.0, 2.0, 3.5]");
+    }
+
+    @Test
+    public void testV_ObjectArray() {
+        ALog.v(new String[] {"s1", "s2", "s3", "s4", "s5"});
+        assertLogEquals(Log.VERBOSE, TAG, "Array(size = 5) [s1, s2, s3, s4, s5]");
+    }
+
+    @Test
+    public void testV_ObjectTwoDimensionalArray() {
+        ALog.v(new byte[][] {{1, 2, 3}, {4, 5, 6, 7}, {8, 9}});
+        assertLogEquals(Log.VERBOSE, TAG, "Array(size = 3) [Array(size = 3) [1, 2, 3], Array(size = 4) [4, 5, 6, 7], Array(size = 2) [8, 9]]");
+    }
+
+    @Test
+    public void testV_ObjectCollection() {
+        List<Object> list = new ArrayList<>();
+        list.add("Argument");
+        list.add(5);
+        list.add(1.0f);
+        ALog.v(list);
+        assertLogEquals(Log.VERBOSE, TAG, "java.util.ArrayList(size = 3) [Argument, 5, 1.0]");
+    }
+
+    @Test
+    public void testV_ObjectMap() {
+        Map<Long, Integer> map = new LinkedHashMap<>();
+        map.put(1L, 45);
+        map.put(2L, 76);
+        map.put(3L, 100);
+        ALog.v(map);
+        assertLogEquals(Log.VERBOSE, TAG, "java.util.LinkedHashMap(size = 3) [{1 -> 45}, {2 -> 76}, {3 -> 100}]");
+    }
+
+    @Test
+    public void testV_ObjectCustomFormatter() {
+        ALogger logger = ALog.formatter(String.class, ALogFormatter.create(new ALogFormatterDelegate<String>() {
+            @Override
+            public String toLoggingString(String object) {
+                return "String: length = " + String.valueOf(object.length()) + ", \"" + object + "\"";
+            }
+        }));
+        logger.v("Argument");
+        assertLogEquals(Log.VERBOSE, TAG, "String: length = 8, \"Argument\"");
+    }
+
+    @Test
+    public void testV_FormattedMessageCustomFormatters() {
+        Map<Class<?>, ALogFormatter<?>> formatterMap = new HashMap<>();
+        formatterMap.put(String.class, ALogFormatter.create(new ALogFormatterDelegate<String>() {
+            @Override
+            public String toLoggingString(String object) {
+                return "String: length = " + String.valueOf(object.length()) + ", \"" + object + "\"";
+            }
+        }));
+        formatterMap.put(BigInteger.class, ALogFormatter.create(new ALogFormatterDelegate<BigInteger>() {
+            @Override
+            public String toLoggingString(BigInteger object) {
+                return "BigInteger: " + object.longValue();
+            }
+        }));
+        ALogger logger = ALog.formatters(formatterMap);
+        logger.v("Message (%s, %s)", "s1", BigInteger.valueOf(1000L));
+        assertLogEquals(Log.VERBOSE, TAG, "Message (String: length = 2, \"s1\", BigInteger: 1000)");
     }
 
     @Test
@@ -93,6 +189,88 @@ public class ALogTest extends BaseTest {
     }
 
     @Test
+    public void testD_ObjectNull() {
+        ALog.d((Object) null);
+        assertLogEquals(Log.DEBUG, TAG, "null");
+    }
+
+    @Test
+    public void testD_ObjectPrimitiveArray() {
+        ALog.d(new int[] {1, 2, 3, 4});
+        assertLogEquals(Log.DEBUG, TAG, "Array(size = 4) [1, 2, 3, 4]");
+    }
+
+    @Test
+    public void testD_ObjectPrimitiveWrapperArray() {
+        ALog.d(new Float[] {1.0f, 2.0f, 3.5f});
+        assertLogEquals(Log.DEBUG, TAG, "Array(size = 3) [1.0, 2.0, 3.5]");
+    }
+
+    @Test
+    public void testD_ObjectArray() {
+        ALog.d(new String[] {"s1", "s2", "s3", "s4", "s5"});
+        assertLogEquals(Log.DEBUG, TAG, "Array(size = 5) [s1, s2, s3, s4, s5]");
+    }
+
+    @Test
+    public void testD_ObjectTwoDimensionalArray() {
+        ALog.d(new byte[][] {{1, 2, 3}, {4, 5, 6, 7}, {8, 9}});
+        assertLogEquals(Log.DEBUG, TAG, "Array(size = 3) [Array(size = 3) [1, 2, 3], Array(size = 4) [4, 5, 6, 7], Array(size = 2) [8, 9]]");
+    }
+
+    @Test
+    public void testD_ObjectCollection() {
+        List<Object> list = new ArrayList<>();
+        list.add("Argument");
+        list.add(5);
+        list.add(1.0f);
+        ALog.d(list);
+        assertLogEquals(Log.DEBUG, TAG, "java.util.ArrayList(size = 3) [Argument, 5, 1.0]");
+    }
+
+    @Test
+    public void testD_ObjectMap() {
+        Map<Long, Integer> map = new LinkedHashMap<>();
+        map.put(1L, 45);
+        map.put(2L, 76);
+        map.put(3L, 100);
+        ALog.d(map);
+        assertLogEquals(Log.DEBUG, TAG, "java.util.LinkedHashMap(size = 3) [{1 -> 45}, {2 -> 76}, {3 -> 100}]");
+    }
+
+    @Test
+    public void testD_ObjectCustomFormatter() {
+        ALogger logger = ALog.formatter(String.class, ALogFormatter.create(new ALogFormatterDelegate<String>() {
+            @Override
+            public String toLoggingString(String object) {
+                return "String: length = " + String.valueOf(object.length()) + ", \"" + object + "\"";
+            }
+        }));
+        logger.d("Argument");
+        assertLogEquals(Log.DEBUG, TAG, "String: length = 8, \"Argument\"");
+    }
+
+    @Test
+    public void testD_FormattedMessageCustomFormatters() {
+        Map<Class<?>, ALogFormatter<?>> formatterMap = new HashMap<>();
+        formatterMap.put(String.class, ALogFormatter.create(new ALogFormatterDelegate<String>() {
+            @Override
+            public String toLoggingString(String object) {
+                return "String: length = " + String.valueOf(object.length()) + ", \"" + object + "\"";
+            }
+        }));
+        formatterMap.put(BigInteger.class, ALogFormatter.create(new ALogFormatterDelegate<BigInteger>() {
+            @Override
+            public String toLoggingString(BigInteger object) {
+                return "BigInteger: " + object.longValue();
+            }
+        }));
+        ALogger logger = ALog.formatters(formatterMap);
+        logger.d("Message (%s, %s)", "s1", BigInteger.valueOf(1000L));
+        assertLogEquals(Log.DEBUG, TAG, "Message (String: length = 2, \"s1\", BigInteger: 1000)");
+    }
+    
+    @Test
     public void testD_Message() {
         String message = "Message";
         ALog.d(message);
@@ -133,6 +311,88 @@ public class ALogTest extends BaseTest {
         assertLogEquals(Log.INFO, TAG, "");
     }
 
+    @Test
+    public void testI_ObjectNull() {
+        ALog.i((Object) null);
+        assertLogEquals(Log.INFO, TAG, "null");
+    }
+
+    @Test
+    public void testI_ObjectPrimitiveArray() {
+        ALog.i(new int[] {1, 2, 3, 4});
+        assertLogEquals(Log.INFO, TAG, "Array(size = 4) [1, 2, 3, 4]");
+    }
+
+    @Test
+    public void testI_ObjectPrimitiveWrapperArray() {
+        ALog.i(new Float[] {1.0f, 2.0f, 3.5f});
+        assertLogEquals(Log.INFO, TAG, "Array(size = 3) [1.0, 2.0, 3.5]");
+    }
+
+    @Test
+    public void testI_ObjectArray() {
+        ALog.i(new String[] {"s1", "s2", "s3", "s4", "s5"});
+        assertLogEquals(Log.INFO, TAG, "Array(size = 5) [s1, s2, s3, s4, s5]");
+    }
+
+    @Test
+    public void testI_ObjectTwoDimensionalArray() {
+        ALog.i(new byte[][] {{1, 2, 3}, {4, 5, 6, 7}, {8, 9}});
+        assertLogEquals(Log.INFO, TAG, "Array(size = 3) [Array(size = 3) [1, 2, 3], Array(size = 4) [4, 5, 6, 7], Array(size = 2) [8, 9]]");
+    }
+
+    @Test
+    public void testI_ObjectCollection() {
+        List<Object> list = new ArrayList<>();
+        list.add("Argument");
+        list.add(5);
+        list.add(1.0f);
+        ALog.i(list);
+        assertLogEquals(Log.INFO, TAG, "java.util.ArrayList(size = 3) [Argument, 5, 1.0]");
+    }
+
+    @Test
+    public void testI_ObjectMap() {
+        Map<Long, Integer> map = new LinkedHashMap<>();
+        map.put(1L, 45);
+        map.put(2L, 76);
+        map.put(3L, 100);
+        ALog.i(map);
+        assertLogEquals(Log.INFO, TAG, "java.util.LinkedHashMap(size = 3) [{1 -> 45}, {2 -> 76}, {3 -> 100}]");
+    }
+
+    @Test
+    public void testI_ObjectCustomFormatter() {
+        ALogger logger = ALog.formatter(String.class, ALogFormatter.create(new ALogFormatterDelegate<String>() {
+            @Override
+            public String toLoggingString(String object) {
+                return "String: length = " + String.valueOf(object.length()) + ", \"" + object + "\"";
+            }
+        }));
+        logger.i("Argument");
+        assertLogEquals(Log.INFO, TAG, "String: length = 8, \"Argument\"");
+    }
+
+    @Test
+    public void testI_FormattedMessageCustomFormatters() {
+        Map<Class<?>, ALogFormatter<?>> formatterMap = new HashMap<>();
+        formatterMap.put(String.class, ALogFormatter.create(new ALogFormatterDelegate<String>() {
+            @Override
+            public String toLoggingString(String object) {
+                return "String: length = " + String.valueOf(object.length()) + ", \"" + object + "\"";
+            }
+        }));
+        formatterMap.put(BigInteger.class, ALogFormatter.create(new ALogFormatterDelegate<BigInteger>() {
+            @Override
+            public String toLoggingString(BigInteger object) {
+                return "BigInteger: " + object.longValue();
+            }
+        }));
+        ALogger logger = ALog.formatters(formatterMap);
+        logger.i("Message (%s, %s)", "s1", BigInteger.valueOf(1000L));
+        assertLogEquals(Log.INFO, TAG, "Message (String: length = 2, \"s1\", BigInteger: 1000)");
+    }
+    
     @Test
     public void testI_Message() {
         String message = "Message";
@@ -175,6 +435,88 @@ public class ALogTest extends BaseTest {
     }
 
     @Test
+    public void testW_ObjectNull() {
+        ALog.w((Object) null);
+        assertLogEquals(Log.WARN, TAG, "null");
+    }
+
+    @Test
+    public void testW_ObjectPrimitiveArray() {
+        ALog.w(new int[] {1, 2, 3, 4});
+        assertLogEquals(Log.WARN, TAG, "Array(size = 4) [1, 2, 3, 4]");
+    }
+
+    @Test
+    public void testW_ObjectPrimitiveWrapperArray() {
+        ALog.w(new Float[] {1.0f, 2.0f, 3.5f});
+        assertLogEquals(Log.WARN, TAG, "Array(size = 3) [1.0, 2.0, 3.5]");
+    }
+
+    @Test
+    public void testW_ObjectArray() {
+        ALog.w(new String[] {"s1", "s2", "s3", "s4", "s5"});
+        assertLogEquals(Log.WARN, TAG, "Array(size = 5) [s1, s2, s3, s4, s5]");
+    }
+
+    @Test
+    public void testW_ObjectTwoDimensionalArray() {
+        ALog.w(new byte[][] {{1, 2, 3}, {4, 5, 6, 7}, {8, 9}});
+        assertLogEquals(Log.WARN, TAG, "Array(size = 3) [Array(size = 3) [1, 2, 3], Array(size = 4) [4, 5, 6, 7], Array(size = 2) [8, 9]]");
+    }
+
+    @Test
+    public void testW_ObjectCollection() {
+        List<Object> list = new ArrayList<>();
+        list.add("Argument");
+        list.add(5);
+        list.add(1.0f);
+        ALog.w(list);
+        assertLogEquals(Log.WARN, TAG, "java.util.ArrayList(size = 3) [Argument, 5, 1.0]");
+    }
+
+    @Test
+    public void testW_ObjectMap() {
+        Map<Long, Integer> map = new LinkedHashMap<>();
+        map.put(1L, 45);
+        map.put(2L, 76);
+        map.put(3L, 100);
+        ALog.w(map);
+        assertLogEquals(Log.WARN, TAG, "java.util.LinkedHashMap(size = 3) [{1 -> 45}, {2 -> 76}, {3 -> 100}]");
+    }
+
+    @Test
+    public void testW_ObjectCustomFormatter() {
+        ALogger logger = ALog.formatter(String.class, ALogFormatter.create(new ALogFormatterDelegate<String>() {
+            @Override
+            public String toLoggingString(String object) {
+                return "String: length = " + String.valueOf(object.length()) + ", \"" + object + "\"";
+            }
+        }));
+        logger.w("Argument");
+        assertLogEquals(Log.WARN, TAG, "String: length = 8, \"Argument\"");
+    }
+
+    @Test
+    public void testW_FormattedMessageCustomFormatters() {
+        Map<Class<?>, ALogFormatter<?>> formatterMap = new HashMap<>();
+        formatterMap.put(String.class, ALogFormatter.create(new ALogFormatterDelegate<String>() {
+            @Override
+            public String toLoggingString(String object) {
+                return "String: length = " + String.valueOf(object.length()) + ", \"" + object + "\"";
+            }
+        }));
+        formatterMap.put(BigInteger.class, ALogFormatter.create(new ALogFormatterDelegate<BigInteger>() {
+            @Override
+            public String toLoggingString(BigInteger object) {
+                return "BigInteger: " + object.longValue();
+            }
+        }));
+        ALogger logger = ALog.formatters(formatterMap);
+        logger.w("Message (%s, %s)", "s1", BigInteger.valueOf(1000L));
+        assertLogEquals(Log.WARN, TAG, "Message (String: length = 2, \"s1\", BigInteger: 1000)");
+    }
+    
+    @Test
     public void testW_Message() {
         String message = "Message";
         ALog.w(message);
@@ -216,6 +558,88 @@ public class ALogTest extends BaseTest {
     }
 
     @Test
+    public void testE_ObjectNull() {
+        ALog.e((Object) null);
+        assertLogEquals(Log.ERROR, TAG, "null");
+    }
+
+    @Test
+    public void testE_ObjectPrimitiveArray() {
+        ALog.e(new int[] {1, 2, 3, 4});
+        assertLogEquals(Log.ERROR, TAG, "Array(size = 4) [1, 2, 3, 4]");
+    }
+
+    @Test
+    public void testE_ObjectPrimitiveWrapperArray() {
+        ALog.e(new Float[] {1.0f, 2.0f, 3.5f});
+        assertLogEquals(Log.ERROR, TAG, "Array(size = 3) [1.0, 2.0, 3.5]");
+    }
+
+    @Test
+    public void testE_ObjectArray() {
+        ALog.e(new String[] {"s1", "s2", "s3", "s4", "s5"});
+        assertLogEquals(Log.ERROR, TAG, "Array(size = 5) [s1, s2, s3, s4, s5]");
+    }
+
+    @Test
+    public void testE_ObjectTwoDimensionalArray() {
+        ALog.e(new byte[][] {{1, 2, 3}, {4, 5, 6, 7}, {8, 9}});
+        assertLogEquals(Log.ERROR, TAG, "Array(size = 3) [Array(size = 3) [1, 2, 3], Array(size = 4) [4, 5, 6, 7], Array(size = 2) [8, 9]]");
+    }
+
+    @Test
+    public void testE_ObjectCollection() {
+        List<Object> list = new ArrayList<>();
+        list.add("Argument");
+        list.add(5);
+        list.add(1.0f);
+        ALog.e(list);
+        assertLogEquals(Log.ERROR, TAG, "java.util.ArrayList(size = 3) [Argument, 5, 1.0]");
+    }
+
+    @Test
+    public void testE_ObjectMap() {
+        Map<Long, Integer> map = new LinkedHashMap<>();
+        map.put(1L, 45);
+        map.put(2L, 76);
+        map.put(3L, 100);
+        ALog.e(map);
+        assertLogEquals(Log.ERROR, TAG, "java.util.LinkedHashMap(size = 3) [{1 -> 45}, {2 -> 76}, {3 -> 100}]");
+    }
+
+    @Test
+    public void testE_ObjectCustomFormatter() {
+        ALogger logger = ALog.formatter(String.class, ALogFormatter.create(new ALogFormatterDelegate<String>() {
+            @Override
+            public String toLoggingString(String object) {
+                return "String: length = " + String.valueOf(object.length()) + ", \"" + object + "\"";
+            }
+        }));
+        logger.e("Argument");
+        assertLogEquals(Log.ERROR, TAG, "String: length = 8, \"Argument\"");
+    }
+
+    @Test
+    public void testE_FormattedMessageCustomFormatters() {
+        Map<Class<?>, ALogFormatter<?>> formatterMap = new HashMap<>();
+        formatterMap.put(String.class, ALogFormatter.create(new ALogFormatterDelegate<String>() {
+            @Override
+            public String toLoggingString(String object) {
+                return "String: length = " + String.valueOf(object.length()) + ", \"" + object + "\"";
+            }
+        }));
+        formatterMap.put(BigInteger.class, ALogFormatter.create(new ALogFormatterDelegate<BigInteger>() {
+            @Override
+            public String toLoggingString(BigInteger object) {
+                return "BigInteger: " + object.longValue();
+            }
+        }));
+        ALogger logger = ALog.formatters(formatterMap);
+        logger.e("Message (%s, %s)", "s1", BigInteger.valueOf(1000L));
+        assertLogEquals(Log.ERROR, TAG, "Message (String: length = 2, \"s1\", BigInteger: 1000)");
+    }
+    
+    @Test
     public void testE_Message() {
         String message = "Message";
         ALog.e(message);
@@ -256,6 +680,88 @@ public class ALogTest extends BaseTest {
         assertLogEquals(Log.ASSERT, TAG, "");
     }
 
+    @Test
+    public void testWtf_ObjectNull() {
+        ALog.wtf((Object) null);
+        assertLogEquals(Log.ASSERT, TAG, "null");
+    }
+
+    @Test
+    public void testWtf_ObjectPrimitiveArray() {
+        ALog.wtf(new int[] {1, 2, 3, 4});
+        assertLogEquals(Log.ASSERT, TAG, "Array(size = 4) [1, 2, 3, 4]");
+    }
+
+    @Test
+    public void testWtf_ObjectPrimitiveWrapperArray() {
+        ALog.wtf(new Float[] {1.0f, 2.0f, 3.5f});
+        assertLogEquals(Log.ASSERT, TAG, "Array(size = 3) [1.0, 2.0, 3.5]");
+    }
+
+    @Test
+    public void testWtf_ObjectArray() {
+        ALog.wtf(new String[] {"s1", "s2", "s3", "s4", "s5"});
+        assertLogEquals(Log.ASSERT, TAG, "Array(size = 5) [s1, s2, s3, s4, s5]");
+    }
+
+    @Test
+    public void testWtf_ObjectTwoDimensionalArray() {
+        ALog.wtf(new byte[][] {{1, 2, 3}, {4, 5, 6, 7}, {8, 9}});
+        assertLogEquals(Log.ASSERT, TAG, "Array(size = 3) [Array(size = 3) [1, 2, 3], Array(size = 4) [4, 5, 6, 7], Array(size = 2) [8, 9]]");
+    }
+
+    @Test
+    public void testWtf_ObjectCollection() {
+        List<Object> list = new ArrayList<>();
+        list.add("Argument");
+        list.add(5);
+        list.add(1.0f);
+        ALog.wtf(list);
+        assertLogEquals(Log.ASSERT, TAG, "java.util.ArrayList(size = 3) [Argument, 5, 1.0]");
+    }
+
+    @Test
+    public void testWtf_ObjectMap() {
+        Map<Long, Integer> map = new LinkedHashMap<>();
+        map.put(1L, 45);
+        map.put(2L, 76);
+        map.put(3L, 100);
+        ALog.wtf(map);
+        assertLogEquals(Log.ASSERT, TAG, "java.util.LinkedHashMap(size = 3) [{1 -> 45}, {2 -> 76}, {3 -> 100}]");
+    }
+
+    @Test
+    public void testWtf_ObjectCustomFormatter() {
+        ALogger logger = ALog.formatter(String.class, ALogFormatter.create(new ALogFormatterDelegate<String>() {
+            @Override
+            public String toLoggingString(String object) {
+                return "String: length = " + String.valueOf(object.length()) + ", \"" + object + "\"";
+            }
+        }));
+        logger.wtf("Argument");
+        assertLogEquals(Log.ASSERT, TAG, "String: length = 8, \"Argument\"");
+    }
+
+    @Test
+    public void testWtf_FormattedMessageCustomFormatters() {
+        Map<Class<?>, ALogFormatter<?>> formatterMap = new HashMap<>();
+        formatterMap.put(String.class, ALogFormatter.create(new ALogFormatterDelegate<String>() {
+            @Override
+            public String toLoggingString(String object) {
+                return "String: length = " + String.valueOf(object.length()) + ", \"" + object + "\"";
+            }
+        }));
+        formatterMap.put(BigInteger.class, ALogFormatter.create(new ALogFormatterDelegate<BigInteger>() {
+            @Override
+            public String toLoggingString(BigInteger object) {
+                return "BigInteger: " + object.longValue();
+            }
+        }));
+        ALogger logger = ALog.formatters(formatterMap);
+        logger.wtf("Message (%s, %s)", "s1", BigInteger.valueOf(1000L));
+        assertLogEquals(Log.ASSERT, TAG, "Message (String: length = 2, \"s1\", BigInteger: 1000)");
+    }
+    
     @Test
     public void testWtf_Message() {
         String message = "Message";
