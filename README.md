@@ -1,4 +1,5 @@
 [ ![Download](https://api.bintray.com/packages/ihorzak/maven/ALog/images/download.svg) ](https://bintray.com/ihorzak/maven/ALog/_latestVersion)
+<a href="http://www.methodscount.com/?lib=ua.pp.ihorzak%3Aalog%3A0.2.0"><img src="https://img.shields.io/badge/Methods and size-240 | 19 KB-e91e63.svg"/></a>
 
 # ALog
 Simple Android logger based on android.util.Log.
