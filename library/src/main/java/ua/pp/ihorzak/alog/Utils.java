@@ -300,9 +300,11 @@ final class Utils {
         }
         for (int i = 0; i < arguments.length; ++i) {
             Object argument = arguments[i];
-            Class<?> argumentClass = argument.getClass();
-            if (!argumentClass.isPrimitive() && !isClassBoxedPrimitive(argumentClass)) {
-                arguments[i] = formatArgument(argument, configuration);
+            if (argument != null) {
+                Class<?> argumentClass = argument.getClass();
+                if (!argumentClass.isPrimitive() && !isClassBoxedPrimitive(argumentClass)) {
+                    arguments[i] = formatArgument(argument, configuration);
+                }
             }
         }
         return String.format(message, arguments);
