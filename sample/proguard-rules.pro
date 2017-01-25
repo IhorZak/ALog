@@ -19,6 +19,9 @@
 -assumenosideeffects class ua.pp.ihorzak.alog.ALogConfiguration {
     public static *** builder(...);
 }
+-assumenosideeffects class ua.pp.ihorzak.alog.ALogFormatter {
+    public static *** create(...);
+}
 -assumenosideeffects class ua.pp.ihorzak.alog.ALogConfiguration.Builder {
     public *** enabled(...);
     public *** minimalLevel(...);
