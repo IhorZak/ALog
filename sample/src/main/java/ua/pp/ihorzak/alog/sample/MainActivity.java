@@ -198,6 +198,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }),
             new ListItem("Object o = null;\nALog.e(o);", new Runnable() {
+                @SuppressWarnings("ConstantConditions")
                 @Override
                 public void run() {
                     Object o = null;
