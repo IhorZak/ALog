@@ -14,6 +14,8 @@ ALog can provide additional information with log messages:
 Other important features of ALog are:
 - Formatted output of JSON and XML
 - Automatic providing of log message tag based on class name
+- Pretty formatting of arrays, collections and maps
+- Possibility to provide custom formatters for object types
 
 ## Usage
 ALog supports all Android API versions starting from API 1.
@@ -64,6 +66,66 @@ logger.w("Message, %d, %s", 20, "Argument");
 logger.wtf(new RuntimeException("Fatal error"), "Message, %d, %s", 20, "Argument");
 ```
 
+Using default configuration ALog will use pretty formatters for arrays, collections and maps. So next code
+```java
+ALog.d(new int[] {1, 2, 3, 4});
+ALog.d(new Float[] {1.0f, 2.0f, 3.5f});
+ALog.d(new String[] {"s1", "s2", "s3", "s4", "s5"});
+ALog.d(new byte[][] {{1, 2, 3}, {4, 5, 6, 7}, {8, 9}});
+List<Integer> list = new ArrayList<>();
+list.add(1);
+list.add(2);
+list.add(3);
+list.add(4);
+ALog.d(list);
+Map<Long, Integer> map = new LinkedHashMap<>();
+map.put(1L, 45);
+map.put(2L, 76);
+map.put(3L, 100);
+ALog.d(map);
+```
+will produce the next output:
+```
+02-08 21:19:59.637 3461-3461/ua.pp.ihorzak.alog.sample D/ALogSampleApplication: [main|MainActivity$override|onCreate|(MainActivity.java:293)] Array(size = 4) [1, 2, 3, 4]
+02-08 21:19:59.637 3461-3461/ua.pp.ihorzak.alog.sample D/ALogSampleApplication: [main|MainActivity$override|onCreate|(MainActivity.java:294)] Array(size = 3) [1.0, 2.0, 3.5]
+02-08 21:19:59.637 3461-3461/ua.pp.ihorzak.alog.sample D/ALogSampleApplication: [main|MainActivity$override|onCreate|(MainActivity.java:295)] Array(size = 5) [s1, s2, s3, s4, s5]
+02-08 21:19:59.637 3461-3461/ua.pp.ihorzak.alog.sample D/ALogSampleApplication: [main|MainActivity$override|onCreate|(MainActivity.java:296)] Array(size = 3) [Array(size = 3) [1, 2, 3], Array(size = 4) [4, 5, 6, 7], Array(size = 2) [8, 9]]
+02-08 21:19:59.637 3461-3461/ua.pp.ihorzak.alog.sample D/ALogSampleApplication: [main|MainActivity$override|onCreate|(MainActivity.java:302)] java.util.ArrayList(size = 4) [1, 2, 3, 4]
+02-08 21:19:59.637 3461-3461/ua.pp.ihorzak.alog.sample D/ALogSampleApplication: [main|MainActivity$override|onCreate|(MainActivity.java:307)] java.util.LinkedHashMap(size = 3) [{1 -> 45}, {2 -> 76}, {3 -> 100}]
+```
+
+There is also possibility to provide custom logging formatters for objects of almost any classes (except arrays, collections and primitive wrappers). This can be done at ALog initialization via `ALogConfiguration.Builder` class method 'formatter(Class<?> clazz, ALogFormatter<?> formatter)'. If custom formatter is needed only for some piece of code `ALog` methods `formatter(Class<?> clazz, ALogFormatter<?> formatter)` and `formatters(Map<Class<?>, ALogFormatter<?>> formatterMap)` should be used for creation `ALogger` instances with needed formatters support.
+For example if we want to add custom formatter for `android.os.Bundle` class instances it could be done with next code
+```java
+ALogConfiguration configuration = ALogConfiguration.builder()
+        .formatter(Bundle.class, ALogFormatter.create(new ALogFormatterDelegate<Bundle>() {
+            @Override
+            public String toLoggingString(Bundle bundle) {
+                StringBuilder stringBuilder = new StringBuilder();
+                stringBuilder.append("Bundle [ ");
+                for (String key : bundle.keySet()) {
+                    stringBuilder.append(key).append(" ");
+                }
+                stringBuilder.append("]");
+                return stringBuilder.toString();
+            }
+        }))
+        .build();
+ALog.initialize(configuration);
+```
+and then next snippet
+```java
+Bundle arguments = new Bundle();
+arguments.putInt("Key1", 1);
+arguments.putString("Key2", "Some string");
+arguments.putBoolean("Key3", true);
+ALog.d(arguments);
+```
+will produce such logging output
+```
+02-08 22:27:16.841 4709-4709/ua.pp.ihorzak.alog.sample D/ALogSampleApplication: [main|MainActivity|onCreate|(MainActivity.java:297)] Bundle [ Key1 Key2 Key3 ]
+```
+
 ## Download
 The latest version is available via [JCenter][1].
 For example, to grab it via Gradle you can use next snippet:
@@ -75,7 +137,7 @@ buildscript {
 }
 
 dependencies {
-    compile 'ua.pp.ihorzak:alog:0.2.0'
+    compile 'ua.pp.ihorzak:alog:0.3.0'
 }
 ```
 
@@ -85,11 +147,38 @@ dependencies {
 ## ProGuard Configuration
 If you want to remove ALog calls from release builds, you can use next ProGuard rules:
 ```
+-assumenosideeffects class ua.pp.ihorzak.alog.ALogConfiguration {
+    public static *** builder(...);
+}
+-assumenosideeffects class ua.pp.ihorzak.alog.ALogFormatter {
+    public static *** create(...);
+}
+-assumenosideeffects class ua.pp.ihorzak.alog.ALogConfiguration.Builder {
+    public *** enabled(...);
+    public *** minimalLevel(...);
+    public *** jsonLevel(...);
+    public *** xmlLevel(...);
+    public *** tag(...);
+    public *** threadPrefixEnabled(...);
+    public *** classPrefixEnabled(...);
+    public *** methodPrefixEnabled(...);
+    public *** lineLocationPrefixEnabled(...);
+    public *** stackTraceLineCount(...);
+    public *** jsonIndentSpaceCount(...);
+    public *** xmlIndentSpaceCount(...);
+    public *** arrayFormatterEnabled(...);
+    public *** collectionFormatterEnabled(...);
+    public *** mapFormatterEnabled(...);
+    public *** formatter(...);
+    public *** build(...);
+}
 -assumenosideeffects class ua.pp.ihorzak.alog.ALog {
     public static *** initialize(...);
     public static *** t(...);
     public static *** st(...);
     public static *** tst(...);
+    public static *** formatter(...);
+    public static *** formatters(...);
     public static *** v(...);
     public static *** d(...);
     public static *** i(...);
