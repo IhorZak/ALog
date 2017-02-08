@@ -16,11 +16,38 @@
 #   public *;
 #}
 
+-assumenosideeffects class ua.pp.ihorzak.alog.ALogConfiguration {
+    public static *** builder(...);
+}
+-assumenosideeffects class ua.pp.ihorzak.alog.ALogFormatter {
+    public static *** create(...);
+}
+-assumenosideeffects class ua.pp.ihorzak.alog.ALogConfiguration.Builder {
+    public *** enabled(...);
+    public *** minimalLevel(...);
+    public *** jsonLevel(...);
+    public *** xmlLevel(...);
+    public *** tag(...);
+    public *** threadPrefixEnabled(...);
+    public *** classPrefixEnabled(...);
+    public *** methodPrefixEnabled(...);
+    public *** lineLocationPrefixEnabled(...);
+    public *** stackTraceLineCount(...);
+    public *** jsonIndentSpaceCount(...);
+    public *** xmlIndentSpaceCount(...);
+    public *** arrayFormatterEnabled(...);
+    public *** collectionFormatterEnabled(...);
+    public *** mapFormatterEnabled(...);
+    public *** formatter(...);
+    public *** build(...);
+}
 -assumenosideeffects class ua.pp.ihorzak.alog.ALog {
     public static *** initialize(...);
     public static *** t(...);
     public static *** st(...);
     public static *** tst(...);
+    public static *** formatter(...);
+    public static *** formatters(...);
     public static *** v(...);
     public static *** d(...);
     public static *** i(...);

@@ -228,7 +228,7 @@ final class AndroidLogALogger extends BaseALogger {
             if (messageBuilder.length() > 0) {
                 messageBuilder.append(' ');
             }
-            messageBuilder.append(args.length == 0 ? message : String.format(message, args));
+            messageBuilder.append(Utils.formatMessageWithArguments(message, args, mConfiguration));
         }
         if (throwable != null) {
             if (messageBuilder.length() > 0) {

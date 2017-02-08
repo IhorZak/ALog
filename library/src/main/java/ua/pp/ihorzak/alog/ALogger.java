@@ -30,6 +30,13 @@ public interface ALogger {
     /**
      * Sends {@link ALogLevel#VERBOSE} logging message.
      *
+     * @param object Object to log.
+     */
+    void v(Object object);
+
+    /**
+     * Sends {@link ALogLevel#VERBOSE} logging message.
+     *
      * @param message Message. Can be a <a href="../util/Formatter.html#syntax">format string</a>.
      * @param args Arguments for format string in message.
      */
@@ -55,6 +62,13 @@ public interface ALogger {
      * Sends empty {@link ALogLevel#DEBUG} logging message.
      */
     void d();
+
+    /**
+     * Sends {@link ALogLevel#DEBUG} logging message.
+     *
+     * @param object Object to log.
+     */
+    void d(Object object);
 
     /**
      * Sends {@link ALogLevel#DEBUG} logging message.
@@ -88,6 +102,13 @@ public interface ALogger {
     /**
      * Sends {@link ALogLevel#INFO} logging message.
      *
+     * @param object Object to log.
+     */
+    void i(Object object);
+
+    /**
+     * Sends {@link ALogLevel#INFO} logging message.
+     *
      * @param message Message. Can be a <a href="../util/Formatter.html#syntax">format string</a>.
      * @param args Arguments for format string in message.
      */
@@ -113,6 +134,13 @@ public interface ALogger {
      * Sends empty {@link ALogLevel#WARNING} logging message.
      */
     void w();
+
+    /**
+     * Sends {@link ALogLevel#WARNING} logging message.
+     *
+     * @param object Object to log.
+     */
+    void w(Object object);
 
     /**
      * Sends {@link ALogLevel#WARNING} logging message.
@@ -146,6 +174,13 @@ public interface ALogger {
     /**
      * Sends {@link ALogLevel#ERROR} logging message.
      *
+     * @param object Object to log.
+     */
+    void e(Object object);
+
+    /**
+     * Sends {@link ALogLevel#ERROR} logging message.
+     *
      * @param message Message. Can be a <a href="../util/Formatter.html#syntax">format string</a>.
      * @param args Arguments for format string in message.
      */
@@ -171,6 +206,13 @@ public interface ALogger {
      * Sends empty {@link ALogLevel#WTF} logging message.
      */
     void wtf();
+
+    /**
+     * Sends {@link ALogLevel#WTF} logging message.
+     *
+     * @param object Object to log.
+     */
+    void wtf(Object object);
 
     /**
      * Sends {@link ALogLevel#WTF} logging message.

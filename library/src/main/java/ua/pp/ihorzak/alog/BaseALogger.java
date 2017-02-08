@@ -22,11 +22,17 @@ package ua.pp.ihorzak.alog;
  * @author Ihor Zakhozhyi <ihorzak@gmail.com>
  */
 abstract class BaseALogger implements ALogger {
-    private static Object[] EMPTY_ARRAY = new Object[0];
+    private static final Object[] EMPTY_ARRAY = new Object[0];
+    private static final String SINGLE_ARGUMENT_FORMAT = "%s";
 
     @Override
     public void v() {
         v(null, null, EMPTY_ARRAY);
+    }
+
+    @Override
+    public void v(Object object) {
+        v((Throwable) null, SINGLE_ARGUMENT_FORMAT, object);
     }
 
     @Override
@@ -45,6 +51,11 @@ abstract class BaseALogger implements ALogger {
     }
 
     @Override
+    public void d(Object object) {
+        d((Throwable) null, SINGLE_ARGUMENT_FORMAT, object);
+    }
+
+    @Override
     public void d(String message, Object... args) {
         d(null, message, args);
     }
@@ -57,6 +68,11 @@ abstract class BaseALogger implements ALogger {
     @Override
     public void i() {
         i(null, null, EMPTY_ARRAY);
+    }
+
+    @Override
+    public void i(Object object) {
+        i((Throwable) null, SINGLE_ARGUMENT_FORMAT, object);
     }
 
     @Override
@@ -75,6 +91,11 @@ abstract class BaseALogger implements ALogger {
     }
 
     @Override
+    public void w(Object object) {
+        w((Throwable) null, SINGLE_ARGUMENT_FORMAT, object);
+    }
+
+    @Override
     public void w(String message, Object... args) {
         w(null, message, args);
     }
@@ -90,6 +111,11 @@ abstract class BaseALogger implements ALogger {
     }
 
     @Override
+    public void e(Object object) {
+        e((Throwable) null, SINGLE_ARGUMENT_FORMAT, object);
+    }
+
+    @Override
     public void e(String message, Object... args) {
         e(null, message, args);
     }
@@ -102,6 +128,11 @@ abstract class BaseALogger implements ALogger {
     @Override
     public void wtf() {
         wtf(null, null, EMPTY_ARRAY);
+    }
+
+    @Override
+    public void wtf(Object object) {
+        wtf((Throwable) null, SINGLE_ARGUMENT_FORMAT, object);
     }
 
     @Override

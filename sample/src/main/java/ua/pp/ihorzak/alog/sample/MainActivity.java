@@ -26,6 +26,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
 import ua.pp.ihorzak.alog.ALog;
 import ua.pp.ihorzak.alog.ALogLevel;
 
@@ -190,6 +195,83 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                     ALog.xml("<example>\n<!-- This is a comment -->\n</example>");
+                }
+            }),
+            new ListItem("Object o = null;\nALog.e(o);", new Runnable() {
+                @SuppressWarnings("ConstantConditions")
+                @Override
+                public void run() {
+                    Object o = null;
+                    ALog.e(o);
+                }
+            }),
+            new ListItem("byte[] bytes = {1, 2, 3};\nALog.v(bytes);", new Runnable() {
+                @Override
+                public void run() {
+                    byte[] bytes = {1, 2, 3};
+                    ALog.v(bytes);
+                }
+            }),
+            new ListItem("ALog.i(new byte[][] {{1, 2, 3}, {4, 5, 6, 7}, {8, 9}});", new Runnable() {
+                @Override
+                public void run() {
+                    ALog.i(new byte[][] {{1, 2, 3}, {4, 5, 6, 7}, {8, 9}});
+                }
+            }),
+            new ListItem("List<Integer> list = new ArrayList<>();\nlist.add(1);\nlist.add(2);\nlist.add(3);\nlist.add(4);\nALog.d(list);", new Runnable() {
+                @Override
+                public void run() {
+                    List<Integer> list = new ArrayList<>();
+                    list.add(1);
+                    list.add(2);
+                    list.add(3);
+                    list.add(4);
+                    ALog.d(list);
+                }
+            }),
+            new ListItem("Map<Long, Integer> map = new LinkedHashMap<>();\nmap.put(1L, 45);\nmap.put(2L, 76);\nmap.put(3L, 100);\nALog.w(map);", new Runnable() {
+                @Override
+                public void run() {
+                    Map<Long, Integer> map = new LinkedHashMap<>();
+                    map.put(1L, 45);
+                    map.put(2L, 76);
+                    map.put(3L, 100);
+                    ALog.w(map);
+                }
+            }),
+            new ListItem("byte[] bytes = {1, 2, 3};\nALog.d(\"Array formatted: %s\", (Object) bytes);", new Runnable() {
+                @Override
+                public void run() {
+                    byte[] bytes = {1, 2, 3};
+                    ALog.d("Array formatted: %s", (Object) bytes);
+                }
+            }),
+            new ListItem("int[] ints = {1, 2, 3, 4};\nALog.d(\"Array formatted: %s\", (Object) ints);", new Runnable() {
+                @Override
+                public void run() {
+                    int[] ints = {1, 2, 3, 4};
+                    ALog.d("Array formatted: %s", (Object) ints);
+                }
+            }),
+            new ListItem("Integer[] integers = {1, 2, 3, 4};\nALog.d(\"Array formatted: %s\", (Object) integers);", new Runnable() {
+                @Override
+                public void run() {
+                    Integer[] integers = {1, 2, 3, 4};
+                    ALog.d("Array formatted: %s", (Object) integers);
+                }
+            }),
+            new ListItem("String[] strings = {\"s1\", \"s2\", null};\nALog.d(\"Array formatted: %s\", (Object) strings);", new Runnable() {
+                @Override
+                public void run() {
+                    String[] strings = {"s1", "s2", null};
+                    ALog.d("Array formatted: %s", (Object) strings);
+                }
+            }),
+            new ListItem("long[][] longs = {{1L, 2L, 3L}, {3L, 2L, 1L}};\nALog.d(\"Array formatted: %s\", (Object) longs);", new Runnable() {
+                @Override
+                public void run() {
+                    long[][] longs = {{1L, 2L, 3L}, {3L, 2L, 1L}};
+                    ALog.d("Array formatted: %s", (Object) longs);
                 }
             })
     };

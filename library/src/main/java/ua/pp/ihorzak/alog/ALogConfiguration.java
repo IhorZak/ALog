@@ -16,6 +16,10 @@
 
 package ua.pp.ihorzak.alog;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Represents {@link ALog} configuration which can be used to configure {@link ALog} if passed to
  * {@link ALog#initialize(ALogConfiguration)}. Instances must be created via {@link Builder} which
@@ -45,6 +49,9 @@ public final class ALogConfiguration {
     private static final int DEFAULT_STACK_TRACE_LINE_COUNT = 0;
     private static final int DEFAULT_JSON_INDENT_SPACE_COUNT = 2;
     private static final int DEFAULT_XML_INDENT_SPACE_COUNT = 2;
+    private static final boolean DEFAULT_IS_ARRAY_FORMATTER_ENABLED = true;
+    private static final boolean DEFAULT_IS_COLLECTION_FORMATTER_ENABLED = true;
+    private static final boolean DEFAULT_IS_MAP_FORMATTER_ENABLED = true;
 
     final boolean mIsEnabled;
 
@@ -64,6 +71,11 @@ public final class ALogConfiguration {
     final int mJsonIndentSpaceCount;
     final int mXmlIndentSpaceCount;
 
+    final ALogFormatter<Object> mArrayFormatter;
+    final ALogFormatter<Collection<?>> mCollectionFormatter;
+    final ALogFormatter<Map<?, ?>> mMapFormatter;
+    final Map<Class<?>, ALogFormatter<?>> mFormatterMap;
+
     private ALogConfiguration(boolean isEnabled,
                               ALogLevel minimalLevel,
                               ALogLevel jsonLevel,
@@ -75,7 +87,11 @@ public final class ALogConfiguration {
                               boolean isLineLocationPrefixEnabled,
                               int stackTraceLineCount,
                               int jsonIndentSpaceCount,
-                              int xmlIndentSpaceCount) {
+                              int xmlIndentSpaceCount,
+                              boolean isArrayFormatterEnabled,
+                              boolean isCollectionFormatterEnabled,
+                              boolean isMapFormatterEnabled,
+                              Map<Class<?>, ALogFormatter<?>> formatterMap) {
         mIsEnabled = isEnabled;
         mMinimalLevel = minimalLevel;
         mJsonLevel = jsonLevel;
@@ -88,6 +104,16 @@ public final class ALogConfiguration {
         mStackTraceLineCount = stackTraceLineCount;
         mJsonIndentSpaceCount = jsonIndentSpaceCount;
         mXmlIndentSpaceCount = xmlIndentSpaceCount;
+        mArrayFormatter = isArrayFormatterEnabled
+                ? new ArrayALogFormatter(this)
+                : null;
+        mCollectionFormatter = isCollectionFormatterEnabled
+                ? new CollectionALogFormatter(this)
+                : null;
+        mMapFormatter = isMapFormatterEnabled
+                ? new MapALogFormatter(this)
+                : null;
+        mFormatterMap = formatterMap;
     }
 
     Builder copyBuilder() {
@@ -97,7 +123,7 @@ public final class ALogConfiguration {
     /**
      * Builder to create configured {@link ALogConfiguration} instance.
      */
-    @SuppressWarnings("WeakerAccess")
+    @SuppressWarnings({"WeakerAccess", "unused"})
     public static class Builder {
         private boolean mIsEnabled;
         private ALogLevel mMinimalLevel;
@@ -111,6 +137,10 @@ public final class ALogConfiguration {
         private int mStackTraceLineCount;
         private int mJsonIndentSpaceCount;
         private int mXmlIndentSpaceCount;
+        private boolean mIsArrayFormatterEnabled;
+        private boolean mIsCollectionFormatterEnabled;
+        private boolean mIsMapFormatterEnabled;
+        private Map<Class<?>, ALogFormatter<?>> mFormatterMap;
 
         private Builder() {
             mIsEnabled = DEFAULT_IS_ENABLED;
@@ -125,6 +155,10 @@ public final class ALogConfiguration {
             mStackTraceLineCount = DEFAULT_STACK_TRACE_LINE_COUNT;
             mJsonIndentSpaceCount = DEFAULT_JSON_INDENT_SPACE_COUNT;
             mXmlIndentSpaceCount = DEFAULT_XML_INDENT_SPACE_COUNT;
+            mIsArrayFormatterEnabled = DEFAULT_IS_ARRAY_FORMATTER_ENABLED;
+            mIsCollectionFormatterEnabled = DEFAULT_IS_COLLECTION_FORMATTER_ENABLED;
+            mIsMapFormatterEnabled = DEFAULT_IS_MAP_FORMATTER_ENABLED;
+            mFormatterMap = new HashMap<>();
         }
 
         private Builder(ALogConfiguration configuration) {
@@ -140,6 +174,10 @@ public final class ALogConfiguration {
             mStackTraceLineCount = configuration.mStackTraceLineCount;
             mJsonIndentSpaceCount = configuration.mJsonIndentSpaceCount;
             mXmlIndentSpaceCount = configuration.mXmlIndentSpaceCount;
+            mIsArrayFormatterEnabled = configuration.mArrayFormatter != null;
+            mIsCollectionFormatterEnabled = configuration.mCollectionFormatter != null;
+            mIsMapFormatterEnabled = configuration.mMapFormatter != null;
+            mFormatterMap = new HashMap<>(configuration.mFormatterMap);
         }
 
         /**
@@ -302,6 +340,64 @@ public final class ALogConfiguration {
         }
 
         /**
+         * Enables/disables custom formatting for arrays. If not called by default this option is
+         * enabled.
+         *
+         * @param isArrayFormatterEnabled true if custom arrays formatting should be enabled,
+         *                                false otherwise.
+         * @return This builder instance.
+         */
+        public Builder arrayFormatterEnabled(boolean isArrayFormatterEnabled) {
+            mIsArrayFormatterEnabled = isArrayFormatterEnabled;
+            return this;
+        }
+
+        /**
+         * Enables/disables custom formatting for collections. If not called by default this option
+         * is enabled.
+         *
+         * @param isCollectionFormatterEnabled true if custom collections formatting should be
+         *                                     enabled, false otherwise.
+         * @return This builder instance.
+         */
+        public Builder collectionFormatterEnabled(boolean isCollectionFormatterEnabled) {
+            mIsCollectionFormatterEnabled = isCollectionFormatterEnabled;
+            return this;
+        }
+
+        /**
+         * Enables/disables custom formatting for maps. If not called by default this option
+         * is enabled.
+         *
+         * @param isMapFormatterEnabled true if custom maps formatting should be enabled,
+         *                              false otherwise.
+         * @return This builder instance.
+         */
+        public Builder mapFormatterEnabled(boolean isMapFormatterEnabled) {
+            mIsMapFormatterEnabled = isMapFormatterEnabled;
+            return this;
+        }
+
+        /**
+         * Adds custom class instances logging formatter. Custom formatters are prohibited for
+         * primitive classes, primitive class wrappers, arrays, collections and maps.
+         *
+         * @param clazz Class instances of which should be formatted with passed logging formatter.
+         * @param formatter Custom logging formatter.
+         * @return This builder instance.
+         * @throws IllegalArgumentException If passed class is primitive class, primitive class
+         *                                  wrapper, array, collection or map.
+         */
+        public Builder formatter(Class<?> clazz, ALogFormatter<?> formatter) {
+            if (clazz.isPrimitive() || Utils.isClassBoxedPrimitive(clazz) || clazz.isArray() ||
+                    Collection.class.isAssignableFrom(clazz) || Map.class.isAssignableFrom(clazz)) {
+                throw new IllegalArgumentException("ALog can use only built-in formatters for arrays, collections and maps");
+            }
+            mFormatterMap.put(clazz, formatter);
+            return this;
+        }
+
+        /**
          * Builds new {@link ALogConfiguration} instance with set to this builder instance
          * parameters.
          *
@@ -311,7 +407,8 @@ public final class ALogConfiguration {
             return new ALogConfiguration(mIsEnabled, mMinimalLevel, mJsonLevel, mXmlLevel, mTag,
                     mIsThreadPrefixEnabled, mIsClassPrefixEnabled, mIsMethodPrefixEnabled,
                     mIsLineLocationPrefixEnabled, mStackTraceLineCount, mJsonIndentSpaceCount,
-                    mXmlIndentSpaceCount);
+                    mXmlIndentSpaceCount, mIsArrayFormatterEnabled, mIsCollectionFormatterEnabled,
+                    mIsMapFormatterEnabled, mFormatterMap);
         }
     }
 }

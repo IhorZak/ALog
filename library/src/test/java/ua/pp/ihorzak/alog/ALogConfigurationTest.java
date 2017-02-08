@@ -16,7 +16,12 @@
 
 package ua.pp.ihorzak.alog;
 
+import android.os.Bundle;
+
 import org.junit.Test;
+
+import java.util.Collection;
+import java.util.Map;
 
 import ua.pp.ihorzak.alog.test.BaseTest;
 
@@ -36,43 +41,83 @@ public class ALogConfigurationTest extends BaseTest {
     public void testBuilder() {
         ALogConfiguration.Builder builder = ALogConfiguration.builder();
         assertNotNull(builder);
+    }
 
-        builder.enabled(true);
+    @Test
+    public void testBuilder_Enabled() {
+        ALogConfiguration.Builder builder = ALogConfiguration.builder();
         assertTrue(builder.build().mIsEnabled);
         builder.enabled(false);
         assertFalse(builder.build().mIsEnabled);
+        builder.enabled(true);
+        assertTrue(builder.build().mIsEnabled);
+    }
 
+    @Test
+    public void testBuilder_MinimalLevel() {
+        ALogConfiguration.Builder builder = ALogConfiguration.builder();
+        assertEquals(ALogLevel.VERBOSE, builder.build().mMinimalLevel);
         builder.minimalLevel(ALogLevel.WTF);
         assertEquals(ALogLevel.WTF, builder.build().mMinimalLevel);
         builder.minimalLevel(ALogLevel.DEBUG);
         assertEquals(ALogLevel.DEBUG, builder.build().mMinimalLevel);
+    }
 
+    @Test
+    public void testBuilder_Tag() {
+        ALogConfiguration.Builder builder = ALogConfiguration.builder();
+        assertNull(builder.build().mTag);
         String customTag = "Custom";
         builder.tag(customTag);
         assertEquals(customTag, builder.build().mTag);
         builder.tag(null);
         assertNull(builder.build().mTag);
+    }
 
-        builder.threadPrefixEnabled(true);
+    @Test
+    public void testBuilder_ThreadPrefixEnabled() {
+        ALogConfiguration.Builder builder = ALogConfiguration.builder();
         assertTrue(builder.build().mIsThreadPrefixEnabled);
         builder.threadPrefixEnabled(false);
         assertFalse(builder.build().mIsThreadPrefixEnabled);
+        builder.threadPrefixEnabled(true);
+        assertTrue(builder.build().mIsThreadPrefixEnabled);
+    }
 
+    @Test
+    public void testBuilder_ClassPrefixEnabled() {
+        ALogConfiguration.Builder builder = ALogConfiguration.builder();
+        assertFalse(builder.build().mIsClassPrefixEnabled);
         builder.classPrefixEnabled(true);
         assertTrue(builder.build().mIsClassPrefixEnabled);
         builder.classPrefixEnabled(false);
         assertFalse(builder.build().mIsClassPrefixEnabled);
+    }
 
-        builder.methodPrefixEnabled(true);
+    @Test
+    public void testBuilder_MethodPrefixEnabled() {
+        ALogConfiguration.Builder builder = ALogConfiguration.builder();
         assertTrue(builder.build().mIsMethodPrefixEnabled);
         builder.methodPrefixEnabled(false);
         assertFalse(builder.build().mIsMethodPrefixEnabled);
+        builder.methodPrefixEnabled(true);
+        assertTrue(builder.build().mIsMethodPrefixEnabled);
+    }
 
-        builder.lineLocationPrefixEnabled(true);
+    @Test
+    public void testBuilder_LineLocationPrefixEnabled() {
+        ALogConfiguration.Builder builder = ALogConfiguration.builder();
         assertTrue(builder.build().mIsLineLocationPrefixEnabled);
         builder.lineLocationPrefixEnabled(false);
         assertFalse(builder.build().mIsLineLocationPrefixEnabled);
+        builder.lineLocationPrefixEnabled(true);
+        assertTrue(builder.build().mIsLineLocationPrefixEnabled);
+    }
 
+    @Test
+    public void testBuilder_StackTraceLineCount() {
+        ALogConfiguration.Builder builder = ALogConfiguration.builder();
+        assertEquals(0, builder.build().mStackTraceLineCount);
         builder.stackTraceLineCount(5);
         assertEquals(5, builder.build().mStackTraceLineCount);
         builder.stackTraceLineCount(-1);
@@ -81,15 +126,153 @@ public class ALogConfigurationTest extends BaseTest {
         assertEquals(2, builder.build().mStackTraceLineCount);
         builder.stackTraceLineCount(0);
         assertEquals(0, builder.build().mStackTraceLineCount);
+    }
 
+    @Test
+    public void testBuilder_JsonLevel() {
+        ALogConfiguration.Builder builder = ALogConfiguration.builder();
+        assertEquals(ALogLevel.INFO, builder.build().mJsonLevel);
         builder.jsonLevel(ALogLevel.WTF);
         assertEquals(ALogLevel.WTF, builder.build().mJsonLevel);
         builder.jsonLevel(ALogLevel.VERBOSE);
         assertEquals(ALogLevel.VERBOSE, builder.build().mJsonLevel);
+    }
 
+    @Test
+    public void testBuilder_XmlLevel() {
+        ALogConfiguration.Builder builder = ALogConfiguration.builder();
+        assertEquals(ALogLevel.INFO, builder.build().mXmlLevel);
         builder.xmlLevel(ALogLevel.ERROR);
         assertEquals(ALogLevel.ERROR, builder.build().mXmlLevel);
         builder.xmlLevel(ALogLevel.DEBUG);
         assertEquals(ALogLevel.DEBUG, builder.build().mXmlLevel);
+    }
+
+    @Test
+    public void testBuilder_ArrayFormatterEnabled() {
+        ALogConfiguration.Builder builder = ALogConfiguration.builder();
+        ALogConfiguration defaultConfiguration = builder.build();
+        assertNotNull(defaultConfiguration.mArrayFormatter);
+        assertTrue(defaultConfiguration.mArrayFormatter instanceof ArrayALogFormatter);
+        builder.arrayFormatterEnabled(false);
+        assertNull(builder.build().mArrayFormatter);
+        builder.arrayFormatterEnabled(true);
+        ALogConfiguration enabledConfiguration = builder.build();
+        assertNotNull(enabledConfiguration.mArrayFormatter);
+        assertTrue(enabledConfiguration.mArrayFormatter instanceof ArrayALogFormatter);
+    }
+
+    @Test
+    public void testBuilder_CollectionFormatterEnabled() {
+        ALogConfiguration.Builder builder = ALogConfiguration.builder();
+        ALogConfiguration defaultConfiguration = builder.build();
+        assertNotNull(defaultConfiguration.mCollectionFormatter);
+        assertTrue(defaultConfiguration.mCollectionFormatter instanceof CollectionALogFormatter);
+        builder.collectionFormatterEnabled(false);
+        assertNull(builder.build().mCollectionFormatter);
+        builder.collectionFormatterEnabled(true);
+        ALogConfiguration enabledConfiguration = builder.build();
+        assertNotNull(enabledConfiguration.mCollectionFormatter);
+        assertTrue(enabledConfiguration.mCollectionFormatter instanceof CollectionALogFormatter);
+    }
+
+    @Test
+    public void testBuilder_MapFormatterEnabled() {
+        ALogConfiguration.Builder builder = ALogConfiguration.builder();
+        ALogConfiguration defaultConfiguration = builder.build();
+        assertNotNull(defaultConfiguration.mMapFormatter);
+        assertTrue(defaultConfiguration.mMapFormatter instanceof MapALogFormatter);
+        builder.mapFormatterEnabled(false);
+        assertNull(builder.build().mMapFormatter);
+        builder.mapFormatterEnabled(true);
+        ALogConfiguration enabledConfiguration = builder.build();
+        assertNotNull(enabledConfiguration.mMapFormatter);
+        assertTrue(enabledConfiguration.mMapFormatter instanceof MapALogFormatter);
+    }
+
+    @Test
+    public void testBuilder_FormatterBundle() {
+        ALogConfiguration.Builder builder = ALogConfiguration.builder();
+        ALogConfiguration defaultConfiguration = builder.build();
+        assertNotNull(defaultConfiguration.mFormatterMap);
+        assertTrue(defaultConfiguration.mFormatterMap.isEmpty());
+        ALogFormatter<Bundle> formatter = ALogFormatter.create(new ALogFormatterDelegate<Bundle>() {
+            @Override
+            public String toLoggingString(Bundle bundle) {
+                StringBuilder stringBuilder = new StringBuilder();
+                stringBuilder.append("Bundle [ ");
+                for (String key : bundle.keySet()) {
+                    stringBuilder.append(key).append(" ");
+                }
+                stringBuilder.append("]");
+                return stringBuilder.toString();
+            }
+        });
+        builder.formatter(Bundle.class, formatter);
+        ALogConfiguration configuration = builder.build();
+        assertNotNull(configuration.mFormatterMap);
+        assertEquals(1, configuration.mFormatterMap.size());
+        assertTrue(configuration.mFormatterMap.containsKey(Bundle.class));
+        assertEquals(formatter, configuration.mFormatterMap.get(Bundle.class));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testBuilder_FormatterPrimitive() {
+        ALogConfiguration.Builder builder = ALogConfiguration.builder();
+        ALogFormatter<Integer> formatter = ALogFormatter.create(new ALogFormatterDelegate<Integer>() {
+            @Override
+            public String toLoggingString(Integer integer) {
+                return String.valueOf(integer);
+            }
+        });
+        builder.formatter(int.class, formatter);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testBuilder_FormatterPrimitiveWrapper() {
+        ALogConfiguration.Builder builder = ALogConfiguration.builder();
+        ALogFormatter<Character> formatter = ALogFormatter.create(new ALogFormatterDelegate<Character>() {
+            @Override
+            public String toLoggingString(Character character) {
+                return String.valueOf(character);
+            }
+        });
+        builder.formatter(Character.class, formatter);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testBuilder_FormatterArray() {
+        ALogConfiguration.Builder builder = ALogConfiguration.builder();
+        ALogFormatter<Object[]> formatter = ALogFormatter.create(new ALogFormatterDelegate<Object[]>() {
+            @Override
+            public String toLoggingString(Object[] objects) {
+                return "Array";
+            }
+        });
+        builder.formatter((new Object[0]).getClass(), formatter);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testBuilder_FormatterCollection() {
+        ALogConfiguration.Builder builder = ALogConfiguration.builder();
+        ALogFormatter<Collection<Object>> formatter = ALogFormatter.create(new ALogFormatterDelegate<Collection<Object>>() {
+            @Override
+            public String toLoggingString(Collection<Object> collection) {
+                return "Collection";
+            }
+        });
+        builder.formatter(Collection.class, formatter);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testBuilder_FormatterMap() {
+        ALogConfiguration.Builder builder = ALogConfiguration.builder();
+        ALogFormatter<Map<String, Object>> formatter = ALogFormatter.create(new ALogFormatterDelegate<Map<String, Object>>() {
+            @Override
+            public String toLoggingString(Map<String, Object> map) {
+                return "Map";
+            }
+        });
+        builder.formatter(Map.class, formatter);
     }
 }
