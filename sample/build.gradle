@@ -1,26 +1,29 @@
-apply plugin: 'com.android.application'
+apply plugin: "com.android.application"
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    buildToolsVersion versions.buildTools
+
+    compileSdkVersion versions.sampleSdk.compile
 
     def versionProperties = new Properties()
-    versionProperties.load(new FileInputStream('version.properties'))
+    versionProperties.load(new FileInputStream("version.properties"))
 
     defaultConfig {
-        applicationId 'ua.pp.ihorzak.alog.sample'
-        minSdkVersion 9
-        targetSdkVersion 25
-        versionCode Integer.parseInt(versionProperties.getProperty('VERSION_CODE'))
-        versionName versionProperties.getProperty('VERSION_NAME')
+        applicationId "ua.pp.ihorzak.alog.sample"
+
+        minSdkVersion versions.sampleSdk.min
+        targetSdkVersion versions.sampleSdk.target
+
+        versionCode Integer.parseInt(versionProperties.getProperty("VERSION_CODE"))
+        versionName versionProperties.getProperty("VERSION_NAME")
     }
 
     signingConfigs {
         release {
-            storeFile file('sample.keystore')
-            storePassword 'alogsample'
-            keyAlias 'release'
-            keyPassword 'alogsample'
+            storeFile file("sample.keystore")
+            storePassword "alogsample"
+            keyAlias "release"
+            keyPassword "alogsample"
         }
     }
 
@@ -33,29 +36,22 @@ android {
         release {
             debuggable false
             minifyEnabled true
-            //noinspection GrUnresolvedAccess
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            //noinspection GroovyAssignabilityCheck
+            proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
             signingConfig signingConfigs.release
         }
     }
 
-    //noinspection GrUnresolvedAccess
     applicationVariants.all { variant ->
         variant.outputs.each { output ->
-            def file = output.outputFile
-            //noinspection GroovyAssignabilityCheck,GrUnresolvedAccess
-            def fileName = 'alog-sample-' + variant.buildType.name + '-' +
-                    defaultConfig.versionName + '-' + defaultConfig.versionCode + '.apk'
-            //noinspection GroovyAssignabilityCheck
-            output.outputFile = new File(file.parent, fileName)
+            output.outputFileName = "alog-sample-" + variant.buildType.name + "-" +
+                    defaultConfig.versionName + "-" + defaultConfig.versionCode + ".apk"
         }
     }
-
-    return void
 }
 
 dependencies {
-    compile project(':library')
-    compile 'com.android.support:appcompat-v7:25.1.1'
+    implementation project(":library")
+    implementation "com.android.support:appcompat-v7:$versions.sampleDependencies.appCompat"
+
+    testImplementation "junit:junit:$versions.sampleTestDependencies.jUnit"
 }

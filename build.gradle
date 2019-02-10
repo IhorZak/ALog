@@ -1,27 +1,45 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
+apply plugin: "com.github.ben-manes.versions"
 
 buildscript {
+    apply from: "versions.gradle"
+
     repositories {
+        google()
         jcenter()
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.3'
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
+        classpath "com.android.tools.build:gradle:$versions.plugins.android"
+        classpath "com.github.ben-manes:gradle-versions-plugin:$versions.plugins.versions"
+        classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:$versions.plugins.bintray"
+        classpath "com.github.dcendents:android-maven-gradle-plugin:$versions.plugins.androidMaven"
     }
 }
 
 allprojects {
     repositories {
+        google()
         jcenter()
     }
 
     tasks.withType(Javadoc) {
-        options.addStringOption('Xdoclint:none', '-quiet')
+        options.addStringOption("Xdoclint:none", "-quiet")
     }
 }
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+dependencyUpdates.resolutionStrategy = {
+    componentSelection { rules ->
+        rules.all { selection ->
+            boolean rejected = ["alpha", "beta", "rc", "cr", "m"].any { qualifier ->
+                selection.candidate.version ==~ /(?i).*[.-]${qualifier}[.\d-]*/
+            }
+            if (rejected) {
+                selection.reject("Beta version")
+            }
+        }
+    }
 }

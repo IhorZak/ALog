@@ -1,54 +1,44 @@
-apply plugin: 'com.android.library'
-apply plugin: 'com.jfrog.bintray'
-apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: "com.android.library"
+apply plugin: "com.jfrog.bintray"
+apply plugin: "com.github.dcendents.android-maven"
 
-def Properties localProperties = new Properties()
-localProperties.load(rootProject.file('local.properties').newDataInputStream())
+def localProperties = new Properties()
+localProperties.load(rootProject.file("local.properties").newDataInputStream())
 
 def versionProperties = new Properties()
-versionProperties.load(new FileInputStream('version.properties'))
+versionProperties.load(new FileInputStream("version.properties"))
 
-def siteUrl = 'https://github.com/IhorZak/ALog'
-def gitUrl = 'https://github.com/IhorZak/ALog.git'
+def siteUrl = "https://github.com/IhorZak/ALog"
+def gitUrl = "https://github.com/IhorZak/ALog.git"
 
-project.archivesBaseName = 'alog'
-group 'ua.pp.ihorzak'
-version versionProperties.getProperty('VERSION_NAME')
+project.archivesBaseName = "alog"
+group "ua.pp.ihorzak"
+version versionProperties.getProperty("VERSION_NAME")
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    buildToolsVersion versions.buildTools
+
+    compileSdkVersion versions.sdk.compile
 
     defaultConfig {
-        minSdkVersion 1
-        targetSdkVersion 25
-        versionCode Integer.parseInt(versionProperties.getProperty('VERSION_CODE'))
-        versionName versionProperties.getProperty('VERSION_NAME')
+        minSdkVersion versions.sdk.min
+        targetSdkVersion versions.sdk.target
+
+        versionCode Integer.parseInt(versionProperties.getProperty("VERSION_CODE"))
+        versionName versionProperties.getProperty("VERSION_NAME")
     }
 
-    //noinspection GrUnresolvedAccess
-    libraryVariants.all { variant ->
-        variant.outputs.each { output ->
-            def file = output.outputFile
-            //noinspection GroovyAssignabilityCheck,GrUnresolvedAccess
-            def fileName = 'alog-' + variant.buildType.name + '-' +
-                    defaultConfig.versionName + '-' + defaultConfig.versionCode + '.aar'
-            //noinspection GroovyAssignabilityCheck
-            output.outputFile = new File(file.parent, fileName)
-        }
-    }
-
-    return void
+    testOptions.unitTests.includeAndroidResources = true
 }
 
 dependencies {
-    testCompile 'junit:junit:4.12'
-    testCompile 'org.robolectric:robolectric:3.1.4'
+    testImplementation "junit:junit:$versions.testDependencies.jUnit"
+    testImplementation "org.robolectric:robolectric:$versions.testDependencies.robolectric"
 }
 
 task sourcesJar(type: Jar) {
     from android.sourceSets.main.java.srcDirs
-    classifier = 'sources'
+    classifier = "sources"
 }
 
 task javadoc(type: Javadoc) {
@@ -57,8 +47,7 @@ task javadoc(type: Javadoc) {
 }
 
 task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    //noinspection GroovyAccessibility
+    classifier = "javadoc"
     from javadoc.destinationDir
 }
 
@@ -71,21 +60,21 @@ install {
     repositories.mavenInstaller {
         pom {
             project {
-                packaging 'aar'
-                name 'ALog'
+                packaging "aar"
+                name "ALog"
                 url siteUrl
 
                 licenses {
                     license {
-                        name 'The Apache Software License, Version 2.0'
-                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        name "The Apache Software License, Version 2.0"
+                        url "http://www.apache.org/licenses/LICENSE-2.0.txt"
                     }
                 }
 
                 developers {
                     developer {
-                        name 'Ihor Zakhozhyi'
-                        email 'ihorzak@gmail.com'
+                        name "Ihor Zakhozhyi"
+                        email "ihorzak@gmail.com"
                     }
                 }
             }
@@ -94,16 +83,16 @@ install {
 }
 
 bintray {
-    user = localProperties.getProperty('bintray.user')
-    key = localProperties.getProperty('bintray.key')
+    user = localProperties.getProperty("bintray.user")
+    key = localProperties.getProperty("bintray.key")
 
-    configurations = ['archives']
+    configurations = ["archives"]
 
     pkg {
-        repo = 'maven'
-        name = 'ALog'
+        repo = "maven"
+        name = "ALog"
         websiteUrl = siteUrl
         vcsUrl = gitUrl
-        licenses = ['Apache-2.0']
+        licenses = ["Apache-2.0"]
     }
 }

@@ -1,0 +1,44 @@
+ext {
+    versions = [
+        // Gradle Plugins
+        plugins : [
+                android                 : "3.3.1",
+                versions                : "0.20.0",
+                bintray                 : "1.8.4",
+                androidMaven            : "2.1"
+        ],
+
+        // Android Build Tools
+        buildTools                      : "28.0.3",
+
+        // Android SDK Versions
+        sdk : [
+                compile                 : 28,
+                min                     :  1,
+                target                  : 28
+        ],
+
+        // Unit Tests Dependencies
+        testDependencies : [
+                jUnit                   : "4.12",
+                robolectric             : "4.1"
+        ],
+
+        // Sample Application Android SDK Versions
+        sampleSdk : [
+                compile                 : 28,
+                min                     : 14,
+                target                  : 28
+        ],
+
+        // Sample Application Dependencies
+        sampleDependencies : [
+                appCompat               : "28.0.0"
+        ],
+
+        // Sample Application Unit Tests Dependencies
+        sampleTestDependencies : [
+                jUnit                   : "4.12"
+        ]
+    ]
+}

@@ -1,5 +1,5 @@
 /*
- * Copyright 2016 Ihor Zakhozhyi
+ * Copyright 2019 Ihor Zakhozhyi
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,15 +14,22 @@
  * limitations under the License.
  */
 
-package ua.pp.ihorzak.alog.test;
+package ua.pp.ihorzak.alog.sample;
 
-import org.junit.runner.RunWith;
-import org.robolectric.RobolectricTestRunner;
+import org.junit.Assert;
+import org.junit.Test;
+
+import ua.pp.ihorzak.alog.ALog;
 
 /**
- * Base unit tests class with configured robolectric.
+ * JVM unit test which contains ALog call example.
  *
  * @author Ihor Zakhozhyi <ihorzak@gmail.com>
  */
-@RunWith(RobolectricTestRunner.class)
-public abstract class BaseTest {}
+public class ExampleTest {
+    @Test
+    public void testAddition_2and2_shouldBe4() {
+        ALog.d("ALog call in JVM unit test");
+        Assert.assertEquals(4, 2 + 2);
+    }
+}
