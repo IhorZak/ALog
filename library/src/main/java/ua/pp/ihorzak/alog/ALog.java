@@ -519,8 +519,8 @@ public final class ALog {
     /**
      * Formats JSON string and sends logging message with it.
      *
-     * @param json JSON string.
      * @param level Logging level. See {@link ALogLevel}.
+     * @param json JSON string.
      */
     public static void json(ALogLevel level, String json) {
         verifyInitialization();
@@ -545,13 +545,39 @@ public final class ALog {
     /**
      * Formats XML string and sends logging message with it.
      *
-     * @param xml XML string.
      * @param level Logging level. See {@link ALogLevel}.
+     * @param xml XML string.
      */
     public static void xml(ALogLevel level, String xml) {
         verifyInitialization();
         if (configuration.mIsEnabled && configuration.mMinimalLevel.compareTo(level) >= 0) {
             logger.xml(level, xml);
+        }
+    }
+
+    /**
+     * Formats bytes as hexadecimal format string and sends logging message with it. Logging
+     * message level is set via {@link ALogConfiguration}.
+     *
+     * @param bytes Byte array.
+     */
+    public static void hex(byte[] bytes) {
+        verifyInitialization();
+        if (configuration.mIsEnabled && configuration.mMinimalLevel.compareTo(configuration.mHexLevel) >= 0) {
+            logger.hex(bytes);
+        }
+    }
+
+    /**
+     * Formats bytes as hexadecimal format string and sends logging message with it.
+     *
+     * @param level Logging level. See {@link ALogLevel}.
+     * @param bytes Byte array.
+     */
+    public static void hex(ALogLevel level, byte[] bytes) {
+        verifyInitialization();
+        if (configuration.mIsEnabled && configuration.mMinimalLevel.compareTo(level) >= 0) {
+            logger.hex(level, bytes);
         }
     }
 

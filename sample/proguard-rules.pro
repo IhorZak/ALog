@@ -27,6 +27,7 @@
     public *** minimalLevel(...);
     public *** jsonLevel(...);
     public *** xmlLevel(...);
+    public *** hexLevel(...);
     public *** tag(...);
     public *** threadPrefixEnabled(...);
     public *** classPrefixEnabled(...);
@@ -56,6 +57,7 @@
     public static *** wtf(...);
     public static *** json(...);
     public static *** xml(...);
+    public static *** hex(...);
 }
 -assumenosideeffects class ua.pp.ihorzak.alog.ALogger {
     public *** v(...);
@@ -66,4 +68,5 @@
     public *** wtf(...);
     public *** json(...);
     public *** xml(...);
+    public *** hex(...);
 }

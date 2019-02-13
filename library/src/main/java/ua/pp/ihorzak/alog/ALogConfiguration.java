@@ -41,6 +41,7 @@ public final class ALogConfiguration {
     private static final ALogLevel DEFAULT_MINIMAL_LEVEL = ALogLevel.VERBOSE;
     private static final ALogLevel DEFAULT_JSON_LEVEL = ALogLevel.INFO;
     private static final ALogLevel DEFAULT_XML_LEVEL = ALogLevel.INFO;
+    private static final ALogLevel DEFAULT_HEX_LEVEL = ALogLevel.INFO;
     private static final String DEFAULT_TAG = null;
     private static final boolean DEFAULT_IS_THREAD_PREFIX_ENABLED = true;
     private static final boolean DEFAULT_IS_CLASS_PREFIX_ENABLED = false;
@@ -58,6 +59,7 @@ public final class ALogConfiguration {
     final ALogLevel mMinimalLevel;
     final ALogLevel mJsonLevel;
     final ALogLevel mXmlLevel;
+    final ALogLevel mHexLevel;
 
     final String mTag;
 
@@ -80,6 +82,7 @@ public final class ALogConfiguration {
                               ALogLevel minimalLevel,
                               ALogLevel jsonLevel,
                               ALogLevel xmlLevel,
+                              ALogLevel hexLevel,
                               String tag,
                               boolean isThreadPrefixEnabled,
                               boolean isClassPrefixEnabled,
@@ -96,6 +99,7 @@ public final class ALogConfiguration {
         mMinimalLevel = minimalLevel;
         mJsonLevel = jsonLevel;
         mXmlLevel = xmlLevel;
+        mHexLevel = hexLevel;
         mTag = tag;
         mIsThreadPrefixEnabled = isThreadPrefixEnabled;
         mIsClassPrefixEnabled = isClassPrefixEnabled;
@@ -123,12 +127,13 @@ public final class ALogConfiguration {
     /**
      * Builder to create configured {@link ALogConfiguration} instance.
      */
-    @SuppressWarnings({"WeakerAccess", "unused"})
+    @SuppressWarnings({"WeakerAccess", "unused", "UnusedReturnValue"})
     public static class Builder {
         private boolean mIsEnabled;
         private ALogLevel mMinimalLevel;
         private ALogLevel mJsonLevel;
         private ALogLevel mXmlLevel;
+        private ALogLevel mHexLevel;
         private String mTag;
         private boolean mIsThreadPrefixEnabled;
         private boolean mIsClassPrefixEnabled;
@@ -147,6 +152,7 @@ public final class ALogConfiguration {
             mMinimalLevel = DEFAULT_MINIMAL_LEVEL;
             mJsonLevel = DEFAULT_JSON_LEVEL;
             mXmlLevel = DEFAULT_XML_LEVEL;
+            mHexLevel = DEFAULT_HEX_LEVEL;
             mTag = DEFAULT_TAG;
             mIsThreadPrefixEnabled = DEFAULT_IS_THREAD_PREFIX_ENABLED;
             mIsClassPrefixEnabled = DEFAULT_IS_CLASS_PREFIX_ENABLED;
@@ -166,6 +172,7 @@ public final class ALogConfiguration {
             mMinimalLevel = configuration.mMinimalLevel;
             mJsonLevel = configuration.mJsonLevel;
             mXmlLevel = configuration.mXmlLevel;
+            mHexLevel = configuration.mHexLevel;
             mTag = configuration.mTag;
             mIsThreadPrefixEnabled = configuration.mIsThreadPrefixEnabled;
             mIsClassPrefixEnabled = configuration.mIsClassPrefixEnabled;
@@ -232,6 +239,21 @@ public final class ALogConfiguration {
          */
         public Builder xmlLevel(ALogLevel xmlLevel) {
             mXmlLevel = xmlLevel;
+            return this;
+        }
+
+        /**
+         * Sets logging level for {@link ALog#hex(byte[])} calls. Later hexadecimal formatted bytes
+         * can be logged with different logging level via {@link ALog#hex(ALogLevel, byte[])} calls.
+         * If not called by default hexadecimal formatted bytes logging level is set to
+         * {@link ALogLevel#INFO}.
+         *
+         * @param hexLevel Logging level for {@link ALog#hex(byte[])} calls.
+         *                 See {@link ALogLevel}.
+         * @return This builder instance.
+         */
+        public Builder hexLevel(ALogLevel hexLevel) {
+            mHexLevel = hexLevel;
             return this;
         }
 
@@ -404,8 +426,8 @@ public final class ALogConfiguration {
          * @return New {@link ALogConfiguration} instance.
          */
         public ALogConfiguration build() {
-            return new ALogConfiguration(mIsEnabled, mMinimalLevel, mJsonLevel, mXmlLevel, mTag,
-                    mIsThreadPrefixEnabled, mIsClassPrefixEnabled, mIsMethodPrefixEnabled,
+            return new ALogConfiguration(mIsEnabled, mMinimalLevel, mJsonLevel, mXmlLevel, mHexLevel,
+                    mTag, mIsThreadPrefixEnabled, mIsClassPrefixEnabled, mIsMethodPrefixEnabled,
                     mIsLineLocationPrefixEnabled, mStackTraceLineCount, mJsonIndentSpaceCount,
                     mXmlIndentSpaceCount, mIsArrayFormatterEnabled, mIsCollectionFormatterEnabled,
                     mIsMapFormatterEnabled, mFormatterMap);

@@ -72,4 +72,14 @@ final class StubALogger extends BaseALogger {
     public void xml(ALogLevel level, String xml) {
         // Do nothing.
     }
+
+    @Override
+    public void hex(byte[] bytes) {
+        // Do nothing.
+    }
+
+    @Override
+    public void hex(ALogLevel level, byte[] bytes) {
+        // Do nothing.
+    }
 }

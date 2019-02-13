@@ -3,6 +3,11 @@ apply plugin: "com.android.application"
 android {
     buildToolsVersion versions.buildTools
 
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
     compileSdkVersion versions.sampleSdk.compile
 
     def versionProperties = new Properties()

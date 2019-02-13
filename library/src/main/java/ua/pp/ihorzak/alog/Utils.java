@@ -44,6 +44,14 @@ final class Utils {
     private static final String PREFIX_COMMENT = "<!--";
     private static final String SUFFIX_COMMENT = "-->";
 
+    private static final int MAX_BYTE = 0xFF;
+    private static final int BYTE_MAX_LOW_CHAR = 0x0F;
+    private static final int BYTE_CHAR_BIT_COUNT = 4;
+    private static final char[] HEX_CHARS = new char[] {
+            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'
+    };
+    private static final char HEX_SEPARATOR = ' ';
+
     private Utils() {}
 
     /**
@@ -53,6 +61,7 @@ final class Utils {
      * @param o2 Second object.
      * @return true if objects are equal, otherwise false.
      */
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     static boolean equals(Object o1, Object o2) {
         return o1 == o2 || !(o1 == null || o2 == null) && o1.equals(o2);
     }
@@ -262,6 +271,20 @@ final class Utils {
             throw new XmlPullParserException("Expected \"" + nameStack.pop() + "\" close tag");
         }
         return stringBuilder.toString();
+    }
+
+    static String formatBytesAsHexString(byte[] bytes) {
+        char[] chars = new char[bytes.length * 3 - 1];
+        for (int i = 0; i < bytes.length; ++i) {
+            int temp = bytes[i] & MAX_BYTE;
+            int index = i * 3;
+            chars[index] = HEX_CHARS[temp >>> BYTE_CHAR_BIT_COUNT];
+            chars[index + 1] = HEX_CHARS[temp & BYTE_MAX_LOW_CHAR];
+            if (i < bytes.length - 1) {
+                chars[index + 2] = HEX_SEPARATOR;
+            }
+        }
+        return new String(chars);
     }
 
     /**

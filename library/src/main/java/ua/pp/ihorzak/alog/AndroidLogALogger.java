@@ -167,6 +167,27 @@ final class AndroidLogALogger extends BaseALogger {
         log(level, null, message);
     }
 
+    @Override
+    public void hex(byte[] bytes) {
+        hex(mConfiguration.mHexLevel, bytes);
+    }
+
+    @Override
+    public void hex(ALogLevel level, byte[] bytes) {
+        if (mConfiguration.mMinimalLevel.compareTo(level) < 0) {
+            return;
+        }
+        String message;
+        if (bytes == null) {
+            message = "Passed byte array is null";
+        } else if (bytes.length == 0) {
+            message = "Passed byte array is empty";
+        } else {
+            message = "Hex:\n" + Utils.formatBytesAsHexString(bytes);
+        }
+        log(level, null, message);
+    }
+
     @SuppressWarnings("WrongConstant")
     private void log(ALogLevel level, Throwable throwable, String message, Object... args) {
         String tag = mConfiguration.mTag;

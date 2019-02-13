@@ -249,8 +249,8 @@ public interface ALogger {
     /**
      * Formats JSON string and sends logging message with it.
      *
-     * @param json JSON string.
      * @param level Logging level. See {@link ALogLevel}.
+     * @param json JSON string.
      */
     void json(ALogLevel level, String json);
 
@@ -265,8 +265,24 @@ public interface ALogger {
     /**
      * Formats XML string and sends logging message with it.
      *
-     * @param xml XML string.
      * @param level Logging level. See {@link ALogLevel}.
+     * @param xml XML string.
      */
     void xml(ALogLevel level, String xml);
+
+    /**
+     * Formats bytes as hexadecimal format string and sends logging message with it. Logging
+     * message level is set via {@link ALogConfiguration}.
+     *
+     * @param bytes Byte array.
+     */
+    void hex(byte[] bytes);
+
+    /**
+     * Formats bytes as hexadecimal format string and sends logging message with it.
+     *
+     * @param level Logging level. See {@link ALogLevel}.
+     * @param bytes Byte array.
+     */
+    void hex(ALogLevel level, byte[] bytes);
 }

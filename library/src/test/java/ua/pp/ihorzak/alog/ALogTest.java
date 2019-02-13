@@ -1015,4 +1015,39 @@ public class ALogTest extends BaseTest {
         ALog.xml(ALogLevel.DEBUG, validXml);
         assertLogEquals(Log.DEBUG, null, formattedValidXml);
     }
+
+    @Test
+    public void testHex_Null() {
+        ALog.hex(null);
+        assertLogEquals(null, null, "Passed byte array is null");
+        ALog.hex(ALogLevel.WTF, null);
+        assertLogEquals(Log.ASSERT, null, "Passed byte array is null");
+    }
+
+    @Test
+    public void testHex_Empty() {
+        byte[] emptyBytes = new byte[0];
+        ALog.hex(emptyBytes);
+        assertLogEquals(null, null, "Passed byte array is empty");
+        ALog.hex(ALogLevel.VERBOSE, emptyBytes);
+        assertLogEquals(Log.VERBOSE, null, "Passed byte array is empty");
+    }
+
+    @Test
+    public void testHex_SingleByte() {
+        byte[] singleByte = {45};
+        ALog.hex(singleByte);
+        assertLogEquals(null, null, "Hex:\n2D");
+        ALog.hex(ALogLevel.WARNING, singleByte);
+        assertLogEquals(Log.WARN, null, "Hex:\n2D");
+    }
+
+    @Test
+    public void testHex_TenBytes() {
+        byte[] tenBytes = {111, 32, 123, -128, 0, -100, 98, 127, 32, 10};
+        ALog.hex(tenBytes);
+        assertLogEquals(null, null, "Hex:\n6F 20 7B 80 00 9C 62 7F 20 0A");
+        ALog.hex(ALogLevel.DEBUG, tenBytes);
+        assertLogEquals(Log.DEBUG, null, "Hex:\n6F 20 7B 80 00 9C 62 7F 20 0A");
+    }
 }
