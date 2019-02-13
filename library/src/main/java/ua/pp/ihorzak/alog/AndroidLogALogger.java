@@ -112,7 +112,7 @@ final class AndroidLogALogger extends BaseALogger {
 
     @Override
     public void json(ALogLevel level, String json) {
-        if (mConfiguration.mMinimalLevel.compareTo(mConfiguration.mJsonLevel) < 0) {
+        if (mConfiguration.mMinimalLevel.compareTo(level) < 0) {
             return;
         }
         String message;
@@ -146,7 +146,7 @@ final class AndroidLogALogger extends BaseALogger {
 
     @Override
     public void xml(ALogLevel level, String xml) {
-        if (mConfiguration.mMinimalLevel.compareTo(mConfiguration.mXmlLevel) < 0) {
+        if (mConfiguration.mMinimalLevel.compareTo(level) < 0) {
             return;
         }
         String message;
