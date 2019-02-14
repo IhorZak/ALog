@@ -229,10 +229,16 @@ final class AndroidLogALogger extends BaseALogger {
                         if (messageBuilder.length() > 0) {
                             messageBuilder.append('|');
                         }
+                        String fileName = null;
+                        int lineNumber = 0;
+                        for (int i = startStackIndex; fileName == null && i < stackTraceElements.length; ++i) {
+                            fileName = stackTraceElements[i].getFileName();
+                            lineNumber = stackTraceElements[i].getLineNumber();
+                        }
                         messageBuilder.append('(')
-                                      .append(startStackTraceElement.getFileName())
+                                      .append(fileName)
                                       .append(':')
-                                      .append(startStackTraceElement.getLineNumber())
+                                      .append(lineNumber)
                                       .append(')');
                     }
                     if (mConfiguration.mStackTraceLineCount > 0) {

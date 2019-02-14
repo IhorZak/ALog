@@ -37,15 +37,14 @@ import ua.pp.ihorzak.alog.ALogLevel;
  *
  * @author Ihor Zakhozhyi <ihorzak@gmail.com>
  */
-@SuppressWarnings("Convert2MethodRef")
 public class MainActivity extends AppCompatActivity {
     private static final ListItem[] LIST_ITEMS = {
-            new ListItem("ALog.v()", () -> ALog.v()),
-            new ListItem("ALog.d()", () -> ALog.d()),
-            new ListItem("ALog.i()", () -> ALog.i()),
-            new ListItem("ALog.w()", () -> ALog.w()),
-            new ListItem("ALog.e()", () -> ALog.e()),
-            new ListItem("ALog.wtf()", () -> ALog.wtf()),
+            new ListItem("ALog.v()", ALog::v),
+            new ListItem("ALog.d()", ALog::d),
+            new ListItem("ALog.i()", ALog::i),
+            new ListItem("ALog.w()", ALog::w),
+            new ListItem("ALog.e()", ALog::e),
+            new ListItem("ALog.wtf()", ALog::wtf),
             new ListItem("ALog.v(\"Message, %d, %s\", 10, \"Argument\")", () -> ALog.v("Message, %d, %s", 20, "Argument")),
             new ListItem("ALog.d(\"Message, %d, %s\", 10, \"Argument\")", () -> ALog.d("Message, %d, %s", 20, "Argument")),
             new ListItem("ALog.i(\"Message, %d, %s\", 10, \"Argument\")", () -> ALog.i("Message, %d, %s", 20, "Argument")),
