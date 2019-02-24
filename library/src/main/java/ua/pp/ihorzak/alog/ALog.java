@@ -45,7 +45,7 @@ public final class ALog {
      */
     public static void initialize(ALogConfiguration configuration) {
         ALog.configuration = configuration != null ? configuration : ALogConfiguration.builder().build();
-        logger = ALog.configuration.mIsEnabled ? new AndroidLogALogger(configuration) : new StubALogger();
+        logger = ALog.configuration.mIsEnabled ? new AndroidLogALogger(ALog.configuration) : new StubALogger();
     }
 
     /**

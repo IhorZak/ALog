@@ -67,6 +67,23 @@ public final class Utils {
     }
 
     /**
+     * Asserts last logged message and checks equality of expected message data suffix and actual
+     * message data suffix.
+     *
+     * @param priority Expected priority of last logged message or null to ignore priority check.
+     * @param tag Expected tag of last logged message or null to ignore tag check.
+     * @param suffix Expected message data suffix of last logged message or null to ignore message
+     *               data suffix check.
+     */
+    public static void assertLogEndsWith(Integer priority, String tag, String suffix) {
+        ShadowLog.LogItem logItem = getLastLogItem(priority, tag);
+        if (suffix != null) {
+            assertNotNull(logItem.msg);
+            assertTrue(logItem.msg.endsWith(suffix));
+        }
+    }
+
+    /**
      * Helper method to call correspondent ALog method from package different from ua.pp.ihorzak.alog.
      *
      * @param logger {@link ALogger} instance.
