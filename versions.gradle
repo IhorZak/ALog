@@ -2,7 +2,7 @@ ext {
     versions = [
         // Gradle Plugins
         plugins : [
-                android                 : "3.3.2",
+                android                 : "3.4.1",
                 versions                : "0.21.0",
                 bintray                 : "1.8.4",
                 androidMaven            : "2.1"
@@ -21,7 +21,7 @@ ext {
         // Unit Tests Dependencies
         testDependencies : [
                 jUnit                   : "4.12",
-                robolectric             : "4.2"
+                robolectric             : "4.3"
         ],
 
         // Sample Application Android SDK Versions
