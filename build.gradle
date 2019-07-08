@@ -31,10 +31,13 @@ task clean(type: Delete) {
     delete rootProject.buildDir
 }
 
+dependencyUpdates.revision = "release"
+dependencyUpdates.gradleReleaseChannel = "current"
+
 dependencyUpdates.resolutionStrategy = {
     componentSelection { rules ->
         rules.all { selection ->
-            boolean rejected = ["alpha", "beta", "rc", "cr", "m"].any { qualifier ->
+            boolean rejected = ["alpha", "beta", "rc", "cr", "m", "eap"].any { qualifier ->
                 selection.candidate.version ==~ /(?i).*[.-]${qualifier}[.\d-]*/
             }
             if (rejected) {
