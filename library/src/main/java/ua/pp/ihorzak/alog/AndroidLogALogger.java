@@ -32,6 +32,7 @@ import java.io.IOException;
  */
 final class AndroidLogALogger extends BaseALogger {
     private static final int MAX_TAG_LENGTH = 23;
+    private static final int MAX_ANDROID_LOG_MESSAGE_LENGTH = 4000;
 
     private static final String ALOG_PACKAGE_NAME = "ua.pp.ihorzak.alog";
 
@@ -269,6 +270,12 @@ final class AndroidLogALogger extends BaseALogger {
         if (tag != null && tag.length() > MAX_TAG_LENGTH) {
             tag = tag.substring(0, MAX_TAG_LENGTH - 1) + '\u2026';
         }
-        Log.println(level.getAndroidPriority(), tag, messageBuilder.toString());
+        int androidPriority = level.getAndroidPriority();
+        int offset = 0;
+        do {
+            int subMessageEnd = Math.min(messageBuilder.length(), offset + MAX_ANDROID_LOG_MESSAGE_LENGTH);
+            Log.println(androidPriority, tag, messageBuilder.substring(offset, subMessageEnd));
+            offset += subMessageEnd;
+        } while (offset < messageBuilder.length());
     }
 }

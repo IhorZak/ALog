@@ -35,17 +35,18 @@ public final class Utils {
     private Utils() {}
 
     /**
-     * Asserts last logged message and checks equality of expected message data and actual message
-     * data.
+     * Asserts last logged messages and checks equality of expected messages data and actual
+     * messages data.
      *
-     * @param priority Expected priority of last logged message or null to ignore priority check.
-     * @param tag Expected tag of last logged message or null to ignore tag check.
-     * @param message Expected message data of last logged message or null to ignore message data check.
+     * @param priority Expected priority of last logged messages or null to ignore priority check.
+     * @param tag Expected tag of last logged messages or null to ignore tag check.
+     * @param messages Expected messages data of last logged messages or null to ignore message data
+     *                 check.
      */
-    public static void assertLogEquals(Integer priority, String tag, String message) {
-        ShadowLog.LogItem logItem = getLastLogItem(priority, tag);
-        if (message != null) {
-            assertEquals(message, logItem.msg);
+    public static void assertLogEquals(Integer priority, String tag, String... messages) {
+        ShadowLog.LogItem[] logItems = getLastLogItems(priority, tag, messages.length);
+        for (int i = 0; i < messages.length; ++i) {
+            assertEquals(messages[i], logItems[i].msg);
         }
     }
 
@@ -59,7 +60,7 @@ public final class Utils {
      *               data prefix check.
      */
     public static void assertLogStartsWith(Integer priority, String tag, String prefix) {
-        ShadowLog.LogItem logItem = getLastLogItem(priority, tag);
+        ShadowLog.LogItem logItem = getLastLogItems(priority, tag, 1)[0];
         if (prefix != null) {
             assertNotNull(logItem.msg);
             assertTrue(logItem.msg.startsWith(prefix));
@@ -76,7 +77,7 @@ public final class Utils {
      *               data suffix check.
      */
     public static void assertLogEndsWith(Integer priority, String tag, String suffix) {
-        ShadowLog.LogItem logItem = getLastLogItem(priority, tag);
+        ShadowLog.LogItem logItem = getLastLogItems(priority, tag, 1)[0];
         if (suffix != null) {
             assertNotNull(logItem.msg);
             assertTrue(logItem.msg.endsWith(suffix));
@@ -155,15 +156,21 @@ public final class Utils {
         logger.wtf(throwable, message, args);
     }
 
-    private static ShadowLog.LogItem getLastLogItem(Integer priority, String tag) {
+    private static ShadowLog.LogItem[] getLastLogItems(Integer priority, String tag, int count) {
         List<ShadowLog.LogItem> logItemList = ShadowLog.getLogs();
-        ShadowLog.LogItem logItem = logItemList.get(logItemList.size() - 1);
-        if (priority != null) {
-            assertEquals((int) priority, logItem.type);
+        for (ShadowLog.LogItem item : logItemList) {
+            System.out.println(item);
         }
-        if (tag != null) {
-            assertEquals(tag, logItem.tag);
+        ShadowLog.LogItem[] logItems = new ShadowLog.LogItem[count];
+        for (int i = 0; i < count; ++i) {
+            logItems[i] = logItemList.get(logItemList.size() - count + i);
+            if (priority != null) {
+                assertEquals((int) priority, logItems[i].type);
+            }
+            if (tag != null) {
+                assertEquals(tag, logItems[i].tag);
+            }
         }
-        return logItem;
+        return logItems;
     }
 }
