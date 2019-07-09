@@ -35,24 +35,26 @@ final class ArrayALogFormatter extends ConfigurationALogFormatter<Object> {
     public String toLoggingString(Object object) {
         StringBuilder builder = new StringBuilder();
         Class<?> componentType = object.getClass().getComponentType();
-        if (Object.class.isAssignableFrom(componentType)) {
-            logObjectArray((Object[]) object, builder);
-        } else if (byte.class.isAssignableFrom(componentType)) {
-            logByteArray((byte[]) object, builder);
-        } else if (short.class.isAssignableFrom(componentType)) {
-            logShortArray((short[]) object, builder);
-        } else if (int.class.isAssignableFrom(componentType)) {
-            logIntArray((int[]) object, builder);
-        } else if (long.class.isAssignableFrom(componentType)) {
-            logLongArray((long[]) object, builder);
-        } else if (float.class.isAssignableFrom(componentType)) {
-            logFloatArray((float[]) object, builder);
-        } else if (double.class.isAssignableFrom(componentType)) {
-            logDoubleArray((double[]) object, builder);
-        } else if (boolean.class.isAssignableFrom(componentType)) {
-            logBooleanArray((boolean[]) object, builder);
-        } else if (char.class.isAssignableFrom(componentType)) {
-            logCharArray((char[]) object, builder);
+        if (componentType != null) {
+            if (Object.class.isAssignableFrom(componentType)) {
+                logObjectArray((Object[]) object, builder);
+            } else if (byte.class.isAssignableFrom(componentType)) {
+                logByteArray((byte[]) object, builder);
+            } else if (short.class.isAssignableFrom(componentType)) {
+                logShortArray((short[]) object, builder);
+            } else if (int.class.isAssignableFrom(componentType)) {
+                logIntArray((int[]) object, builder);
+            } else if (long.class.isAssignableFrom(componentType)) {
+                logLongArray((long[]) object, builder);
+            } else if (float.class.isAssignableFrom(componentType)) {
+                logFloatArray((float[]) object, builder);
+            } else if (double.class.isAssignableFrom(componentType)) {
+                logDoubleArray((double[]) object, builder);
+            } else if (boolean.class.isAssignableFrom(componentType)) {
+                logBooleanArray((boolean[]) object, builder);
+            } else if (char.class.isAssignableFrom(componentType)) {
+                logCharArray((char[]) object, builder);
+            }
         }
         return builder.toString();
     }

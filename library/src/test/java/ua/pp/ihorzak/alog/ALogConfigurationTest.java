@@ -196,17 +196,14 @@ public class ALogConfigurationTest extends BaseTest {
         ALogConfiguration defaultConfiguration = builder.build();
         assertNotNull(defaultConfiguration.mFormatterMap);
         assertTrue(defaultConfiguration.mFormatterMap.isEmpty());
-        ALogFormatter<Bundle> formatter = ALogFormatter.create(new ALogFormatterDelegate<Bundle>() {
-            @Override
-            public String toLoggingString(Bundle bundle) {
-                StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.append("Bundle [ ");
-                for (String key : bundle.keySet()) {
-                    stringBuilder.append(key).append(" ");
-                }
-                stringBuilder.append("]");
-                return stringBuilder.toString();
+        ALogFormatter<Bundle> formatter = ALogFormatter.create(bundle -> {
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.append("Bundle [ ");
+            for (String key : bundle.keySet()) {
+                stringBuilder.append(key).append(" ");
             }
+            stringBuilder.append("]");
+            return stringBuilder.toString();
         });
         builder.formatter(Bundle.class, formatter);
         ALogConfiguration configuration = builder.build();
@@ -219,60 +216,35 @@ public class ALogConfigurationTest extends BaseTest {
     @Test(expected = IllegalArgumentException.class)
     public void testBuilder_FormatterPrimitive() {
         ALogConfiguration.Builder builder = ALogConfiguration.builder();
-        ALogFormatter<Integer> formatter = ALogFormatter.create(new ALogFormatterDelegate<Integer>() {
-            @Override
-            public String toLoggingString(Integer integer) {
-                return String.valueOf(integer);
-            }
-        });
+        ALogFormatter<Integer> formatter = ALogFormatter.create(String::valueOf);
         builder.formatter(int.class, formatter);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testBuilder_FormatterPrimitiveWrapper() {
         ALogConfiguration.Builder builder = ALogConfiguration.builder();
-        ALogFormatter<Character> formatter = ALogFormatter.create(new ALogFormatterDelegate<Character>() {
-            @Override
-            public String toLoggingString(Character character) {
-                return String.valueOf(character);
-            }
-        });
+        ALogFormatter<Character> formatter = ALogFormatter.create(String::valueOf);
         builder.formatter(Character.class, formatter);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testBuilder_FormatterArray() {
         ALogConfiguration.Builder builder = ALogConfiguration.builder();
-        ALogFormatter<Object[]> formatter = ALogFormatter.create(new ALogFormatterDelegate<Object[]>() {
-            @Override
-            public String toLoggingString(Object[] objects) {
-                return "Array";
-            }
-        });
-        builder.formatter((new Object[0]).getClass(), formatter);
+        ALogFormatter<Object[]> formatter = ALogFormatter.create(objects -> "Array");
+        builder.formatter(Object[].class, formatter);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testBuilder_FormatterCollection() {
         ALogConfiguration.Builder builder = ALogConfiguration.builder();
-        ALogFormatter<Collection<Object>> formatter = ALogFormatter.create(new ALogFormatterDelegate<Collection<Object>>() {
-            @Override
-            public String toLoggingString(Collection<Object> collection) {
-                return "Collection";
-            }
-        });
+        ALogFormatter<Collection<Object>> formatter = ALogFormatter.create(collection -> "Collection");
         builder.formatter(Collection.class, formatter);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testBuilder_FormatterMap() {
         ALogConfiguration.Builder builder = ALogConfiguration.builder();
-        ALogFormatter<Map<String, Object>> formatter = ALogFormatter.create(new ALogFormatterDelegate<Map<String, Object>>() {
-            @Override
-            public String toLoggingString(Map<String, Object> map) {
-                return "Map";
-            }
-        });
+        ALogFormatter<Map<String, Object>> formatter = ALogFormatter.create(map -> "Map");
         builder.formatter(Map.class, formatter);
     }
 }

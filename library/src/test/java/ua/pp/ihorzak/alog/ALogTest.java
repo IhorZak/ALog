@@ -117,12 +117,9 @@ public class ALogTest extends BaseTest {
 
     @Test
     public void testV_ObjectCustomFormatter() {
-        ALogger logger = ALog.formatter(String.class, ALogFormatter.create(new ALogFormatterDelegate<String>() {
-            @Override
-            public String toLoggingString(String object) {
-                return "String: length = " + String.valueOf(object.length()) + ", \"" + object + "\"";
-            }
-        }));
+        ALogger logger = ALog.formatter(String.class, ALogFormatter.create((ALogFormatterDelegate<String>) object ->
+                "String: length = " + object.length() + ", \"" + object + "\""
+        ));
         logger.v("Argument");
         assertLogEquals(Log.VERBOSE, TAG, "String: length = 8, \"Argument\"");
     }
@@ -130,18 +127,10 @@ public class ALogTest extends BaseTest {
     @Test
     public void testV_FormattedMessageCustomFormatters() {
         Map<Class<?>, ALogFormatter<?>> formatterMap = new HashMap<>();
-        formatterMap.put(String.class, ALogFormatter.create(new ALogFormatterDelegate<String>() {
-            @Override
-            public String toLoggingString(String object) {
-                return "String: length = " + String.valueOf(object.length()) + ", \"" + object + "\"";
-            }
-        }));
-        formatterMap.put(BigInteger.class, ALogFormatter.create(new ALogFormatterDelegate<BigInteger>() {
-            @Override
-            public String toLoggingString(BigInteger object) {
-                return "BigInteger: " + object.longValue();
-            }
-        }));
+        formatterMap.put(String.class, ALogFormatter.create((ALogFormatterDelegate<String>) object ->
+                "String: length = " + object.length() + ", \"" + object + "\""
+        ));
+        formatterMap.put(BigInteger.class, ALogFormatter.create((ALogFormatterDelegate<BigInteger>) object -> "BigInteger: " + object.longValue()));
         ALogger logger = ALog.formatters(formatterMap);
         logger.v("Message (%s, %s)", "s1", BigInteger.valueOf(1000L));
         assertLogEquals(Log.VERBOSE, TAG, "Message (String: length = 2, \"s1\", BigInteger: 1000)");
@@ -249,12 +238,9 @@ public class ALogTest extends BaseTest {
 
     @Test
     public void testD_ObjectCustomFormatter() {
-        ALogger logger = ALog.formatter(String.class, ALogFormatter.create(new ALogFormatterDelegate<String>() {
-            @Override
-            public String toLoggingString(String object) {
-                return "String: length = " + String.valueOf(object.length()) + ", \"" + object + "\"";
-            }
-        }));
+        ALogger logger = ALog.formatter(String.class, ALogFormatter.create((ALogFormatterDelegate<String>) object ->
+                "String: length = " + object.length() + ", \"" + object + "\""
+        ));
         logger.d("Argument");
         assertLogEquals(Log.DEBUG, TAG, "String: length = 8, \"Argument\"");
     }
@@ -262,18 +248,12 @@ public class ALogTest extends BaseTest {
     @Test
     public void testD_FormattedMessageCustomFormatters() {
         Map<Class<?>, ALogFormatter<?>> formatterMap = new HashMap<>();
-        formatterMap.put(String.class, ALogFormatter.create(new ALogFormatterDelegate<String>() {
-            @Override
-            public String toLoggingString(String object) {
-                return "String: length = " + String.valueOf(object.length()) + ", \"" + object + "\"";
-            }
-        }));
-        formatterMap.put(BigInteger.class, ALogFormatter.create(new ALogFormatterDelegate<BigInteger>() {
-            @Override
-            public String toLoggingString(BigInteger object) {
-                return "BigInteger: " + object.longValue();
-            }
-        }));
+        formatterMap.put(String.class, ALogFormatter.create((ALogFormatterDelegate<String>) object ->
+                "String: length = " + object.length() + ", \"" + object + "\""
+        ));
+        formatterMap.put(BigInteger.class, ALogFormatter.create((ALogFormatterDelegate<BigInteger>) object ->
+                "BigInteger: " + object.longValue()
+        ));
         ALogger logger = ALog.formatters(formatterMap);
         logger.d("Message (%s, %s)", "s1", BigInteger.valueOf(1000L));
         assertLogEquals(Log.DEBUG, TAG, "Message (String: length = 2, \"s1\", BigInteger: 1000)");
@@ -381,12 +361,9 @@ public class ALogTest extends BaseTest {
 
     @Test
     public void testI_ObjectCustomFormatter() {
-        ALogger logger = ALog.formatter(String.class, ALogFormatter.create(new ALogFormatterDelegate<String>() {
-            @Override
-            public String toLoggingString(String object) {
-                return "String: length = " + String.valueOf(object.length()) + ", \"" + object + "\"";
-            }
-        }));
+        ALogger logger = ALog.formatter(String.class, ALogFormatter.create((ALogFormatterDelegate<String>) object ->
+                "String: length = " + object.length() + ", \"" + object + "\""
+        ));
         logger.i("Argument");
         assertLogEquals(Log.INFO, TAG, "String: length = 8, \"Argument\"");
     }
@@ -394,18 +371,12 @@ public class ALogTest extends BaseTest {
     @Test
     public void testI_FormattedMessageCustomFormatters() {
         Map<Class<?>, ALogFormatter<?>> formatterMap = new HashMap<>();
-        formatterMap.put(String.class, ALogFormatter.create(new ALogFormatterDelegate<String>() {
-            @Override
-            public String toLoggingString(String object) {
-                return "String: length = " + String.valueOf(object.length()) + ", \"" + object + "\"";
-            }
-        }));
-        formatterMap.put(BigInteger.class, ALogFormatter.create(new ALogFormatterDelegate<BigInteger>() {
-            @Override
-            public String toLoggingString(BigInteger object) {
-                return "BigInteger: " + object.longValue();
-            }
-        }));
+        formatterMap.put(String.class, ALogFormatter.create((ALogFormatterDelegate<String>) object ->
+                "String: length = " + object.length() + ", \"" + object + "\""
+        ));
+        formatterMap.put(BigInteger.class, ALogFormatter.create((ALogFormatterDelegate<BigInteger>) object ->
+                "BigInteger: " + object.longValue()
+        ));
         ALogger logger = ALog.formatters(formatterMap);
         logger.i("Message (%s, %s)", "s1", BigInteger.valueOf(1000L));
         assertLogEquals(Log.INFO, TAG, "Message (String: length = 2, \"s1\", BigInteger: 1000)");
@@ -513,12 +484,9 @@ public class ALogTest extends BaseTest {
 
     @Test
     public void testW_ObjectCustomFormatter() {
-        ALogger logger = ALog.formatter(String.class, ALogFormatter.create(new ALogFormatterDelegate<String>() {
-            @Override
-            public String toLoggingString(String object) {
-                return "String: length = " + String.valueOf(object.length()) + ", \"" + object + "\"";
-            }
-        }));
+        ALogger logger = ALog.formatter(String.class, ALogFormatter.create((ALogFormatterDelegate<String>) object ->
+                "String: length = " + object.length() + ", \"" + object + "\""
+        ));
         logger.w("Argument");
         assertLogEquals(Log.WARN, TAG, "String: length = 8, \"Argument\"");
     }
@@ -526,18 +494,12 @@ public class ALogTest extends BaseTest {
     @Test
     public void testW_FormattedMessageCustomFormatters() {
         Map<Class<?>, ALogFormatter<?>> formatterMap = new HashMap<>();
-        formatterMap.put(String.class, ALogFormatter.create(new ALogFormatterDelegate<String>() {
-            @Override
-            public String toLoggingString(String object) {
-                return "String: length = " + String.valueOf(object.length()) + ", \"" + object + "\"";
-            }
-        }));
-        formatterMap.put(BigInteger.class, ALogFormatter.create(new ALogFormatterDelegate<BigInteger>() {
-            @Override
-            public String toLoggingString(BigInteger object) {
-                return "BigInteger: " + object.longValue();
-            }
-        }));
+        formatterMap.put(String.class, ALogFormatter.create((ALogFormatterDelegate<String>) object ->
+                "String: length = " + object.length() + ", \"" + object + "\""
+        ));
+        formatterMap.put(BigInteger.class, ALogFormatter.create((ALogFormatterDelegate<BigInteger>) object ->
+                "BigInteger: " + object.longValue()
+        ));
         ALogger logger = ALog.formatters(formatterMap);
         logger.w("Message (%s, %s)", "s1", BigInteger.valueOf(1000L));
         assertLogEquals(Log.WARN, TAG, "Message (String: length = 2, \"s1\", BigInteger: 1000)");
@@ -645,12 +607,9 @@ public class ALogTest extends BaseTest {
 
     @Test
     public void testE_ObjectCustomFormatter() {
-        ALogger logger = ALog.formatter(String.class, ALogFormatter.create(new ALogFormatterDelegate<String>() {
-            @Override
-            public String toLoggingString(String object) {
-                return "String: length = " + String.valueOf(object.length()) + ", \"" + object + "\"";
-            }
-        }));
+        ALogger logger = ALog.formatter(String.class, ALogFormatter.create((ALogFormatterDelegate<String>) object ->
+                "String: length = " + object.length() + ", \"" + object + "\""
+        ));
         logger.e("Argument");
         assertLogEquals(Log.ERROR, TAG, "String: length = 8, \"Argument\"");
     }
@@ -658,18 +617,12 @@ public class ALogTest extends BaseTest {
     @Test
     public void testE_FormattedMessageCustomFormatters() {
         Map<Class<?>, ALogFormatter<?>> formatterMap = new HashMap<>();
-        formatterMap.put(String.class, ALogFormatter.create(new ALogFormatterDelegate<String>() {
-            @Override
-            public String toLoggingString(String object) {
-                return "String: length = " + String.valueOf(object.length()) + ", \"" + object + "\"";
-            }
-        }));
-        formatterMap.put(BigInteger.class, ALogFormatter.create(new ALogFormatterDelegate<BigInteger>() {
-            @Override
-            public String toLoggingString(BigInteger object) {
-                return "BigInteger: " + object.longValue();
-            }
-        }));
+        formatterMap.put(String.class, ALogFormatter.create((ALogFormatterDelegate<String>) object ->
+                "String: length = " + object.length() + ", \"" + object + "\""
+        ));
+        formatterMap.put(BigInteger.class, ALogFormatter.create((ALogFormatterDelegate<BigInteger>) object ->
+                "BigInteger: " + object.longValue()
+        ));
         ALogger logger = ALog.formatters(formatterMap);
         logger.e("Message (%s, %s)", "s1", BigInteger.valueOf(1000L));
         assertLogEquals(Log.ERROR, TAG, "Message (String: length = 2, \"s1\", BigInteger: 1000)");
@@ -777,12 +730,9 @@ public class ALogTest extends BaseTest {
 
     @Test
     public void testWtf_ObjectCustomFormatter() {
-        ALogger logger = ALog.formatter(String.class, ALogFormatter.create(new ALogFormatterDelegate<String>() {
-            @Override
-            public String toLoggingString(String object) {
-                return "String: length = " + String.valueOf(object.length()) + ", \"" + object + "\"";
-            }
-        }));
+        ALogger logger = ALog.formatter(String.class, ALogFormatter.create((ALogFormatterDelegate<String>) object ->
+                "String: length = " + object.length() + ", \"" + object + "\""
+        ));
         logger.wtf("Argument");
         assertLogEquals(Log.ASSERT, TAG, "String: length = 8, \"Argument\"");
     }
@@ -790,18 +740,12 @@ public class ALogTest extends BaseTest {
     @Test
     public void testWtf_FormattedMessageCustomFormatters() {
         Map<Class<?>, ALogFormatter<?>> formatterMap = new HashMap<>();
-        formatterMap.put(String.class, ALogFormatter.create(new ALogFormatterDelegate<String>() {
-            @Override
-            public String toLoggingString(String object) {
-                return "String: length = " + String.valueOf(object.length()) + ", \"" + object + "\"";
-            }
-        }));
-        formatterMap.put(BigInteger.class, ALogFormatter.create(new ALogFormatterDelegate<BigInteger>() {
-            @Override
-            public String toLoggingString(BigInteger object) {
-                return "BigInteger: " + object.longValue();
-            }
-        }));
+        formatterMap.put(String.class, ALogFormatter.create((ALogFormatterDelegate<String>) object ->
+                "String: length = " + object.length() + ", \"" + object + "\""
+        ));
+        formatterMap.put(BigInteger.class, ALogFormatter.create((ALogFormatterDelegate<BigInteger>) object ->
+                "BigInteger: " + object.longValue()
+        ));
         ALogger logger = ALog.formatters(formatterMap);
         logger.wtf("Message (%s, %s)", "s1", BigInteger.valueOf(1000L));
         assertLogEquals(Log.ASSERT, TAG, "Message (String: length = 2, \"s1\", BigInteger: 1000)");

@@ -31,12 +31,7 @@ public class ALogFormatterTest extends BaseTest {
     @Test
     public void testCreate() {
         final String loggingString = "Custom logging string";
-        ALogFormatterDelegate<String> delegate = new ALogFormatterDelegate<String>() {
-            @Override
-            public String toLoggingString(String object) {
-                return loggingString;
-            }
-        };
+        ALogFormatterDelegate<String> delegate = object -> loggingString;
         ALogFormatter<String> formatter = ALogFormatter.create(delegate);
         assertEquals(loggingString, formatter.toLoggingString("Some logging message"));
     }

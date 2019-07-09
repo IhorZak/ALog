@@ -10,8 +10,8 @@ ext {
 
         // Java Versions
         javaVersions : [
-                source                  : JavaVersion.VERSION_1_7,
-                target                  : JavaVersion.VERSION_1_7,
+                source                  : JavaVersion.VERSION_1_8,
+                target                  : JavaVersion.VERSION_1_8,
         ],
 
         // Android Build Tools
