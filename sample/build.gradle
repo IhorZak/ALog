@@ -4,8 +4,8 @@ android {
     buildToolsVersion versions.buildTools
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility versions.sampleJavaVersions.source
+        targetCompatibility versions.sampleJavaVersions.target
     }
 
     compileSdkVersion versions.sampleSdk.compile
@@ -59,4 +59,5 @@ dependencies {
     implementation "com.android.support:appcompat-v7:$versions.sampleDependencies.appCompat"
 
     testImplementation "junit:junit:$versions.sampleTestDependencies.jUnit"
+    testImplementation "org.robolectric:robolectric:$versions.sampleTestDependencies.robolectric"
 }

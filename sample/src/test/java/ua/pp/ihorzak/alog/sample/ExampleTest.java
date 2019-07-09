@@ -18,6 +18,8 @@ package ua.pp.ihorzak.alog.sample;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
 
 import ua.pp.ihorzak.alog.ALog;
 
@@ -26,10 +28,11 @@ import ua.pp.ihorzak.alog.ALog;
  *
  * @author Ihor Zakhozhyi <ihorzak@gmail.com>
  */
+@RunWith(RobolectricTestRunner.class)
 public class ExampleTest {
     @Test
     public void testAddition_2and2_shouldBe4() {
-        ALog.d("ALog call in JVM unit test");
+        ALog.d("ALog call in JVM unit test using Robolectric");
         Assert.assertEquals(4, 2 + 2);
     }
 }
