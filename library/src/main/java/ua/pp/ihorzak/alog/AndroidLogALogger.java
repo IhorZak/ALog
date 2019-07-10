@@ -36,7 +36,7 @@ final class AndroidLogALogger extends BaseALogger {
 
     private static final String ALOG_PACKAGE_NAME = "ua.pp.ihorzak.alog";
 
-    private ALogConfiguration mConfiguration;
+    private final ALogConfiguration mConfiguration;
 
     private static int findStartStackTraceIndex(StackTraceElement[] elements) {
         int startStackTraceIndex = -1;

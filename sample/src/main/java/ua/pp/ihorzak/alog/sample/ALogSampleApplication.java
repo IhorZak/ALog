@@ -26,6 +26,7 @@ import ua.pp.ihorzak.alog.ALogConfiguration;
  *
  * @author Ihor Zakhozhyi <ihorzak@gmail.com>
  */
+@SuppressWarnings({"WeakerAccess", "RedundantSuppression"})
 public class ALogSampleApplication extends Application {
     @Override
     public void onCreate() {

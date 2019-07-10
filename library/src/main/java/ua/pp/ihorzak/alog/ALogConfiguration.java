@@ -145,7 +145,7 @@ public final class ALogConfiguration {
         private boolean mIsArrayFormatterEnabled;
         private boolean mIsCollectionFormatterEnabled;
         private boolean mIsMapFormatterEnabled;
-        private Map<Class<?>, ALogFormatter<?>> mFormatterMap;
+        private final Map<Class<?>, ALogFormatter<?>> mFormatterMap;
 
         private Builder() {
             mIsEnabled = DEFAULT_IS_ENABLED;
@@ -410,6 +410,7 @@ public final class ALogConfiguration {
          * @throws IllegalArgumentException If passed class is primitive class, primitive class
          *                                  wrapper, array, collection or map.
          */
+        @SuppressWarnings({"SpellCheckingInspection", "RedundantSuppression"})
         public Builder formatter(Class<?> clazz, ALogFormatter<?> formatter) {
             if (clazz.isPrimitive() || Utils.isClassBoxedPrimitive(clazz) || clazz.isArray() ||
                     Collection.class.isAssignableFrom(clazz) || Map.class.isAssignableFrom(clazz)) {

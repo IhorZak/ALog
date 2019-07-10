@@ -89,7 +89,7 @@ final class Utils {
      * Formats XML string.
      *
      * @param xml XML string to be formatted.
-     * @param indentSpaceCount Identation space count.
+     * @param indentSpaceCount Indentation space count.
      * @return Formatted XML string.
      * @throws XmlPullParserException If XML string is invalid.
      * @throws IOException If some error occurred while reading XML string.
@@ -354,6 +354,7 @@ final class Utils {
                 formattedArgument = configuration.mMapFormatter.format(argument);
             } else if (configuration.mFormatterMap.containsKey(argumentClass)) {
                 ALogFormatter<?> formatter = configuration.mFormatterMap.get(argumentClass);
+                //noinspection ConstantConditions
                 formattedArgument = formatter.format(argument);
             } else {
                 formattedArgument = argument.toString();

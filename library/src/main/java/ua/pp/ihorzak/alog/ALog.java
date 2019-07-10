@@ -29,7 +29,7 @@ import java.util.Map;
  *
  * @author Ihor Zakhozhyi <ihorzak@gmail.com>
  */
-@SuppressWarnings("WeakerAccess")
+@SuppressWarnings({"WeakerAccess"})
 public final class ALog {
     private ALog() {}
 
@@ -40,7 +40,7 @@ public final class ALog {
      * Initializes {@link ALog} with configuration. In most cases it should be called once in
      * {@link Application#onCreate()} method.
      *
-     * @param configuration {@link ALogConfiguration} instance. If null {@link ALog} is inialized
+     * @param configuration {@link ALogConfiguration} instance. If null {@link ALog} is initialized
      *                      with default configuration.
      */
     public static void initialize(ALogConfiguration configuration) {
@@ -124,6 +124,7 @@ public final class ALog {
      * @return {@link ALogger} instance which uses custom formatting for passed classes instances
      *         with the help of passed {@link ALogFormatter} instances.
      */
+    @SuppressWarnings({"SpellCheckingInspection", "RedundantSuppression"})
     public static ALogger formatters(Map<Class<?>, ALogFormatter<?>> formatterMap) {
         verifyInitialization();
         if (configuration.mIsEnabled) {

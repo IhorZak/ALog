@@ -38,6 +38,7 @@ import ua.pp.ihorzak.alog.ALogLevel;
  * @author Ihor Zakhozhyi <ihorzak@gmail.com>
  */
 public class MainActivity extends AppCompatActivity {
+    @SuppressWarnings("SpellCheckingInspection")
     private static final ListItem[] LIST_ITEMS = {
             new ListItem("ALog.v()", ALog::v),
             new ListItem("ALog.d()", ALog::d),
@@ -76,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
             new ListItem("ALog.hex(ALogLevel.VERBOSE, new byte[] {111, 32, 123, -128, 0, -100, 98, 127, 32, 10});", () -> ALog.hex(ALogLevel.VERBOSE, new byte[] {111, 32, 123, -128, 0, -100, 98, 127, 32, 10})),
             new ListItem("Object o = null;\nALog.e(o);", () -> {
                 Object o = null;
+                //noinspection ConstantConditions
                 ALog.e(o);
             }),
             new ListItem("byte[] bytes = {1, 2, 3};\nALog.v(bytes);", () -> {
