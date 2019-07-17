@@ -138,7 +138,7 @@ buildscript {
 }
 
 dependencies {
-    compile 'ua.pp.ihorzak:alog:0.3.0'
+    compile 'ua.pp.ihorzak:alog:0.4.0'
 }
 ```
 

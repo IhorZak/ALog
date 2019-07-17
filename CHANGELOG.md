@@ -1,7 +1,7 @@
 # Changelog
 
 ## Version 0.4.0
-_2019.07.??_
+_2019.07.18_
 ### New
 * Added methods for logging byte arrays in hexadecimal string representation
 ### Fixed
