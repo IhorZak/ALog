@@ -12,6 +12,7 @@ ALog can provide additional information with log messages:
 
 Other important features of ALog are:
 - Formatted output of JSON and XML
+- Formatted output of byte arrays in hexadecimal representation
 - Automatic providing of log message tag based on class name
 - Pretty formatting of arrays, collections and maps
 - Possibility to provide custom formatters for object types
@@ -41,6 +42,7 @@ ALog.e("Message, %d, %s", 20, "Argument");
 ALog.wtf("Message, %d, %s", 20, "Argument"
 ALog.json("{\"id\":456,\"data\":[\"a\",\"b\",\"c\"]}");
 ALog.xml(ALogLevel.WARNING, "<root><object name=\"title\"><child/><child id=\"1\"><item/><item/></child></object></root>");
+ALog.hex(new byte[]{127, -13, 0, 123, -127});
 ALog.w(new IOException("Message");
 ```
 
@@ -157,6 +159,7 @@ If you want to remove ALog calls from release builds, you can use next ProGuard 
     public *** minimalLevel(...);
     public *** jsonLevel(...);
     public *** xmlLevel(...);
+    public *** hexLevel(...);
     public *** tag(...);
     public *** threadPrefixEnabled(...);
     public *** classPrefixEnabled(...);
@@ -186,6 +189,7 @@ If you want to remove ALog calls from release builds, you can use next ProGuard 
     public static *** wtf(...);
     public static *** json(...);
     public static *** xml(...);
+    public static *** hex(...);
 }
 -assumenosideeffects class ua.pp.ihorzak.alog.ALogger {
     public *** v(...);
@@ -196,6 +200,7 @@ If you want to remove ALog calls from release builds, you can use next ProGuard 
     public *** wtf(...);
     public *** json(...);
     public *** xml(...);
+    public *** hex(...);
 }
 ```
 
