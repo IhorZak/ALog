@@ -1,0 +1,7 @@
+<manifest
+    package="ua.pp.ihorzak.alog"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-sdk tools:overrideLibrary="androidx.test.monitor" />
+
+</manifest>

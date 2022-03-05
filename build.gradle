@@ -4,22 +4,21 @@ buildscript {
     apply from: "versions.gradle"
 
     repositories {
+        gradlePluginPortal()
         google()
-        jcenter()
+        mavenCentral()
     }
 
     dependencies {
         classpath "com.android.tools.build:gradle:$versions.plugins.android"
         classpath "com.github.ben-manes:gradle-versions-plugin:$versions.plugins.versions"
-        classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:$versions.plugins.bintray"
-        classpath "com.github.dcendents:android-maven-gradle-plugin:$versions.plugins.androidMaven"
     }
 }
 
 allprojects {
     repositories {
         google()
-        jcenter()
+        mavenCentral()
     }
 
     tasks.withType(Javadoc) {

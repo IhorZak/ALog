@@ -11,7 +11,7 @@ android {
     compileSdkVersion versions.sampleSdk.compile
 
     def versionProperties = new Properties()
-    versionProperties.load(new FileInputStream("version.properties"))
+    versionProperties.load(rootProject.file("version.properties").newDataInputStream())
 
     defaultConfig {
         applicationId "ua.pp.ihorzak.alog.sample"
@@ -56,8 +56,5 @@ android {
 
 dependencies {
     implementation project(":library")
-    implementation "com.android.support:appcompat-v7:$versions.sampleDependencies.appCompat"
-
-    testImplementation "junit:junit:$versions.sampleTestDependencies.jUnit"
-    testImplementation "org.robolectric:robolectric:$versions.sampleTestDependencies.robolectric"
+    implementation "androidx.appcompat:appcompat:$versions.sampleDependencies.appCompat"
 }
