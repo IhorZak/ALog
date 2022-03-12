@@ -177,6 +177,20 @@ public class ALogConfigurationTest extends BaseTest {
     }
 
     @Test
+    public void testBuilder_IterableFormatterEnabled() {
+        ALogConfiguration.Builder builder = ALogConfiguration.builder();
+        ALogConfiguration defaultConfiguration = builder.build();
+        assertNotNull(defaultConfiguration.mIterableFormatter);
+        assertTrue(defaultConfiguration.mIterableFormatter instanceof IterableALogFormatter);
+        builder.iterableFormatterEnabled(false);
+        assertNull(builder.build().mIterableFormatter);
+        builder.iterableFormatterEnabled(true);
+        ALogConfiguration enabledConfiguration = builder.build();
+        assertNotNull(enabledConfiguration.mIterableFormatter);
+        assertTrue(enabledConfiguration.mIterableFormatter instanceof IterableALogFormatter);
+    }
+
+    @Test
     public void testBuilder_MapFormatterEnabled() {
         ALogConfiguration.Builder builder = ALogConfiguration.builder();
         ALogConfiguration defaultConfiguration = builder.build();
