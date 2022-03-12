@@ -52,6 +52,7 @@ public final class ALogConfiguration {
     private static final int DEFAULT_XML_INDENT_SPACE_COUNT = 2;
     private static final boolean DEFAULT_IS_ARRAY_FORMATTER_ENABLED = true;
     private static final boolean DEFAULT_IS_COLLECTION_FORMATTER_ENABLED = true;
+    private static final boolean DEFAULT_IS_ITERABLE_FORMATTER_ENABLED = true;
     private static final boolean DEFAULT_IS_MAP_FORMATTER_ENABLED = true;
 
     final boolean mIsEnabled;
@@ -75,6 +76,7 @@ public final class ALogConfiguration {
 
     final ALogFormatter<Object> mArrayFormatter;
     final ALogFormatter<Collection<?>> mCollectionFormatter;
+    final ALogFormatter<Iterable<?>> mIterableFormatter;
     final ALogFormatter<Map<?, ?>> mMapFormatter;
     final Map<Class<?>, ALogFormatter<?>> mFormatterMap;
 
@@ -93,6 +95,7 @@ public final class ALogConfiguration {
                               int xmlIndentSpaceCount,
                               boolean isArrayFormatterEnabled,
                               boolean isCollectionFormatterEnabled,
+                              boolean isIterableFormatterEnabled,
                               boolean isMapFormatterEnabled,
                               Map<Class<?>, ALogFormatter<?>> formatterMap) {
         mIsEnabled = isEnabled;
@@ -113,6 +116,9 @@ public final class ALogConfiguration {
                 : null;
         mCollectionFormatter = isCollectionFormatterEnabled
                 ? new CollectionALogFormatter(this)
+                : null;
+        mIterableFormatter = isIterableFormatterEnabled
+                ? new IterableALogFormatter(this)
                 : null;
         mMapFormatter = isMapFormatterEnabled
                 ? new MapALogFormatter(this)
@@ -144,6 +150,7 @@ public final class ALogConfiguration {
         private int mXmlIndentSpaceCount;
         private boolean mIsArrayFormatterEnabled;
         private boolean mIsCollectionFormatterEnabled;
+        private boolean mIsIterableFormatterEnabled;
         private boolean mIsMapFormatterEnabled;
         private final Map<Class<?>, ALogFormatter<?>> mFormatterMap;
 
@@ -163,6 +170,7 @@ public final class ALogConfiguration {
             mXmlIndentSpaceCount = DEFAULT_XML_INDENT_SPACE_COUNT;
             mIsArrayFormatterEnabled = DEFAULT_IS_ARRAY_FORMATTER_ENABLED;
             mIsCollectionFormatterEnabled = DEFAULT_IS_COLLECTION_FORMATTER_ENABLED;
+            mIsIterableFormatterEnabled = DEFAULT_IS_ITERABLE_FORMATTER_ENABLED;
             mIsMapFormatterEnabled = DEFAULT_IS_MAP_FORMATTER_ENABLED;
             mFormatterMap = new HashMap<>();
         }
@@ -183,6 +191,7 @@ public final class ALogConfiguration {
             mXmlIndentSpaceCount = configuration.mXmlIndentSpaceCount;
             mIsArrayFormatterEnabled = configuration.mArrayFormatter != null;
             mIsCollectionFormatterEnabled = configuration.mCollectionFormatter != null;
+            mIsIterableFormatterEnabled = configuration.mIterableFormatter != null;
             mIsMapFormatterEnabled = configuration.mMapFormatter != null;
             mFormatterMap = new HashMap<>(configuration.mFormatterMap);
         }
@@ -388,6 +397,19 @@ public final class ALogConfiguration {
         }
 
         /**
+         * Enables/disables custom formatting for iterables. If not called by default this option is
+         * enabled.
+         *
+         * @param isIterableFormatterEnabled true if custom iterables formatting should be enabled,
+         *                                   false otherwise.
+         * @return This builder instance.
+         */
+        public Builder iterableFormatterEnabled(boolean isIterableFormatterEnabled) {
+            mIsIterableFormatterEnabled = isIterableFormatterEnabled;
+            return this;
+        }
+
+        /**
          * Enables/disables custom formatting for maps. If not called by default this option
          * is enabled.
          *
@@ -402,19 +424,20 @@ public final class ALogConfiguration {
 
         /**
          * Adds custom class instances logging formatter. Custom formatters are prohibited for
-         * primitive classes, primitive class wrappers, arrays, collections and maps.
+         * primitive classes, primitive class wrappers, arrays, collections, iterables and maps.
          *
          * @param clazz Class instances of which should be formatted with passed logging formatter.
          * @param formatter Custom logging formatter.
          * @return This builder instance.
          * @throws IllegalArgumentException If passed class is primitive class, primitive class
-         *                                  wrapper, array, collection or map.
+         *                                  wrapper, array, collection, iterable or map.
          */
         @SuppressWarnings({"SpellCheckingInspection", "RedundantSuppression"})
         public Builder formatter(Class<?> clazz, ALogFormatter<?> formatter) {
-            if (clazz.isPrimitive() || Utils.isClassBoxedPrimitive(clazz) || clazz.isArray() ||
-                    Collection.class.isAssignableFrom(clazz) || Map.class.isAssignableFrom(clazz)) {
-                throw new IllegalArgumentException("ALog can use only built-in formatters for arrays, collections and maps");
+            if (clazz.isPrimitive() || Utils.isClassBoxedPrimitive(clazz) ||
+                    clazz.isArray() || Collection.class.isAssignableFrom(clazz) ||
+                    Iterable.class.isAssignableFrom(clazz) || Map.class.isAssignableFrom(clazz)) {
+                throw new IllegalArgumentException("ALog can use only built-in formatters for arrays, collections, iterables and maps");
             }
             mFormatterMap.put(clazz, formatter);
             return this;
@@ -431,7 +454,7 @@ public final class ALogConfiguration {
                     mTag, mIsThreadPrefixEnabled, mIsClassPrefixEnabled, mIsMethodPrefixEnabled,
                     mIsLineLocationPrefixEnabled, mStackTraceLineCount, mJsonIndentSpaceCount,
                     mXmlIndentSpaceCount, mIsArrayFormatterEnabled, mIsCollectionFormatterEnabled,
-                    mIsMapFormatterEnabled, mFormatterMap);
+                    mIsIterableFormatterEnabled, mIsMapFormatterEnabled, mFormatterMap);
         }
     }
 }

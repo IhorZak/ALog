@@ -350,6 +350,8 @@ final class Utils {
                 formattedArgument = configuration.mArrayFormatter.format(argument);
             } else if (configuration.mCollectionFormatter != null && Collection.class.isAssignableFrom(argumentClass)) {
                 formattedArgument = configuration.mCollectionFormatter.format(argument);
+            } else if (configuration.mIterableFormatter != null && Iterable.class.isAssignableFrom(argumentClass)) {
+                formattedArgument = configuration.mIterableFormatter.format(argument);
             } else if (configuration.mMapFormatter != null && Map.class.isAssignableFrom(argumentClass)) {
                 formattedArgument = configuration.mMapFormatter.format(argument);
             } else if (configuration.mFormatterMap.containsKey(argumentClass)) {
