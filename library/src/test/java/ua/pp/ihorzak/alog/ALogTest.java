@@ -16,6 +16,15 @@
 
 package ua.pp.ihorzak.alog;
 
+import static ua.pp.ihorzak.alog.test.Utils.assertLogEquals;
+import static ua.pp.ihorzak.alog.test.Utils.assertLogStartsWith;
+import static ua.pp.ihorzak.alog.test.Utils.d;
+import static ua.pp.ihorzak.alog.test.Utils.e;
+import static ua.pp.ihorzak.alog.test.Utils.i;
+import static ua.pp.ihorzak.alog.test.Utils.v;
+import static ua.pp.ihorzak.alog.test.Utils.w;
+import static ua.pp.ihorzak.alog.test.Utils.wtf;
+
 import android.util.Log;
 
 import org.junit.Before;
@@ -29,16 +38,8 @@ import java.util.List;
 import java.util.Map;
 
 import ua.pp.ihorzak.alog.test.BaseTest;
+import ua.pp.ihorzak.alog.test.TestIterable;
 import ua.pp.ihorzak.alog.test.Utils;
-
-import static ua.pp.ihorzak.alog.test.Utils.assertLogEquals;
-import static ua.pp.ihorzak.alog.test.Utils.assertLogStartsWith;
-import static ua.pp.ihorzak.alog.test.Utils.d;
-import static ua.pp.ihorzak.alog.test.Utils.e;
-import static ua.pp.ihorzak.alog.test.Utils.i;
-import static ua.pp.ihorzak.alog.test.Utils.v;
-import static ua.pp.ihorzak.alog.test.Utils.w;
-import static ua.pp.ihorzak.alog.test.Utils.wtf;
 
 /**
  * {@link ALog} unit tests.
@@ -103,6 +104,13 @@ public class ALogTest extends BaseTest {
         list.add(1.0f);
         ALog.v(list);
         assertLogEquals(Log.VERBOSE, TAG, "java.util.ArrayList(size = 3) [Argument, 5, 1.0]");
+    }
+
+    @Test
+    public void testV_ObjectIterable() {
+        Iterable<Object> iterable = new TestIterable<>("Argument", 5, 1.0f);
+        ALog.v(iterable);
+        assertLogEquals(Log.VERBOSE, TAG, "ua.pp.ihorzak.alog.test.TestIterable(size = 3) [Argument, 5, 1.0]");
     }
 
     @Test
@@ -229,6 +237,13 @@ public class ALogTest extends BaseTest {
     }
 
     @Test
+    public void testD_ObjectIterable() {
+        Iterable<Object> iterable = new TestIterable<>("Argument", 5, 1.0f);
+        ALog.d(iterable);
+        assertLogEquals(Log.DEBUG, TAG, "ua.pp.ihorzak.alog.test.TestIterable(size = 3) [Argument, 5, 1.0]");
+    }
+
+    @Test
     public void testD_ObjectMap() {
         Map<Long, Integer> map = new LinkedHashMap<>();
         map.put(1L, 45);
@@ -297,7 +312,6 @@ public class ALogTest extends BaseTest {
         assertLogEquals(Log.DEBUG, TAG, formattedMessage + '\n' + Log.getStackTraceString(throwable));
     }
 
-    @SuppressWarnings("SpellCheckingInspection")
     @Test
     public void testD_LongMessage() {
         String longMessage = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Amet cursus sit amet dictum sit. Ante metus dictum at tempor commodo ullamcorper a lacus vestibulum. Non consectetur a erat nam at. Non tellus orci ac auctor augue mauris augue neque. Sed egestas egestas fringilla phasellus faucibus scelerisque eleifend. Tempor id eu nisl nunc mi ipsum faucibus vitae aliquet. Scelerisque eu ultrices vitae auctor eu. Scelerisque eleifend donec pretium vulputate sapien nec sagittis aliquam. Nisl nisi scelerisque eu ultrices vitae auctor eu augue. Quis enim lobortis scelerisque fermentum. Lectus nulla at volutpat diam ut venenatis tellus. Turpis egestas sed tempus urna et pharetra pharetra. Consequat semper viverra nam libero justo laoreet sit. Nunc scelerisque viverra mauris in aliquam sem fringilla. Elit sed vulputate mi sit amet mauris. Ut porttitor leo a diam sollicitudin tempor. Risus pretium quam vulputate dignissim suspendisse. Consectetur adipiscing elit pellentesque habitant morbi tristique senectus et. Ut porttitor leo a diam. Velit ut tortor pretium viverra suspendisse potenti nullam ac. Massa sapien faucibus et molestie ac. Non consectetur a erat nam at lectus urna duis convallis. Posuere ac ut consequat semper viverra. Eu ultrices vitae auctor eu augue ut lectus. Netus et malesuada fames ac turpis egestas. Nisl tincidunt eget nullam non. Urna id volutpat lacus laoreet non curabitur. Sit amet consectetur adipiscing elit duis. Sapien nec sagittis aliquam malesuada bibendum. Et leo duis ut diam quam nulla. Pretium fusce id velit ut tortor pretium viverra suspendisse. Arcu dictum varius duis at consectetur. Amet facilisis magna etiam tempor orci eu lobortis elementum nibh. Suspendisse sed nisi lacus sed viverra tellus in hac habitasse. Tempus imperdiet nulla malesuada pellentesque elit eget gravida cum. Tincidunt id aliquet risus feugiat. Nisl rhoncus mattis rhoncus urna neque. Aliquam nulla facilisi cras fermentum odio eu feugiat pretium nibh. Aenean euismod elementum nisi quis. Blandit libero volutpat sed cras ornare. Lectus mauris ultrices eros in cursus. Nulla aliquet enim tortor at auctor. Nisi porta lorem mollis aliquam ut porttitor leo a diam. Integer quis auctor elit sed vulputate mi. Eu nisl nunc mi ipsum. Nisl condimentum id venenatis a. In fermentum posuere urna nec. Porttitor rhoncus dolor purus non enim praesent. Pellentesque adipiscing commodo elit at. Porta non pulvinar neque laoreet. Mi ipsum faucibus vitae aliquet. Sagittis aliquam malesuada bibendum arcu vitae elementum curabitur vitae. Pellentesque adipiscing commodo elit at imperdiet dui. Sed augue lacus viverra vitae congue eu. Massa tincidunt dui ut ornare. Dui vivamus arcu felis bibendum ut tristique et egestas. Eleifend quam adipiscing vitae proin sagittis nisl rhoncus mattis rhoncus. Ut etiam sit amet nisl purus in mollis. Facilisi etiam dignissim diam quis. Cursus turpis massa tincidunt dui ut ornare lectus sit amet. Donec ultrices tincidunt arcu non sodales neque sodales. Hendrerit gravida rutrum quisque non tellus orci. Diam sit amet nisl suscipit adipiscing bibendum est. Risus pretium quam vulputate dignissim. Facilisi morbi tempus iaculis urna id volutpat lacus. Phasellus egestas tellus rutrum tellus pellentesque eu tincidunt. Sit amet nulla facilisi morbi tempus. Egestas quis ipsum suspendisse ultrices. Ornare suspendisse sed nisi lacus sed viverra. Dictum at tempor commodo ullamcorper a. Augue lacus viverra vitae congue eu consequat ac. Sed lectus vestibulum mattis ullamcorper. Morbi tempus iaculis urna id volutpat lacus laoreet non curabitur. Viverra aliquet eget sit amet tellus. Orci nulla pellentesque dignissim enim sit amet venenatis urna cursus. Volutpat lacus laoreet non curabitur gravida. Malesuada pellentesque elit eget gravida. Sed viverra tellus in hac habitasse platea dictumst vestibulum rhoncus. Purus viverra accumsan in nisl nisi scelerisque eu ultrices vitae. Diam sollicitudin tempor id eu nisl nunc. Aliquam malesuada bibendum arcu vitae elementum curabitur vitae nunc. Accumsan tortor posuere ac ut consequat. Eleifend quam adipiscing vitae proin sagittis nisl rhoncus mattis rhoncus. Sed ullamcorper morbi tincidunt ornare. Risus viverra adipiscing at in tellus integer. Euismod lacinia at quis risus. Pellentesque dignissim enim sit amet venenatis. Sed risus ultricies tristique nulla aliquet. Fusce ut placerat orci nulla pellentesque dignissim enim sit. Eu tincidunt tortor aliquam nulla facilisi cras fermentum. Dignissim suspendisse in est ante in. Ullamcorper eget nulla facilisi etiam dignissim diam. Eu consequat ac felis donec et odio pellentesque. Consequat interdum varius sit amet mattis vulputate enim nulla. Sit amet nisl suscipit adipiscing bibendum est ultricies integer quis. Quisque sagittis purus sit amet volutpat. At in tellus integer feugiat scelerisque varius morbi enim nunc. Volutpat lacus laoreet non curabitur gravida arcu ac tortor dignissim. Vulputate odio ut enim blandit volutpat. Et sollicitudin ac orci phasellus egestas tellus rutrum tellus pellentesque. Auctor augue mauris augue neque gravida in fermentum. Etiam sit amet nisl purus in mollis nunc sed id. Iaculis nunc sed augue lacus viverra vitae congue. Donec ac odio tempor orci dapibus ultrices in iaculis nunc. Nisl condimentum id venenatis a. Id ornare arcu odio ut sem nulla pharetra diam sit. Montes nascetur ridiculus mus mauris vitae ultricies leo integer. Euismod in pellentesque massa placerat. Tincidunt vitae semper quis lectus. Elementum pulvinar etiam non quam lacus suspendisse faucibus interdum posuere. At elementum eu facilisis sed odio morbi quis commodo odio. Consequat id porta nibh venenatis. Et molestie ac feugiat sed lectus vestibulum. In iaculis nunc sed augue lacus viverra vitae congue. Mi sit amet mauris commodo quis. Sed tempus urna et pharetra. Vel turpis nunc eget lorem dolor sed viverra ipsum nunc. Nunc consequat interdum varius sit amet mattis vulputate enim. Tristique senectus et netus et malesuada fames. Aliquam sem fringilla ut morbi tincidunt augue interdum velit euismod. Nulla posuere sollicitudin aliquam ultrices sagittis orci a scelerisque. Urna neque viverra justo nec ultrices dui. Sollicitudin nibh sit amet commodo nulla facilisi nullam vehicula ipsum. At volutpat diam ut venenatis tellus in metus vulputate. Viverra mauris in aliquam sem fringilla ut morbi. Sed elementum tempus egestas sed sed risus pretium. Tempor orci eu lobortis elementum nibh tellus molestie. Vestibulum lorem sed risus ultricies. Nullam ac tortor vitae purus faucibus ornare suspendisse. Id velit ut tortor pretium viverra suspendisse potenti nullam ac. Risus sed vulputate odio ut. Turpis massa tincidunt dui ut ornare lectus sit amet est. Praesent semper feugiat nibh sed pulvinar proin gravida. Mi bibendum neque egestas congue quisque. Lacus viverra vitae congue eu consequat ac felis donec. Vitae auctor eu augue ut lectus arcu bibendum at. Commodo ullamcorper a lacus vestibulum sed arcu non. Facilisis sed odio morbi quis commodo odio aenean. Urna neque viverra justo nec ultrices dui sapien. Facilisi nullam vehicula ipsum a arcu cursus vitae. Arcu dictum varius duis at consectetur lorem donec.";
@@ -351,6 +365,13 @@ public class ALogTest extends BaseTest {
         list.add(1.0f);
         ALog.i(list);
         assertLogEquals(Log.INFO, TAG, "java.util.ArrayList(size = 3) [Argument, 5, 1.0]");
+    }
+
+    @Test
+    public void testI_ObjectIterable() {
+        Iterable<Object> iterable = new TestIterable<>("Argument", 5, 1.0f);
+        ALog.i(iterable);
+        assertLogEquals(Log.INFO, TAG, "ua.pp.ihorzak.alog.test.TestIterable(size = 3) [Argument, 5, 1.0]");
     }
 
     @Test
@@ -478,6 +499,13 @@ public class ALogTest extends BaseTest {
     }
 
     @Test
+    public void testW_ObjectIterable() {
+        Iterable<Object> iterable = new TestIterable<>("Argument", 5, 1.0f);
+        ALog.w(iterable);
+        assertLogEquals(Log.WARN, TAG, "ua.pp.ihorzak.alog.test.TestIterable(size = 3) [Argument, 5, 1.0]");
+    }
+
+    @Test
     public void testW_ObjectMap() {
         Map<Long, Integer> map = new LinkedHashMap<>();
         map.put(1L, 45);
@@ -602,6 +630,13 @@ public class ALogTest extends BaseTest {
     }
 
     @Test
+    public void testE_ObjectIterable() {
+        Iterable<Object> iterable = new TestIterable<>("Argument", 5, 1.0f);
+        ALog.e(iterable);
+        assertLogEquals(Log.ERROR, TAG, "ua.pp.ihorzak.alog.test.TestIterable(size = 3) [Argument, 5, 1.0]");
+    }
+
+    @Test
     public void testE_ObjectMap() {
         Map<Long, Integer> map = new LinkedHashMap<>();
         map.put(1L, 45);
@@ -723,6 +758,13 @@ public class ALogTest extends BaseTest {
         list.add(1.0f);
         ALog.wtf(list);
         assertLogEquals(Log.ASSERT, TAG, "java.util.ArrayList(size = 3) [Argument, 5, 1.0]");
+    }
+
+    @Test
+    public void testWtf_ObjectIterable() {
+        Iterable<Object> iterable = new TestIterable<>("Argument", 5, 1.0f);
+        ALog.wtf(iterable);
+        assertLogEquals(Log.ASSERT, TAG, "ua.pp.ihorzak.alog.test.TestIterable(size = 3) [Argument, 5, 1.0]");
     }
 
     @Test
