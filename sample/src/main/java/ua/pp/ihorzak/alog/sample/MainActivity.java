@@ -17,6 +17,7 @@
 package ua.pp.ihorzak.alog.sample;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -93,6 +94,11 @@ public class MainActivity extends AppCompatActivity {
                 list.add(3);
                 list.add(4);
                 ALog.d(list);
+            }),
+            new ListItem("TextUtils.StringSplitter splitter = new TextUtils.SimpleStringSplitter(',');\nsplitter.setString(\"1,2,3,4\");\nALog.i(splitter);", () -> {
+                TextUtils.StringSplitter splitter = new TextUtils.SimpleStringSplitter(',');
+                splitter.setString("1,2,3,4");
+                ALog.i(splitter);
             }),
             new ListItem("Map<Long, Integer> map = new LinkedHashMap<>();\nmap.put(1L, 45);\nmap.put(2L, 76);\nmap.put(3L, 100);\nALog.w(map);", () -> {
                 Map<Long, Integer> map = new LinkedHashMap<>();
