@@ -19,7 +19,7 @@ ext {
         sdk : [
                 compile                 : 32,
                 min                     :  1,
-                target                  : 22
+                target                  : 31
         ],
 
         // Unit Tests Dependencies
