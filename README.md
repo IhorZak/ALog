@@ -67,7 +67,7 @@ logger.w("Message, %d, %s", 20, "Argument");
 logger.wtf(new RuntimeException("Fatal error"), "Message, %d, %s", 20, "Argument");
 ```
 
-Using default configuration ALog will use pretty formatters for arrays, collections and maps. So next code
+Using default configuration ALog will use pretty formatters for arrays, collections, iterables and maps. So next code
 ```java
 ALog.d(new int[] {1, 2, 3, 4});
 ALog.d(new Float[] {1.0f, 2.0f, 3.5f});
@@ -79,6 +79,9 @@ list.add(2);
 list.add(3);
 list.add(4);
 ALog.d(list);
+TextUtils.StringSplitter splitter = new TextUtils.SimpleStringSplitter(',');
+splitter.setString("1,2,3,4");
+ALog.d(splitter);
 Map<Long, Integer> map = new LinkedHashMap<>();
 map.put(1L, 45);
 map.put(2L, 76);
@@ -92,7 +95,8 @@ will produce the next output:
 02-08 21:19:59.637 3461-3461/ua.pp.ihorzak.alog.sample D/ALogSampleApplication: [main|MainActivity$override|onCreate|(MainActivity.java:295)] Array(size = 5) [s1, s2, s3, s4, s5]
 02-08 21:19:59.637 3461-3461/ua.pp.ihorzak.alog.sample D/ALogSampleApplication: [main|MainActivity$override|onCreate|(MainActivity.java:296)] Array(size = 3) [Array(size = 3) [1, 2, 3], Array(size = 4) [4, 5, 6, 7], Array(size = 2) [8, 9]]
 02-08 21:19:59.637 3461-3461/ua.pp.ihorzak.alog.sample D/ALogSampleApplication: [main|MainActivity$override|onCreate|(MainActivity.java:302)] java.util.ArrayList(size = 4) [1, 2, 3, 4]
-02-08 21:19:59.637 3461-3461/ua.pp.ihorzak.alog.sample D/ALogSampleApplication: [main|MainActivity$override|onCreate|(MainActivity.java:307)] java.util.LinkedHashMap(size = 3) [{1 -> 45}, {2 -> 76}, {3 -> 100}]
+03-13 03:00:48.471 3461-3461/ua.pp.ihorzak.alog.sample D/ALogSampleApplication: [main|MainActivity$override|onCreate|(MainActivity.java:307)] android.text.TextUtils$SimpleStringSplitter(size = 4) [1, 2, 3, 4]
+02-08 21:19:59.637 3461-3461/ua.pp.ihorzak.alog.sample D/ALogSampleApplication: [main|MainActivity$override|onCreate|(MainActivity.java:312)] java.util.LinkedHashMap(size = 3) [{1 -> 45}, {2 -> 76}, {3 -> 100}]
 ```
 
 There is also possibility to provide custom logging formatters for objects of almost any classes (except arrays, collections and primitive wrappers). This can be done at ALog initialization via `ALogConfiguration.Builder` class method `formatter(Class<?> clazz, ALogFormatter<?> formatter)`. If custom formatter is needed only for some piece of code `ALog` methods `formatter(Class<?> clazz, ALogFormatter<?> formatter)` and `formatters(Map<Class<?>, ALogFormatter<?>> formatterMap)` should be used for creation `ALogger` instances with needed formatters support.
