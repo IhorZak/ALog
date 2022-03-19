@@ -1,4 +1,6 @@
 apply plugin: "com.android.library"
+apply plugin: "maven-publish"
+apply plugin: "signing"
 
 def localProperties = new Properties()
 localProperties.load(rootProject.file("local.properties").newDataInputStream())
@@ -37,8 +39,8 @@ dependencies {
 }
 
 task sourcesJar(type: Jar) {
+    archiveClassifier.set("sources")
     from android.sourceSets.main.java.srcDirs
-    classifier = "sources"
 }
 
 task javadoc(type: Javadoc) {
@@ -47,11 +49,63 @@ task javadoc(type: Javadoc) {
 }
 
 task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = "javadoc"
+    archiveClassifier.set("javadoc")
     from javadoc.destinationDir
 }
 
 artifacts {
     archives javadocJar
     archives sourcesJar
+}
+
+signing {
+    useInMemoryPgpKeys(
+            localProperties.getProperty("signingKeyId"),
+            localProperties.getProperty("signingKey"),
+            localProperties.getProperty("signingPassword")
+    )
+    sign publishing.publications
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                groupId "ua.pp.ihorzak"
+                artifactId "alog"
+                version versionProperties.getProperty("VERSION_NAME")
+
+                artifact sourcesJar
+                artifact javadocJar
+
+                from components.release
+
+                pom {
+                    name = "ALog"
+                    description = "Simple Android logger based on android.util.Log"
+                    url = "https://github.com/IhorZak/ALog"
+
+                    licenses {
+                        license {
+                            name = "The Apache Software License, Version 2.0"
+                            url = "https://www.apache.org/licenses/LICENSE-2.0.txt"
+                        }
+                    }
+
+                    developers {
+                        developer {
+                            name = "Ihor Zakhozhyi"
+                            email = "ihorzak@gmail.com"
+                        }
+                    }
+
+                    scm {
+                        connection = "scm:git:github.com/IhorZak/ALog.git"
+                        developerConnection = "scm:git:ssh://github.com/IhorZak/ALog.git"
+                        url = "https://github.com/IhorZak/ALog/tree/master"
+                    }
+                }
+            }
+        }
+    }
 }

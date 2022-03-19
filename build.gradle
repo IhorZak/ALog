@@ -1,4 +1,5 @@
 apply plugin: "com.github.ben-manes.versions"
+apply plugin: "io.github.gradle-nexus.publish-plugin"
 
 buildscript {
     apply from: "versions.gradle"
@@ -11,6 +12,7 @@ buildscript {
 
     dependencies {
         classpath "com.android.tools.build:gradle:$versions.plugins.android"
+        classpath "io.github.gradle-nexus:publish-plugin:$versions.plugins.nexusPublish"
         classpath "com.github.ben-manes:gradle-versions-plugin:$versions.plugins.versions"
     }
 }
@@ -28,6 +30,21 @@ allprojects {
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+def localProperties = new Properties()
+localProperties.load(rootProject.file("local.properties").newDataInputStream())
+
+nexusPublishing {
+    repositories {
+        sonatype {
+            nexusUrl.set(uri("https://s01.oss.sonatype.org/service/local/"))
+            snapshotRepositoryUrl.set(uri("https://s01.oss.sonatype.org/content/repositories/snapshots/"))
+            username = localProperties.getProperty("sonatypeUsername")
+            password = localProperties.getProperty("sonatypePassword")
+            stagingProfileId = localProperties.getProperty("sonatypeStagingProfileId")
+        }
+    }
 }
 
 dependencyUpdates.revision = "release"

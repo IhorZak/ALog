@@ -3,13 +3,14 @@ ext {
         // Gradle Plugins
         plugins : [
                 android                 : "7.1.2",
-                versions                : "0.42.0",
+                nexusPublish            : "1.1.0",
+                versions                : "0.42.0"
         ],
 
         // Java Versions
         javaVersions : [
                 source                  : JavaVersion.VERSION_1_8,
-                target                  : JavaVersion.VERSION_1_8,
+                target                  : JavaVersion.VERSION_1_8
         ],
 
         // Android Build Tools
@@ -31,7 +32,7 @@ ext {
         // Sample Application Java Versions
         sampleJavaVersions : [
                 source                  : JavaVersion.VERSION_1_8,
-                target                  : JavaVersion.VERSION_1_8,
+                target                  : JavaVersion.VERSION_1_8
         ],
 
         // Sample Application Android SDK Versions
