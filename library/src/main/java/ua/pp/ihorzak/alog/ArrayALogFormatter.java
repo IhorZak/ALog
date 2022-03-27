@@ -32,7 +32,7 @@ final class ArrayALogFormatter extends ConfigurationALogFormatter<Object> {
     }
 
     @Override
-    public String toLoggingString(Object object) {
+    public String toLoggingString(Object object, ALogFormatter<Object> objectFormatter) {
         StringBuilder builder = new StringBuilder();
         Class<?> componentType = object.getClass().getComponentType();
         if (componentType != null) {

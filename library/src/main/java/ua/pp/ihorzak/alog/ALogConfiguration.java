@@ -74,6 +74,7 @@ public final class ALogConfiguration {
     final int mJsonIndentSpaceCount;
     final int mXmlIndentSpaceCount;
 
+    final ALogFormatter<Object> mObjectFormatter;
     final ALogFormatter<Object> mArrayFormatter;
     final ALogFormatter<Collection<?>> mCollectionFormatter;
     final ALogFormatter<Iterable<?>> mIterableFormatter;
@@ -111,6 +112,7 @@ public final class ALogConfiguration {
         mStackTraceLineCount = stackTraceLineCount;
         mJsonIndentSpaceCount = jsonIndentSpaceCount;
         mXmlIndentSpaceCount = xmlIndentSpaceCount;
+        mObjectFormatter = new ObjectALogFormatter(this);
         mArrayFormatter = isArrayFormatterEnabled
                 ? new ArrayALogFormatter(this)
                 : null;

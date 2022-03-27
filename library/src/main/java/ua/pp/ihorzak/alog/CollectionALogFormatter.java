@@ -35,7 +35,7 @@ final class CollectionALogFormatter extends ConfigurationALogFormatter<Collectio
     }
 
     @Override
-    public String toLoggingString(Collection<?> object) {
+    public String toLoggingString(Collection<?> object, ALogFormatter<Object> objectFormatter) {
         StringBuilder builder = new StringBuilder();
         builder.append(object.getClass().getName())
                .append("(size = ")

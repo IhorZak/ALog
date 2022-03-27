@@ -47,6 +47,19 @@ public abstract class ALogFormatter<T> {
     }
 
     /**
+     * Factory method to create new {@link ALogFormatter} instances.
+     *
+     * @param delegate {@link ALogFormatterDelegate} instance to format objects to logging strings.
+     * @param <T> Class of instances which can be transformed to logging string using created
+     *            {@link ALogFormatter} instances.
+     * @return {@link ALogFormatter} instance to be used for transforming specified class instances
+     *         to logging strings.
+     */
+    public static <T> ALogFormatter<T> create(ALogFormatterComplexDelegate<T> delegate) {
+        return new ComplexDelegateALogFormatter<>(delegate);
+    }
+
+    /**
      * Default constructor available only in package.
      */
     ALogFormatter() {}
@@ -55,18 +68,22 @@ public abstract class ALogFormatter<T> {
      * Transforms passed object into logging string.
      *
      * @param object Object to be transformed into logging string.
+     * @param objectFormatter Formatter to be used to transform this object contained instances to
+     *                        logging strings.
      * @return Logging string that represents passed object.
      */
     @SuppressWarnings("unchecked")
-    String format(Object object) {
-        return toLoggingString((T) object);
+    String format(Object object, ALogFormatter<Object> objectFormatter) {
+        return toLoggingString((T) object, objectFormatter);
     }
 
     /**
      * Transforms passed object into logging string.
      *
      * @param object Object to be transformed into logging string.
+     * @param objectFormatter Formatter to be used to transform this object contained instances to
+     *                        logging strings.
      * @return Logging string that represents passed object.
      */
-    abstract String toLoggingString(T object);
+    abstract String toLoggingString(T object, ALogFormatter<Object> objectFormatter);
 }

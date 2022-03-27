@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Ihor Zakhozhyi
+ * Copyright 2022 Ihor Zakhozhyi
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,25 +17,25 @@
 package ua.pp.ihorzak.alog;
 
 /**
- * {@link ALogFormatter} which uses {@link ALogFormatterDelegate} for objects transformation to
- * logging strings.
+ * {@link ALogFormatter} which uses {@link ALogFormatterComplexDelegate} for objects transformation
+ * to logging strings.
  *
  * @author Ihor Zakhozhyi <ihorzak@gmail.com>
  */
-final class DelegateALogFormatter<T> extends ALogFormatter<T> {
-    private final ALogFormatterDelegate<T> mDelegate;
+final class ComplexDelegateALogFormatter<T> extends ALogFormatter<T> {
+    private final ALogFormatterComplexDelegate<T> mComplexDelegate;
 
     /**
      * Constructor.
      *
-     * @param delegate {@link ALogFormatterDelegate} instance.
+     * @param complexDelegate {@link ALogFormatterComplexDelegate} instance.
      */
-    DelegateALogFormatter(ALogFormatterDelegate<T> delegate) {
-        mDelegate = delegate;
+    ComplexDelegateALogFormatter(ALogFormatterComplexDelegate<T> complexDelegate) {
+        mComplexDelegate = complexDelegate;
     }
 
     @Override
-    public String toLoggingString(T object, ALogFormatter<Object> objectFormatter) {
-        return mDelegate.toLoggingString(object);
+    String toLoggingString(T object, ALogFormatter<Object> objectFormatter) {
+        return mComplexDelegate.toLoggingString(object, objectFormatter);
     }
 }

@@ -16,11 +16,11 @@
 
 package ua.pp.ihorzak.alog;
 
+import static org.junit.Assert.assertEquals;
+
 import org.junit.Test;
 
 import ua.pp.ihorzak.alog.test.BaseTest;
-
-import static org.junit.Assert.assertEquals;
 
 /**
  * {@link ALogFormatter} unit tests.
@@ -29,10 +29,20 @@ import static org.junit.Assert.assertEquals;
  */
 public class ALogFormatterTest extends BaseTest {
     @Test
-    public void testCreate() {
+    public void testCreate_ALogFormatterDelegate() {
         final String loggingString = "Custom logging string";
         ALogFormatterDelegate<String> delegate = object -> loggingString;
         ALogFormatter<String> formatter = ALogFormatter.create(delegate);
-        assertEquals(loggingString, formatter.toLoggingString("Some logging message"));
+        ALogFormatter<Object> objectFormatter = new ObjectALogFormatter(ALogConfiguration.builder().build());
+        assertEquals(loggingString, formatter.format("Some logging message", objectFormatter));
+    }
+
+    @Test
+    public void testCreate_ALogFormatterComplexDelegate() {
+        final String loggingString = "Custom logging string";
+        ALogFormatterComplexDelegate<String> complexDelegate = (object, objectFormatter) -> loggingString;
+        ALogFormatter<String> formatter = ALogFormatter.create(complexDelegate);
+        ALogFormatter<Object> objectFormatter = new ObjectALogFormatter(ALogConfiguration.builder().build());
+        assertEquals(loggingString, formatter.format("Some logging message", objectFormatter));
     }
 }
