@@ -45,7 +45,7 @@ public final class ALog {
      */
     public static void initialize(ALogConfiguration configuration) {
         ALog.configuration = configuration != null ? configuration : ALogConfiguration.builder().build();
-        logger = ALog.configuration.mIsEnabled ? new AndroidLogALogger(ALog.configuration) : new StubALogger();
+        logger = ALog.configuration.mIsEnabled ? new AndroidLogALogger(ALog.configuration) : StubALoggerProvider.INSTANCE.mLogger;
     }
 
     /**
@@ -56,6 +56,9 @@ public final class ALog {
      */
     public static ALogger t(String tag) {
         verifyInitialization();
+        if (configuration == null) {
+            return StubALoggerProvider.INSTANCE.mLogger;
+        }
         if (configuration.mIsEnabled && !Utils.equals(configuration.mTag, tag)) {
             return new AndroidLogALogger(configuration.copyBuilder().tag(tag).build());
         } else {
@@ -73,6 +76,9 @@ public final class ALog {
      */
     public static ALogger st(int stackTraceLineCount) {
         verifyInitialization();
+        if (configuration == null) {
+            return StubALoggerProvider.INSTANCE.mLogger;
+        }
         if (configuration.mIsEnabled && configuration.mStackTraceLineCount != stackTraceLineCount) {
             return new AndroidLogALogger(configuration.copyBuilder().stackTraceLineCount(stackTraceLineCount).build());
         } else {
@@ -91,6 +97,9 @@ public final class ALog {
      */
     public static ALogger tst(String tag, int stackTraceLineCount) {
         verifyInitialization();
+        if (configuration == null) {
+            return StubALoggerProvider.INSTANCE.mLogger;
+        }
         if (configuration.mIsEnabled && (!Utils.equals(configuration.mTag, tag) || configuration.mStackTraceLineCount != stackTraceLineCount)) {
             return new AndroidLogALogger(configuration.copyBuilder().tag(tag).stackTraceLineCount(stackTraceLineCount).build());
         } else {
@@ -109,6 +118,9 @@ public final class ALog {
      */
     public static ALogger formatter(Class<?> clazz, ALogFormatter<?> formatter) {
         verifyInitialization();
+        if (configuration == null) {
+            return StubALoggerProvider.INSTANCE.mLogger;
+        }
         if (configuration.mIsEnabled) {
             return new AndroidLogALogger(configuration.copyBuilder().formatter(clazz, formatter).build());
         } else {
@@ -127,6 +139,9 @@ public final class ALog {
     @SuppressWarnings({"SpellCheckingInspection", "RedundantSuppression"})
     public static ALogger formatters(Map<Class<?>, ALogFormatter<?>> formatterMap) {
         verifyInitialization();
+        if (configuration == null) {
+            return StubALoggerProvider.INSTANCE.mLogger;
+        }
         if (configuration.mIsEnabled) {
             ALogConfiguration.Builder builder = configuration.copyBuilder();
             for (Map.Entry<Class<?>, ALogFormatter<?>> formatterEntry : formatterMap.entrySet()) {
