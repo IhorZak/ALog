@@ -22,7 +22,7 @@
 -assumenosideeffects class ua.pp.ihorzak.alog.ALogFormatter {
     public static *** create(...);
 }
--assumenosideeffects class ua.pp.ihorzak.alog.ALogConfiguration.Builder {
+-assumenosideeffects class ua.pp.ihorzak.alog.ALogConfiguration$Builder {
     public *** enabled(...);
     public *** minimalLevel(...);
     public *** jsonLevel(...);

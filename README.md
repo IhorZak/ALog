@@ -149,8 +149,8 @@ dependencies {
 ## API Reference
 [Javadoc][2]
 
-## ProGuard Configuration
-If you want to remove ALog calls from release builds, you can use next ProGuard rules:
+## ProGuard/R8 Configuration
+If you want to remove ALog calls from release builds, you can use next ProGuard/R8 rules:
 ```
 -assumenosideeffects class ua.pp.ihorzak.alog.ALogConfiguration {
     public static *** builder(...);
@@ -158,7 +158,7 @@ If you want to remove ALog calls from release builds, you can use next ProGuard 
 -assumenosideeffects class ua.pp.ihorzak.alog.ALogFormatter {
     public static *** create(...);
 }
--assumenosideeffects class ua.pp.ihorzak.alog.ALogConfiguration.Builder {
+-assumenosideeffects class ua.pp.ihorzak.alog.ALogConfiguration$Builder {
     public *** enabled(...);
     public *** minimalLevel(...);
     public *** jsonLevel(...);
