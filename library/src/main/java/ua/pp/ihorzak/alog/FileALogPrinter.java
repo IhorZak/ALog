@@ -48,7 +48,8 @@ final class FileALogPrinter implements ALogPrinter {
      * Constructor.
      *
      * @param filePath Path of the file to print logging messages into.
-     * @param append True if bytes will be written to the end of the file rather than the beginning.
+     * @param append True if file should be appended in case it exists, false if file content
+     *               should be overwritten in case it exists.
      */
     @SuppressLint("SimpleDateFormat")
     FileALogPrinter(String filePath, boolean append) {

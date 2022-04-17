@@ -36,8 +36,10 @@
     public *** stackTraceLineCount(...);
     public *** jsonIndentSpaceCount(...);
     public *** xmlIndentSpaceCount(...);
+    public *** file(...);
     public *** arrayFormatterEnabled(...);
     public *** collectionFormatterEnabled(...);
+    public *** iterableFormatterEnabled(...);
     public *** mapFormatterEnabled(...);
     public *** formatter(...);
     public *** build(...);

@@ -18,6 +18,7 @@ package ua.pp.ihorzak.alog;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
 /**
@@ -55,6 +56,8 @@ public final class ALogConfiguration {
     private static final boolean DEFAULT_IS_ITERABLE_FORMATTER_ENABLED = true;
     private static final boolean DEFAULT_IS_MAP_FORMATTER_ENABLED = true;
 
+    private final ALogPrinter mFilePrinter;
+
     final boolean mIsEnabled;
 
     final ALogLevel mMinimalLevel;
@@ -73,6 +76,8 @@ public final class ALogConfiguration {
 
     final int mJsonIndentSpaceCount;
     final int mXmlIndentSpaceCount;
+
+    final Collection<ALogPrinter> mPrinters;
 
     final ALogFormatter<Object> mObjectFormatter;
     final ALogFormatter<Object> mArrayFormatter;
@@ -94,6 +99,7 @@ public final class ALogConfiguration {
                               int stackTraceLineCount,
                               int jsonIndentSpaceCount,
                               int xmlIndentSpaceCount,
+                              ALogPrinter filePrinter,
                               boolean isArrayFormatterEnabled,
                               boolean isCollectionFormatterEnabled,
                               boolean isIterableFormatterEnabled,
@@ -112,6 +118,13 @@ public final class ALogConfiguration {
         mStackTraceLineCount = stackTraceLineCount;
         mJsonIndentSpaceCount = jsonIndentSpaceCount;
         mXmlIndentSpaceCount = xmlIndentSpaceCount;
+        mFilePrinter = filePrinter;
+        LinkedList<ALogPrinter> printerList = new LinkedList<>();
+        printerList.add(new AndroidLogALogPrinter());
+        if (mFilePrinter != null) {
+            printerList.add(mFilePrinter);
+        }
+        mPrinters = printerList;
         mObjectFormatter = new ObjectALogFormatter(this);
         mArrayFormatter = isArrayFormatterEnabled
                 ? new ArrayALogFormatter(this)
@@ -150,6 +163,7 @@ public final class ALogConfiguration {
         private int mStackTraceLineCount;
         private int mJsonIndentSpaceCount;
         private int mXmlIndentSpaceCount;
+        private ALogPrinter mFilePrinter;
         private boolean mIsArrayFormatterEnabled;
         private boolean mIsCollectionFormatterEnabled;
         private boolean mIsIterableFormatterEnabled;
@@ -170,6 +184,7 @@ public final class ALogConfiguration {
             mStackTraceLineCount = DEFAULT_STACK_TRACE_LINE_COUNT;
             mJsonIndentSpaceCount = DEFAULT_JSON_INDENT_SPACE_COUNT;
             mXmlIndentSpaceCount = DEFAULT_XML_INDENT_SPACE_COUNT;
+            mFilePrinter = null;
             mIsArrayFormatterEnabled = DEFAULT_IS_ARRAY_FORMATTER_ENABLED;
             mIsCollectionFormatterEnabled = DEFAULT_IS_COLLECTION_FORMATTER_ENABLED;
             mIsIterableFormatterEnabled = DEFAULT_IS_ITERABLE_FORMATTER_ENABLED;
@@ -191,6 +206,7 @@ public final class ALogConfiguration {
             mStackTraceLineCount = configuration.mStackTraceLineCount;
             mJsonIndentSpaceCount = configuration.mJsonIndentSpaceCount;
             mXmlIndentSpaceCount = configuration.mXmlIndentSpaceCount;
+            mFilePrinter = configuration.mFilePrinter;
             mIsArrayFormatterEnabled = configuration.mArrayFormatter != null;
             mIsCollectionFormatterEnabled = configuration.mCollectionFormatter != null;
             mIsIterableFormatterEnabled = configuration.mIterableFormatter != null;
@@ -373,6 +389,21 @@ public final class ALogConfiguration {
         }
 
         /**
+         * Sets file to print logging messages to. Logging to file is additional to the standard
+         * Android logging. Output to the single file is only supported. Repeated call to this
+         * method overrides previously set file.
+         *
+         * @param filePath Path of the file to print logging messages into.
+         * @param append True if file should be appended in case it exists, false if file content
+         *               should be overwritten in case it exists.
+         * @return This builder instance.
+         */
+        public Builder file(String filePath, boolean append) {
+            mFilePrinter = new FileALogPrinter(filePath, append);
+            return this;
+        }
+
+        /**
          * Enables/disables custom formatting for arrays. If not called by default this option is
          * enabled.
          *
@@ -455,8 +486,9 @@ public final class ALogConfiguration {
             return new ALogConfiguration(mIsEnabled, mMinimalLevel, mJsonLevel, mXmlLevel, mHexLevel,
                     mTag, mIsThreadPrefixEnabled, mIsClassPrefixEnabled, mIsMethodPrefixEnabled,
                     mIsLineLocationPrefixEnabled, mStackTraceLineCount, mJsonIndentSpaceCount,
-                    mXmlIndentSpaceCount, mIsArrayFormatterEnabled, mIsCollectionFormatterEnabled,
-                    mIsIterableFormatterEnabled, mIsMapFormatterEnabled, mFormatterMap);
+                    mXmlIndentSpaceCount, mFilePrinter, mIsArrayFormatterEnabled,
+                    mIsCollectionFormatterEnabled, mIsIterableFormatterEnabled,
+                    mIsMapFormatterEnabled, mFormatterMap);
         }
     }
 }
