@@ -42,7 +42,7 @@ final class AndroidLogALogPrinter implements ALogPrinter {
         do {
             int subMessageEnd = Math.min(message.length(), offset + MAX_ANDROID_LOG_MESSAGE_LENGTH);
             Log.println(androidPriority, tagString, message.subSequence(offset, subMessageEnd).toString());
-            offset += subMessageEnd;
+            offset += (subMessageEnd - offset);
         } while (offset < message.length());
     }
 }

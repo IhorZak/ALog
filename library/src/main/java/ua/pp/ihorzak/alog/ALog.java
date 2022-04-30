@@ -45,7 +45,7 @@ public final class ALog {
      */
     public static void initialize(ALogConfiguration configuration) {
         ALog.configuration = configuration != null ? configuration : ALogConfiguration.builder().build();
-        logger = ALog.configuration.mIsEnabled ? new AndroidLogALogger(ALog.configuration) : StubALoggerProvider.INSTANCE.mLogger;
+        logger = ALog.configuration.mIsEnabled ? new ConfigurationALogger(ALog.configuration) : StubALoggerProvider.INSTANCE.mLogger;
     }
 
     /**
@@ -60,7 +60,7 @@ public final class ALog {
             return StubALoggerProvider.INSTANCE.mLogger;
         }
         if (configuration.mIsEnabled && !Utils.equals(configuration.mTag, tag)) {
-            return new AndroidLogALogger(configuration.copyBuilder().tag(tag).build());
+            return new ConfigurationALogger(configuration.copyBuilder().tag(tag).build());
         } else {
             return logger;
         }
@@ -80,7 +80,7 @@ public final class ALog {
             return StubALoggerProvider.INSTANCE.mLogger;
         }
         if (configuration.mIsEnabled && configuration.mStackTraceLineCount != stackTraceLineCount) {
-            return new AndroidLogALogger(configuration.copyBuilder().stackTraceLineCount(stackTraceLineCount).build());
+            return new ConfigurationALogger(configuration.copyBuilder().stackTraceLineCount(stackTraceLineCount).build());
         } else {
             return logger;
         }
@@ -101,7 +101,7 @@ public final class ALog {
             return StubALoggerProvider.INSTANCE.mLogger;
         }
         if (configuration.mIsEnabled && (!Utils.equals(configuration.mTag, tag) || configuration.mStackTraceLineCount != stackTraceLineCount)) {
-            return new AndroidLogALogger(configuration.copyBuilder().tag(tag).stackTraceLineCount(stackTraceLineCount).build());
+            return new ConfigurationALogger(configuration.copyBuilder().tag(tag).stackTraceLineCount(stackTraceLineCount).build());
         } else {
             return logger;
         }
@@ -122,7 +122,7 @@ public final class ALog {
             return StubALoggerProvider.INSTANCE.mLogger;
         }
         if (configuration.mIsEnabled) {
-            return new AndroidLogALogger(configuration.copyBuilder().formatter(clazz, formatter).build());
+            return new ConfigurationALogger(configuration.copyBuilder().formatter(clazz, formatter).build());
         } else {
             return logger;
         }
@@ -147,7 +147,7 @@ public final class ALog {
             for (Map.Entry<Class<?>, ALogFormatter<?>> formatterEntry : formatterMap.entrySet()) {
                 builder.formatter(formatterEntry.getKey(), formatterEntry.getValue());
             }
-            return new AndroidLogALogger(builder.build());
+            return new ConfigurationALogger(builder.build());
         } else {
             return logger;
         }
