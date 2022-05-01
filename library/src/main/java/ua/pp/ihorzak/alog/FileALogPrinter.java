@@ -86,9 +86,11 @@ final class FileALogPrinter implements ALogPrinter {
                                         .append(' ')
                                         .append(tag)
                                         .append(' ')
-                                        .append(message)
-                                        .append('\n')
-                                        .flush();
+                                        .append(message);
+                            if (message.length() == 0 || message.charAt(message.length() - 1) != '\n') {
+                                mPrintWriter.println();
+                            }
+                            mPrintWriter.flush();
                         }
                     }
             );
