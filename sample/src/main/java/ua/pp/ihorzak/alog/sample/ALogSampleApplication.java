@@ -28,12 +28,17 @@ import ua.pp.ihorzak.alog.ALogConfiguration;
  */
 @SuppressWarnings({"WeakerAccess", "RedundantSuppression"})
 public class ALogSampleApplication extends Application {
+    private static final long LOG_FILE_LIFETIME = 3600L;
+
     @Override
     public void onCreate() {
         super.onCreate();
 
         // Initialize ALog
+        ALogFileManager aLogFileManager = new ALogFileManager(this, LOG_FILE_LIFETIME);
+        aLogFileManager.deleteObsoleteFiles();
         ALogConfiguration aLogConfiguration = ALogConfiguration.builder()
+                .file(aLogFileManager.createFile().getPath(), false)
                 .tag("ALogSampleApplication")
                 .classPrefixEnabled(true)
                 .jsonIndentSpaceCount(4)
