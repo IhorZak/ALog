@@ -2,7 +2,7 @@ ext {
     versions = [
         // Gradle Plugins
         plugins : [
-                android                 : "7.1.3",
+                android                 : "7.2.0",
                 nexusPublish            : "1.1.0",
                 versions                : "0.42.0"
         ],
