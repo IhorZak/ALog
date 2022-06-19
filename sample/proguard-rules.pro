@@ -19,6 +19,13 @@
 -assumenosideeffects class ua.pp.ihorzak.alog.ALogConfiguration {
     public static *** builder(...);
 }
+-assumenosideeffects class ua.pp.ihorzak.alog.ALogChunkFileNameProvider {
+    public *** getName(...);
+}
+-assumenosideeffects class ua.pp.ihorzak.alog.ALogFileConfiguration {
+    public static *** single(...);
+    public static *** chunked(...);
+}
 -assumenosideeffects class ua.pp.ihorzak.alog.ALogFormatter {
     public static *** create(...);
 }
@@ -36,8 +43,10 @@
     public *** stackTraceLineCount(...);
     public *** jsonIndentSpaceCount(...);
     public *** xmlIndentSpaceCount(...);
+    public *** file(...);
     public *** arrayFormatterEnabled(...);
     public *** collectionFormatterEnabled(...);
+    public *** iterableFormatterEnabled(...);
     public *** mapFormatterEnabled(...);
     public *** formatter(...);
     public *** build(...);

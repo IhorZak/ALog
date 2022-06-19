@@ -1,5 +1,13 @@
 # Changelog
 
+## Version 0.5.0
+_2022.06.19_
+### New
+* Implemented possibility to perform logging output to file on device storage
+* Implemented complex formatter delegate support to use other formatter delegates in the formatter delegate implementation
+### Fixed
+* Fixed logging message split in case of exceeding the maximal logging message length
+
 ## Version 0.4.0
 _2019.07.19_
 ### New

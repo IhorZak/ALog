@@ -26,14 +26,11 @@ import org.xmlpull.v1.XmlPullParserException;
 import java.io.IOException;
 
 /**
- * {@link ALogger} implementation that uses {@link Log} to perform logging.
+ * {@link ALogger} implementation that uses provided {@link ALogConfiguration} to perform logging.
  *
  * @author Ihor Zakhozhyi <ihorzak@gmail.com>
  */
-final class AndroidLogALogger extends BaseALogger {
-    private static final int MAX_TAG_LENGTH = 23;
-    private static final int MAX_ANDROID_LOG_MESSAGE_LENGTH = 4000;
-
+final class ConfigurationALogger extends BaseALogger {
     private static final String ALOG_PACKAGE_NAME = "ua.pp.ihorzak.alog";
 
     private final ALogConfiguration mConfiguration;
@@ -60,7 +57,7 @@ final class AndroidLogALogger extends BaseALogger {
         return startStackTraceIndex;
     }
 
-    AndroidLogALogger(ALogConfiguration configuration) {
+    ConfigurationALogger(ALogConfiguration configuration) {
         mConfiguration = configuration;
     }
 
@@ -267,15 +264,8 @@ final class AndroidLogALogger extends BaseALogger {
         if (stackTraceSuffixBuilder != null) {
             messageBuilder.append("\nStack trace:\n").append(stackTraceSuffixBuilder);
         }
-        if (tag != null && tag.length() > MAX_TAG_LENGTH) {
-            tag = tag.substring(0, MAX_TAG_LENGTH - 1) + '\u2026';
+        for (ALogPrinter printer : mConfiguration.mPrinters) {
+            printer.print(level, tag, messageBuilder);
         }
-        int androidPriority = level.getAndroidPriority();
-        int offset = 0;
-        do {
-            int subMessageEnd = Math.min(messageBuilder.length(), offset + MAX_ANDROID_LOG_MESSAGE_LENGTH);
-            Log.println(androidPriority, tag, messageBuilder.substring(offset, subMessageEnd));
-            offset += subMessageEnd;
-        } while (offset < messageBuilder.length());
     }
 }

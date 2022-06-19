@@ -1,4 +1,4 @@
-[ ![Download](https://api.bintray.com/packages/ihorzak/maven/ALog/images/download.svg) ](https://bintray.com/ihorzak/maven/ALog/_latestVersion)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/ua.pp.ihorzak/alog/badge.svg)](https://search.maven.org/artifact/ua.pp.ihorzak/alog)
 
 # ALog
 Simple Android logger based on android.util.Log.
@@ -16,6 +16,7 @@ Other important features of ALog are:
 - Automatic providing of log message tag based on class name
 - Pretty formatting of arrays, collections and maps
 - Possibility to provide custom formatters for object types
+- Additional output to file on device storage
 
 ## Usage
 ALog supports all Android API versions starting from API 1.
@@ -30,6 +31,14 @@ ALogConfiguration aLogConfiguration = ALogConfiguration.builder()
          .xmlIndentSpaceCount(4)
          .build();
 ALog.initialize(aLogConfiguration);
+```
+
+To perform logging output to file on device storage (additionally to standard output) `ALogFileConfiguration` should be passed to `ALogConfiguration` `file(ALogFileConfiguration fileConfiguration)` method.
+Example:
+```java
+ALogConfiguration aLogConfiguration = ALogConfiguration.builder()
+            .file(ALogFileConfiguration.single("launch.log", false))
+            .build();
 ```
 
 Logging with ALog is simple:
@@ -137,12 +146,12 @@ For example, to grab it via Gradle you can use next snippet:
 ```groovy
 buildscript {
     repositories {
-        jcenter()
+        mavenCentral()
     }
 }
 
 dependencies {
-    compile 'ua.pp.ihorzak:alog:0.4.0'
+    compile 'ua.pp.ihorzak:alog:0.5.0'
 }
 ```
 
@@ -154,6 +163,13 @@ If you want to remove ALog calls from release builds, you can use next ProGuard/
 ```
 -assumenosideeffects class ua.pp.ihorzak.alog.ALogConfiguration {
     public static *** builder(...);
+}
+-assumenosideeffects class ua.pp.ihorzak.alog.ALogChunkFileNameProvider {
+    public *** getName(...);
+}
+-assumenosideeffects class ua.pp.ihorzak.alog.ALogFileConfiguration {
+    public static *** single(...);
+    public static *** chunked(...);
 }
 -assumenosideeffects class ua.pp.ihorzak.alog.ALogFormatter {
     public static *** create(...);
@@ -172,8 +188,10 @@ If you want to remove ALog calls from release builds, you can use next ProGuard/
     public *** stackTraceLineCount(...);
     public *** jsonIndentSpaceCount(...);
     public *** xmlIndentSpaceCount(...);
+    public *** file(...);
     public *** arrayFormatterEnabled(...);
     public *** collectionFormatterEnabled(...);
+    public *** iterableFormatterEnabled(...);
     public *** mapFormatterEnabled(...);
     public *** formatter(...);
     public *** build(...);

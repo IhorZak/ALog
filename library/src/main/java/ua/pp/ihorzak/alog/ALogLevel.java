@@ -31,6 +31,11 @@ public enum ALogLevel {
      */
     WTF {
         @Override
+        protected char getLabel() {
+            return LABEL_WTF;
+        }
+
+        @Override
         protected int getAndroidPriority() {
             return Log.ASSERT;
         }
@@ -40,6 +45,11 @@ public enum ALogLevel {
      * level.
      */
     ERROR {
+        @Override
+        protected char getLabel() {
+            return LABEL_ERROR;
+        }
+
         @Override
         protected int getAndroidPriority() {
             return Log.ERROR;
@@ -51,6 +61,11 @@ public enum ALogLevel {
      */
     WARNING {
         @Override
+        protected char getLabel() {
+            return LABEL_WARNING;
+        }
+
+        @Override
         protected int getAndroidPriority() {
             return Log.WARN;
         }
@@ -60,6 +75,11 @@ public enum ALogLevel {
      * logging level.
      */
     INFO {
+        @Override
+        protected char getLabel() {
+            return LABEL_INFO;
+        }
+
         @Override
         protected int getAndroidPriority() {
             return Log.INFO;
@@ -71,6 +91,11 @@ public enum ALogLevel {
      */
     DEBUG {
         @Override
+        protected char getLabel() {
+            return LABEL_DEBUG;
+        }
+
+        @Override
         protected int getAndroidPriority() {
             return Log.DEBUG;
         }
@@ -81,10 +106,29 @@ public enum ALogLevel {
      */
     VERBOSE {
         @Override
+        protected char getLabel() {
+            return LABEL_VERBOSE;
+        }
+
+        @Override
         protected int getAndroidPriority() {
             return Log.VERBOSE;
         }
     };
+
+    private static final char LABEL_WTF = 'A';
+    private static final char LABEL_ERROR = 'E';
+    private static final char LABEL_WARNING = 'W';
+    private static final char LABEL_INFO = 'I';
+    private static final char LABEL_DEBUG = 'D';
+    private static final char LABEL_VERBOSE = 'V';
+
+    /**
+     * Gets corresponding single letter label.
+     *
+     * @return Corresponding single letter label.
+     */
+    protected abstract char getLabel();
 
     /**
      * Gets corresponding Android {@link Log} logging level.
