@@ -46,12 +46,14 @@ public final class ALogFileConfiguration {
      * Creates {@link ALogFileConfiguration} to perform logging output to the multiple (chunk)
      * files with file count and file size limits. In case file size limit exceeds new file (chunk)
      * is created. In case file size limit exceeds the most old file is deleted.
+     * In case specified chunk files directory contains files they will be deleted.
+     * If logging message exceeds chunk size limit it will be ignored.
      * Created instance must be passed to
      * {@link ALogConfiguration.Builder#file(ALogFileConfiguration)}.
      *
      * @param filesDirectoryPath Logging output files directory.
-     * @param chunkSizeLimit Chunk file size limit.
-     * @param chunkCount Chunk file count limit.
+     * @param chunkSizeLimit Chunk file size limit (in chars). Must be positive number.
+     * @param chunkCount Chunk file count limit. Must be positive number.
      * @param nameProvider Chunk file name provider.
      * @return {@link ALogFileConfiguration} to perform logging output to the multiple (chunk)
      *         files.

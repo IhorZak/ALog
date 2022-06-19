@@ -25,6 +25,8 @@ import java.io.PrintWriter;
  * Logging file writer which performs logging to to the multiple (chunk)
  * files with file count and file size limits. In case file size limit exceeds new file (chunk)
  * is created. In case file size limit exceeds the most old file is deleted.
+ * In case specified chunk files directory contains files they will be deleted.
+ * If logging message exceeds chunk size limit it will be ignored.
  *
  * @author Ihor Zakhozhyi <ihorzak@gmail.com>
  */
@@ -42,14 +44,20 @@ final class ChunkedALogFileWriter implements ALogFileWriter {
      * Constructor.
      *
      * @param filesDirectoryPath Logging output files directory.
-     * @param chunkSizeLimit Chunk file size limit.
-     * @param chunkCount Chunk file count limit.
+     * @param chunkSizeLimit Chunk file size limit (in chars). Must be positive number.
+     * @param chunkCount Chunk file count limit. Must be positive number.
      * @param nameProvider Chunk file name provider.
      */
     ChunkedALogFileWriter(String filesDirectoryPath,
                           long chunkSizeLimit,
                           int chunkCount,
                           ALogChunkFileNameProvider nameProvider) {
+        if (chunkSizeLimit <= 0) {
+            throw new IllegalArgumentException("Chunk size limit must be positive number");
+        }
+        if (chunkCount <= 0) {
+            throw new IllegalArgumentException("Chunk count must be positive number");
+        }
         mChunkSizeLimit = chunkSizeLimit;
         mDirectoryFile = new File(filesDirectoryPath);
         mChunkFiles = new File[chunkCount];
@@ -66,16 +74,18 @@ final class ChunkedALogFileWriter implements ALogFileWriter {
         }
         if (mPrintWriter == null) {
             initialize();
-        }
-        if ((mWritten + messageLength) > mChunkSizeLimit) {
-            openNextChunk();
+        } else {
+            if ((mWritten + messageLength) > mChunkSizeLimit) {
+                openNextChunk();
+            }
         }
         mPrintWriter.append(message)
                     .flush();
+        mWritten += message.length();
     }
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
-    private void initialize() {
+    private void initialize() throws FileNotFoundException {
         if (!mDirectoryFile.mkdirs()) {
             File[] files = mDirectoryFile.listFiles();
             if (files != null) {
@@ -84,6 +94,8 @@ final class ChunkedALogFileWriter implements ALogFileWriter {
                 }
             }
         }
+        mCurrentChunk = 0;
+        openCurrentChunk();
     }
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
@@ -97,6 +109,10 @@ final class ChunkedALogFileWriter implements ALogFileWriter {
                 mChunkFiles[i].renameTo(mChunkFiles[i - 1]);
             }
         }
+        openCurrentChunk();
+    }
+
+    private void openCurrentChunk() throws FileNotFoundException {
         mPrintWriter = new PrintWriter(new FileOutputStream(mChunkFiles[mCurrentChunk], false));
         mWritten = 0L;
     }

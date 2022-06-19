@@ -25,9 +25,9 @@ package ua.pp.ihorzak.alog;
  */
 public interface ALogChunkFileNameProvider {
     /**
-     * Retrieves the name for the chunk file with provided index.
+     * Retrieves the name for the chunk file with provided index (zero based).
      *
-     * @param chunkIndex The index of chunk file to provide name.
+     * @param chunkIndex The index (zero based) of chunk file to provide name.
      * @return The name for chunk file with provided index.
      */
     String getName(int chunkIndex);
