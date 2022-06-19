@@ -20,6 +20,7 @@ import android.app.Application;
 
 import ua.pp.ihorzak.alog.ALog;
 import ua.pp.ihorzak.alog.ALogConfiguration;
+import ua.pp.ihorzak.alog.ALogFileConfiguration;
 
 /**
  * ALog sample application.
@@ -38,7 +39,7 @@ public class ALogSampleApplication extends Application {
         ALogFileManager aLogFileManager = new ALogFileManager(this, LOG_FILE_LIFETIME);
         aLogFileManager.deleteObsoleteFiles();
         ALogConfiguration aLogConfiguration = ALogConfiguration.builder()
-                .file(aLogFileManager.createFile().getPath(), false)
+                .file(ALogFileConfiguration.single(aLogFileManager.createFile().getPath(), false))
                 .tag("ALogSampleApplication")
                 .classPrefixEnabled(true)
                 .jsonIndentSpaceCount(4)

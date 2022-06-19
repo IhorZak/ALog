@@ -18,9 +18,6 @@ package ua.pp.ihorzak.alog;
 
 import android.annotation.SuppressLint;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -28,7 +25,7 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 /**
- * {@link ALogPrinter} implementation that uses file to print logging messages.
+ * {@link ALogPrinter} implementation that uses file writer to print logging messages.
  *
  * @author Ihor Zakhozhyi <ihorzak@gmail.com>
  */
@@ -36,61 +33,46 @@ final class FileALogPrinter implements ALogPrinter {
     private static final String THREAD_NAME = "FileALogPrinter";
     private static final String FORMAT_DATE_TIME_PATTERN = "yyyy-MM-dd HH:mm:ss.SSS";
 
-    private final String mFilePath;
-    private final boolean mAppend;
+    private final ALogFileWriter mFileWriter;
     private final Executor mExecutor;
     private final DateFormat mDateFormat;
 
-    private PrintWriter mPrintWriter;
-    private boolean mHasInitializationFailed;
+    private boolean mHasPrinterFailed;
 
     /**
      * Constructor.
      *
-     * @param filePath Path of the file to print logging messages into.
-     * @param append True if file should be appended in case it exists, false if file content
-     *               should be overwritten in case it exists.
+     * @param fileWriter Entity used to perform write operations to storage file.
      */
     @SuppressLint("SimpleDateFormat")
-    FileALogPrinter(String filePath, boolean append) {
-        mFilePath = filePath;
-        mAppend = append;
+    FileALogPrinter(ALogFileWriter fileWriter) {
+        mFileWriter = fileWriter;
         mExecutor = Executors.newSingleThreadExecutor(runnable -> new Thread(runnable, THREAD_NAME));
         mDateFormat = new SimpleDateFormat(FORMAT_DATE_TIME_PATTERN);
-        mHasInitializationFailed = false;
+        mHasPrinterFailed = false;
     }
 
-    @SuppressWarnings("ResultOfMethodCallIgnored")
     @Override
     public void print(ALogLevel level, CharSequence tag, CharSequence message) {
-        if (!mHasInitializationFailed) {
+        if (!mHasPrinterFailed) {
             mExecutor.execute(
                     () -> {
-                        if (mPrintWriter == null) {
-                            try {
-                                File file = new File(mFilePath);
-                                File directoryFile = file.getParentFile();
-                                if (directoryFile != null) {
-                                    directoryFile.mkdirs();
-                                }
-                                mPrintWriter = new PrintWriter(new FileOutputStream(file, mAppend));
-                            } catch (Throwable throwable) {
-                                mHasInitializationFailed = true;
-                                throwable.printStackTrace();
-                            }
-                        }
-                        if (mPrintWriter != null) {
-                            mPrintWriter.append(mDateFormat.format(new Date()))
-                                        .append(' ')
-                                        .append(level.getLabel())
-                                        .append(' ')
-                                        .append(tag)
-                                        .append(' ')
-                                        .append(message);
+                        try {
+                            StringBuilder builder = new StringBuilder();
+                            builder.append(mDateFormat.format(new Date()))
+                                   .append(' ')
+                                   .append(level.getLabel())
+                                   .append(' ')
+                                   .append(tag)
+                                   .append(' ')
+                                   .append(message);
                             if (message.length() == 0 || message.charAt(message.length() - 1) != '\n') {
-                                mPrintWriter.println();
+                                builder.append('\n');
                             }
-                            mPrintWriter.flush();
+                            mFileWriter.write(builder);
+                        } catch (Throwable throwable) {
+                            mHasPrinterFailed = true;
+                            throwable.printStackTrace();
                         }
                     }
             );

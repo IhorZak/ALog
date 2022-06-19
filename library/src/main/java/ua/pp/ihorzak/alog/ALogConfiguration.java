@@ -389,17 +389,16 @@ public final class ALogConfiguration {
         }
 
         /**
-         * Sets file to print logging messages to. Logging to file is additional to the standard
-         * Android logging. Output to the single file is only supported. Repeated call to this
-         * method overrides previously set file.
+         * Sets file configuration to print logging messages to storage. Logging to file is
+         * additional to the standard Android logging. Output using the single file configuration
+         * is only supported. Repeated call to this method overrides previously set file
+         * configuration.
          *
-         * @param filePath Path of the file to print logging messages into.
-         * @param append True if file should be appended in case it exists, false if file content
-         *               should be overwritten in case it exists.
+         * @param fileConfiguration Logging file output configuration.
          * @return This builder instance.
          */
-        public Builder file(String filePath, boolean append) {
-            mFilePrinter = new FileALogPrinter(filePath, append);
+        public Builder file(ALogFileConfiguration fileConfiguration) {
+            mFilePrinter = new FileALogPrinter(fileConfiguration.mWriter);
             return this;
         }
 
