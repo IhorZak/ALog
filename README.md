@@ -141,7 +141,7 @@ will produce such logging output
 ```
 
 ## Download
-The latest version is available via [JCenter][1].
+The latest version is available via [Maven Central][1].
 For example, to grab it via Gradle you can use next snippet:
 ```groovy
 buildscript {
@@ -243,5 +243,5 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </pre>
 
-  [1]: https://bintray.com/ihorzak/maven/ALog
+  [1]: https://search.maven.org/artifact/ua.pp.ihorzak/alog/0.5.0/aar
   [2]: https://ihorzak.github.io/ALog/
