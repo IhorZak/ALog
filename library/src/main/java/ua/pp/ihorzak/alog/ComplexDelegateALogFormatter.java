@@ -35,7 +35,7 @@ final class ComplexDelegateALogFormatter<T> extends ALogFormatter<T> {
     }
 
     @Override
-    public String toLoggingString(T object, ALogFormatter<Object> objectFormatter) {
+    String toLoggingString(T object, ALogFormatter<Object> objectFormatter) {
         return mComplexDelegate.toLoggingString(object, objectFormatter);
     }
 }

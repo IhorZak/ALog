@@ -33,7 +33,7 @@ final class ObjectALogFormatter extends ConfigurationALogFormatter<Object> {
     }
 
     @Override
-    public String toLoggingString(Object object, ALogFormatter<Object> objectFormatter) {
+    String toLoggingString(Object object, ALogFormatter<Object> objectFormatter) {
         return Utils.formatArgument(object, mConfiguration);
     }
 }

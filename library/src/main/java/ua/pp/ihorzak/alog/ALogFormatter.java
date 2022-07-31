@@ -85,5 +85,5 @@ public abstract class ALogFormatter<T> {
      *                        logging strings.
      * @return Logging string that represents passed object.
      */
-    public abstract String toLoggingString(T object, ALogFormatter<Object> objectFormatter);
+    abstract String toLoggingString(T object, ALogFormatter<Object> objectFormatter);
 }
