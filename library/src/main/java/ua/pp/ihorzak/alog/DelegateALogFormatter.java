@@ -35,7 +35,7 @@ final class DelegateALogFormatter<T> extends ALogFormatter<T> {
     }
 
     @Override
-    public String toLoggingString(T object, ALogFormatter<Object> objectFormatter) {
+    public String toLoggingString(T object, ALogFormatterDelegate<Object> objectFormatterDelegate) {
         return mDelegate.toLoggingString(object);
     }
 }

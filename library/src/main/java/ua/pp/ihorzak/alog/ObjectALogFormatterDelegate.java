@@ -17,23 +17,25 @@
 package ua.pp.ihorzak.alog;
 
 /**
- * {@link ALogFormatter} to transform objects into logging strings.
- * This formatter uses other formatters configured in {@link ALogConfiguration}.
+ * {@link ALogFormatterDelegate} to transform objects into logging strings.
+ * This formatter delegate uses other formatters configured in {@link ALogConfiguration}.
  *
  * @author Ihor Zakhozhyi <ihorzak@gmail.com>
  */
-final class ObjectALogFormatter extends ConfigurationALogFormatter<Object> {
+final class ObjectALogFormatterDelegate implements ALogFormatterDelegate<Object> {
+    private final ALogConfiguration mConfiguration;
+
     /**
      * Constructor.
      *
      * @param configuration {@link ALogConfiguration} instance.
      */
-    ObjectALogFormatter(ALogConfiguration configuration) {
-        super(configuration);
+    ObjectALogFormatterDelegate(ALogConfiguration configuration) {
+        mConfiguration = configuration;
     }
 
     @Override
-    String toLoggingString(Object object, ALogFormatter<Object> objectFormatter) {
+    public String toLoggingString(Object object) {
         return Utils.formatArgument(object, mConfiguration);
     }
 }

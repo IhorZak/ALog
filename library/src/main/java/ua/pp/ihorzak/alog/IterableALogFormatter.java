@@ -34,7 +34,7 @@ final class IterableALogFormatter extends ConfigurationALogFormatter<Iterable<?>
     }
 
     @Override
-    String toLoggingString(Iterable<?> object, ALogFormatter<Object> objectFormatter) {
+    String toLoggingString(Iterable<?> object, ALogFormatterDelegate<Object> objectFormatterDelegate) {
         StringBuilder builder = new StringBuilder();
         builder.append(object.getClass().getName())
                .append("(size = ");

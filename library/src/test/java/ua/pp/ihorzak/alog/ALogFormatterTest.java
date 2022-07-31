@@ -33,8 +33,8 @@ public class ALogFormatterTest extends BaseTest {
         final String loggingString = "Custom logging string";
         ALogFormatterDelegate<String> delegate = object -> loggingString;
         ALogFormatter<String> formatter = ALogFormatter.create(delegate);
-        ALogFormatter<Object> objectFormatter = new ObjectALogFormatter(ALogConfiguration.builder().build());
-        assertEquals(loggingString, formatter.format("Some logging message", objectFormatter));
+        ALogFormatterDelegate<Object> objectFormatterDelegate = new ObjectALogFormatterDelegate(ALogConfiguration.builder().build());
+        assertEquals(loggingString, formatter.format("Some logging message", objectFormatterDelegate));
     }
 
     @Test
@@ -42,7 +42,7 @@ public class ALogFormatterTest extends BaseTest {
         final String loggingString = "Custom logging string";
         ALogFormatterComplexDelegate<String> complexDelegate = (object, objectFormatter) -> loggingString;
         ALogFormatter<String> formatter = ALogFormatter.create(complexDelegate);
-        ALogFormatter<Object> objectFormatter = new ObjectALogFormatter(ALogConfiguration.builder().build());
-        assertEquals(loggingString, formatter.format("Some logging message", objectFormatter));
+        ALogFormatterDelegate<Object> objectFormatterDelegate = new ObjectALogFormatterDelegate(ALogConfiguration.builder().build());
+        assertEquals(loggingString, formatter.format("Some logging message", objectFormatterDelegate));
     }
 }

@@ -22,7 +22,7 @@ package ua.pp.ihorzak.alog;
  * @author Ihor Zakhozhyi <ihorzak@gmail.com>
  */
 abstract class ConfigurationALogFormatter<T> extends ALogFormatter<T> {
-    final ALogConfiguration mConfiguration;
+    protected final ALogConfiguration mConfiguration;
 
     /**
      * Constructor.

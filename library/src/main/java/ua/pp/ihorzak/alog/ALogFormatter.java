@@ -68,22 +68,22 @@ public abstract class ALogFormatter<T> {
      * Transforms passed object into logging string.
      *
      * @param object Object to be transformed into logging string.
-     * @param objectFormatter Formatter to be used to transform this object contained instances to
-     *                        logging strings.
+     * @param objectFormatterDelegate Formatter delegate to be used to transform this object contained
+     *                                instances to logging strings.
      * @return Logging string that represents passed object.
      */
     @SuppressWarnings("unchecked")
-    String format(Object object, ALogFormatter<Object> objectFormatter) {
-        return toLoggingString((T) object, objectFormatter);
+    String format(Object object, ALogFormatterDelegate<Object> objectFormatterDelegate) {
+        return toLoggingString((T) object, objectFormatterDelegate);
     }
 
     /**
      * Transforms passed object into logging string.
      *
      * @param object Object to be transformed into logging string.
-     * @param objectFormatter Formatter to be used to transform this object contained instances to
-     *                        logging strings.
+     * @param objectFormatterDelegate Formatter delegate to be used to transform this object contained
+     *                                instances to logging strings.
      * @return Logging string that represents passed object.
      */
-    abstract String toLoggingString(T object, ALogFormatter<Object> objectFormatter);
+    abstract String toLoggingString(T object, ALogFormatterDelegate<Object> objectFormatterDelegate);
 }
