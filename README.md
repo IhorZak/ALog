@@ -108,7 +108,7 @@ will produce the next output:
 02-08 21:19:59.637 3461-3461/ua.pp.ihorzak.alog.sample D/ALogSampleApplication: [main|MainActivity$override|onCreate|(MainActivity.java:312)] java.util.LinkedHashMap(size = 3) [{1 -> 45}, {2 -> 76}, {3 -> 100}]
 ```
 
-There is also possibility to provide custom logging formatters for objects of almost any classes (except arrays, collections and primitive wrappers). This can be done at ALog initialization via `ALogConfiguration.Builder` class method `formatter(Class<?> clazz, ALogFormatter<?> formatter)`. If custom formatter is needed only for some piece of code `ALog` methods `formatter(Class<?> clazz, ALogFormatter<?> formatter)` and `formatters(Map<Class<?>, ALogFormatter<?>> formatterMap)` should be used for creation `ALogger` instances with needed formatters support.
+There is also possibility to provide custom logging formatters for objects of almost any classes (except arrays, collections, iterables and primitive wrappers). This can be done at ALog initialization via `ALogConfiguration.Builder` class method `formatter(Class<?> clazz, ALogFormatter<?> formatter)`. If custom formatter is needed only for some piece of code `ALog` methods `formatter(Class<?> clazz, ALogFormatter<?> formatter)` and `formatters(Map<Class<?>, ALogFormatter<?>> formatterMap)` should be used for creation `ALogger` instances with needed formatters support.
 For example if we want to add custom formatter for `android.os.Bundle` class instances it could be done with next code
 ```java
 ALogConfiguration configuration = ALogConfiguration.builder()
@@ -124,6 +124,24 @@ ALogConfiguration configuration = ALogConfiguration.builder()
                 return stringBuilder.toString();
             }
         }))
+        .formatter(Intent.class, ALogFormatter.create(new ALogFormatterComplexDelegate<Intent>() {
+            @Override
+            public String toLoggingString(Intent intent, ALogFormatterDelegate<Object> objectFormatterDelegate) {
+                StringBuilder stringBuilder = new StringBuilder();
+                stringBuilder.append("Intent [action = ");
+                stringBuilder.append(intent.getAction());
+                stringBuilder.append(", categories = ");
+                stringBuilder.append(objectFormatterDelegate.toLoggingString(intent.getCategories()));
+                stringBuilder.append(", type = ");
+                stringBuilder.append(intent.getType());
+                stringBuilder.append(", data = ");
+                stringBuilder.append(objectFormatterDelegate.toLoggingString(intent.getData()));
+                stringBuilder.append(", extras = ");
+                stringBuilder.append(objectFormatterDelegate.toLoggingString(intent.getExtras()));
+                stringBuilder.append("]");
+                return stringBuilder.toString();
+            }
+        }))
         .build();
 ALog.initialize(configuration);
 ```
@@ -134,10 +152,16 @@ arguments.putInt("Key1", 1);
 arguments.putString("Key2", "Some string");
 arguments.putBoolean("Key3", true);
 ALog.d(arguments);
+Intent intent = new Intent(Intent.ACTION_SEND);
+intent.setType("*/*");
+intent.putExtra(Intent.EXTRA_SUBJECT, "Subject");
+intent.putExtra(Intent.EXTRA_TEXT, "Body");
+ALog.d(intent);
 ```
 will produce such logging output
 ```
 02-08 22:27:16.841 4709-4709/ua.pp.ihorzak.alog.sample D/ALogSampleApplication: [main|MainActivity|onCreate|(MainActivity.java:297)] Bundle [ Key1 Key2 Key3 ]
+02-08 22:27:16.842 4709-4709/ua.pp.ihorzak.alog.sample D/ALogSampleApplication: [main|MainActivity|onCreate|(MainActivity.java:302)] Intent [action = android.intent.action.SEND, categories = null, type = */*, data = null, extras = Bundle[{android.intent.extra.SUBJECT=Subject, android.intent.extra.TEXT=Body}]]
 ```
 
 ## Download
