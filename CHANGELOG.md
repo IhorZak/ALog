@@ -1,5 +1,12 @@
 # Changelog
 
+## Version 0.6.0
+_?_
+### New
+* ?
+### Fixed
+* Fixed complex formatter delegate interface to have ability to use other formatter delegates in the formatter delegate implementation
+
 ## Version 0.5.0
 _2022.06.19_
 ### New
