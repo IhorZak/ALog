@@ -108,6 +108,76 @@ public final class ALog {
     }
 
     /**
+     * Gets {@link ALogger} instance which does not output additional information
+     * (prefixes and stack trace lines) with logging messages. So such {@link ALogger}
+     * outputs bare logging messages.
+     *
+     * @return {@link ALogger} instance which does not output additional information
+     *         (prefixes and stack trace lines) with logging messages.
+     */
+    public static ALogger b() {
+        verifyInitialization();
+        if (configuration == null) {
+            return StubALoggerProvider.INSTANCE.mLogger;
+        }
+        if (configuration.mIsEnabled &&
+                (configuration.mIsThreadPrefixEnabled || configuration.mIsClassPrefixEnabled
+                        || configuration.mIsMethodPrefixEnabled || configuration.mIsLineLocationPrefixEnabled
+                        || configuration.mStackTraceLineCount > 0)
+        ) {
+            return new ConfigurationALogger(
+                    configuration.copyBuilder()
+                            .threadPrefixEnabled(false)
+                            .classPrefixEnabled(false)
+                            .methodPrefixEnabled(false)
+                            .lineLocationPrefixEnabled(false)
+                            .stackTraceLineCount(0)
+                            .build()
+            );
+        } else {
+            return logger;
+        }
+    }
+
+    /**
+     * Gets {@link ALogger} instance which does not output additional information
+     * (prefixes and stack trace lines) with logging messages and uses specified log tag.
+     * So such {@link ALogger} outputs bare logging messages with specified log tag.
+     *
+     * @param tag Log tag.
+     *
+     * @return {@link ALogger} instance which does not output additional information
+     *         (prefixes and stack trace lines) with logging messages and uses specified log tag.
+     */
+    public static ALogger tb(String tag) {
+        verifyInitialization();
+        if (configuration == null) {
+            return StubALoggerProvider.INSTANCE.mLogger;
+        }
+        if (configuration.mIsEnabled &&
+                (!Utils.equals(configuration.mTag, tag) ||
+                        (configuration.mIsThreadPrefixEnabled || configuration.mIsClassPrefixEnabled
+                                || configuration.mIsMethodPrefixEnabled || configuration.mIsLineLocationPrefixEnabled
+                                || configuration.mStackTraceLineCount > 0)
+                )
+
+        ) {
+            return new ConfigurationALogger(
+                    configuration.copyBuilder()
+                            .tag(tag)
+                            .threadPrefixEnabled(false)
+                            .classPrefixEnabled(false)
+                            .methodPrefixEnabled(false)
+                            .lineLocationPrefixEnabled(false)
+                            .stackTraceLineCount(0)
+                            .build()
+            );
+        } else {
+            return logger;
+        }
+    }
+
+    /**
      * Gets {@link ALogger} instance which uses custom formatting for passed class instances with
      * the help of passed {@link ALogFormatter} instance.
      *

@@ -64,6 +64,8 @@ public class MainActivity extends AppCompatActivity {
             new ListItem("ALog.t(null).d(\"Message, %d, %s\", 10, \"Argument\")", () -> ALog.t(null).d("Message, %d, %s", 20, "Argument")),
             new ListItem("ALog.st(3).d(\"Message, %d, %s\", 10, \"Argument\")", () -> ALog.st(3).d("Message, %d, %s", 20, "Argument")),
             new ListItem("ALog.tst(\"Tag\", 5).d(\"Message, %d, %s\", 10, \"Argument\")", () -> ALog.tst("Tag", 5).d("Message, %d, %s", 20, "Argument")),
+            new ListItem("ALog.b().d(\"Message, %d, %s\", 20, \"Argument\")", () -> ALog.b().d("Message, %d, %s", 20, "Argument")),
+            new ListItem("ALog.tb(\"Tag\").d(\"Message, %d, %s\", 20, \"Argument\")", () -> ALog.tb("Tag").d("Message, %d, %s", 20, "Argument")),
             new ListItem("ALog.json(\"{\"id\":456,\"data\":[\"a\",\"b\",\"c\"]}\")", () -> ALog.json("{\"id\":456,\"data\":[\"a\",\"b\",\"c\"]}")),
             new ListItem("ALog.json(ALogLevel.ERROR, \"{\"id\":456,\"data\":[\"a\",\"b\",\"c\"]}\")", () -> ALog.json(ALogLevel.ERROR, "{\"id\":456,\"data\":[\"a\",\"b\",\"c\"]}")),
             new ListItem("ALog.json(\"\")", () -> ALog.json("")),
