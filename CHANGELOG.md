@@ -3,7 +3,7 @@
 ## Version 0.6.0
 _?_
 ### New
-* ?
+* Implemented possibility to perform logging output of messages ignoring additional data configuration
 ### Fixed
 * Fixed complex formatter delegate interface to have ability to use other formatter delegates in the formatter delegate implementation
 
