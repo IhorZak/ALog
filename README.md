@@ -184,7 +184,7 @@ buildscript {
 }
 
 dependencies {
-    compile 'ua.pp.ihorzak:alog:0.5.0'
+    compile 'ua.pp.ihorzak:alog:0.6.0'
 }
 ```
 
@@ -276,5 +276,5 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </pre>
 
-  [1]: https://search.maven.org/artifact/ua.pp.ihorzak/alog/0.5.0/aar
+  [1]: https://search.maven.org/artifact/ua.pp.ihorzak/alog/0.6.0/aar
   [2]: https://ihorzak.github.io/ALog/

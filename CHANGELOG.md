@@ -1,7 +1,7 @@
 # Changelog
 
 ## Version 0.6.0
-_?_
+_2022.08.21_
 ### New
 * Implemented possibility to perform logging output of messages ignoring additional data configuration
 ### Fixed
