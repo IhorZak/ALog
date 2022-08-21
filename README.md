@@ -69,7 +69,16 @@ If some log message should have custom tag and contain custom stack trace lines 
 ALog.tst("Tag", 5).d("Message, %d, %s", 20, "Argument");
 ```
 
-If you need to log few messages with the same custom tag and/or the same custom count of stack trace lines it is strictly recommended to keep ALogger instance as each call to `t(String tag)`, `st(int stackTraceLineCount)` or `tst(String tag, int stackTraceLineCount)` creates new ALogger instance:
+In case ALog is configured to provide additional data like thread name, class name, source data, stack trace lines and there is a need to output "bare" log message `b()` method should be used:
+```java
+ALog.b().d("Message, %d, %s", 20, "Argument");
+```
+To output "bare" log message with custom tag `tb(String tag)` method should be used:
+```java
+ALog.tb("Tag").d("Message, %d, %s", 20, "Argument");
+```
+
+If you need to log few messages with the same custom tag and/or the same custom count of stack trace lines it is strictly recommended to keep ALogger instance as each call to `t(String tag)`, `st(int stackTraceLineCount)`, `tst(String tag, int stackTraceLineCount)`, `b()` or `tb(String tag)` creates new ALogger instance:
 ```java
 ALogger logger = ALog.tst("Tag", 3);
 logger.w("Message, %d, %s", 20, "Argument");
