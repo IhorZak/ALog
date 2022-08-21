@@ -18,6 +18,7 @@ package ua.pp.ihorzak.alog.test;
 
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.Config;
 
 /**
  * Base unit tests class with configured robolectric.
@@ -25,4 +26,5 @@ import org.robolectric.RobolectricTestRunner;
  * @author Ihor Zakhozhyi <ihorzak@gmail.com>
  */
 @RunWith(RobolectricTestRunner.class)
+@Config(sdk = 31)
 public abstract class BaseTest {}

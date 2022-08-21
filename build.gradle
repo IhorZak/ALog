@@ -56,8 +56,18 @@ dependencyUpdates.resolutionStrategy = {
             boolean rejected = ["alpha", "beta", "rc", "cr", "m", "eap"].any { qualifier ->
                 selection.candidate.version ==~ /(?i).*[.-]${qualifier}[.\d-]*/
             }
+            boolean robolectricRejected = false
+            if (!rejected) {
+                if (selection.candidate.group == "org.robolectric") {
+                    if (!selection.candidate.version.startsWith("4.7.")) {
+                        robolectricRejected = true
+                    }
+                }
+            }
             if (rejected) {
                 selection.reject("Beta version")
+            } else if (robolectricRejected) {
+                selection.reject("Robolectric min SDK 14 required version")
             }
         }
     }

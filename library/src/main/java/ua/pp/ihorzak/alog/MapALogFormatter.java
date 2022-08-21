@@ -35,7 +35,7 @@ final class MapALogFormatter extends ConfigurationALogFormatter<Map<?,?>> {
     }
 
     @Override
-    public String toLoggingString(Map<?, ?> object, ALogFormatter<Object> objectFormatter) {
+    public String toLoggingString(Map<?, ?> object, ALogFormatterDelegate<Object> objectFormatterDelegate) {
         StringBuilder builder = new StringBuilder();
         builder.append(object.getClass().getName())
                .append("(size = ")

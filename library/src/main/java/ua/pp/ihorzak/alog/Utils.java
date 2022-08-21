@@ -347,17 +347,17 @@ final class Utils {
         } else {
             Class<?> argumentClass = argument.getClass();
             if (configuration.mArrayFormatter != null && argumentClass.isArray()) {
-                formattedArgument = configuration.mArrayFormatter.format(argument, configuration.mObjectFormatter);
+                formattedArgument = configuration.mArrayFormatter.format(argument, configuration.mObjectFormatterDelegate);
             } else if (configuration.mCollectionFormatter != null && Collection.class.isAssignableFrom(argumentClass)) {
-                formattedArgument = configuration.mCollectionFormatter.format(argument, configuration.mObjectFormatter);
+                formattedArgument = configuration.mCollectionFormatter.format(argument, configuration.mObjectFormatterDelegate);
             } else if (configuration.mIterableFormatter != null && Iterable.class.isAssignableFrom(argumentClass)) {
-                formattedArgument = configuration.mIterableFormatter.format(argument, configuration.mObjectFormatter);
+                formattedArgument = configuration.mIterableFormatter.format(argument, configuration.mObjectFormatterDelegate);
             } else if (configuration.mMapFormatter != null && Map.class.isAssignableFrom(argumentClass)) {
-                formattedArgument = configuration.mMapFormatter.format(argument, configuration.mObjectFormatter);
+                formattedArgument = configuration.mMapFormatter.format(argument, configuration.mObjectFormatterDelegate);
             } else if (configuration.mFormatterMap.containsKey(argumentClass)) {
                 ALogFormatter<?> formatter = configuration.mFormatterMap.get(argumentClass);
                 //noinspection ConstantConditions
-                formattedArgument = formatter.format(argument, configuration.mObjectFormatter);
+                formattedArgument = formatter.format(argument, configuration.mObjectFormatterDelegate);
             } else {
                 formattedArgument = argument.toString();
             }

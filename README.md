@@ -69,7 +69,16 @@ If some log message should have custom tag and contain custom stack trace lines 
 ALog.tst("Tag", 5).d("Message, %d, %s", 20, "Argument");
 ```
 
-If you need to log few messages with the same custom tag and/or the same custom count of stack trace lines it is strictly recommended to keep ALogger instance as each call to `t(String tag)`, `st(int stackTraceLineCount)` or `tst(String tag, int stackTraceLineCount)` creates new ALogger instance:
+In case ALog is configured to provide additional data like thread name, class name, source data, stack trace lines and there is a need to output "bare" log message `b()` method should be used:
+```java
+ALog.b().d("Message, %d, %s", 20, "Argument");
+```
+To output "bare" log message with custom tag `tb(String tag)` method should be used:
+```java
+ALog.tb("Tag").d("Message, %d, %s", 20, "Argument");
+```
+
+If you need to log few messages with the same custom tag and/or the same custom count of stack trace lines it is strictly recommended to keep ALogger instance as each call to `t(String tag)`, `st(int stackTraceLineCount)`, `tst(String tag, int stackTraceLineCount)`, `b()` or `tb(String tag)` creates new ALogger instance:
 ```java
 ALogger logger = ALog.tst("Tag", 3);
 logger.w("Message, %d, %s", 20, "Argument");
@@ -108,7 +117,7 @@ will produce the next output:
 02-08 21:19:59.637 3461-3461/ua.pp.ihorzak.alog.sample D/ALogSampleApplication: [main|MainActivity$override|onCreate|(MainActivity.java:312)] java.util.LinkedHashMap(size = 3) [{1 -> 45}, {2 -> 76}, {3 -> 100}]
 ```
 
-There is also possibility to provide custom logging formatters for objects of almost any classes (except arrays, collections and primitive wrappers). This can be done at ALog initialization via `ALogConfiguration.Builder` class method `formatter(Class<?> clazz, ALogFormatter<?> formatter)`. If custom formatter is needed only for some piece of code `ALog` methods `formatter(Class<?> clazz, ALogFormatter<?> formatter)` and `formatters(Map<Class<?>, ALogFormatter<?>> formatterMap)` should be used for creation `ALogger` instances with needed formatters support.
+There is also possibility to provide custom logging formatters for objects of almost any classes (except arrays, collections, iterables and primitive wrappers). This can be done at ALog initialization via `ALogConfiguration.Builder` class method `formatter(Class<?> clazz, ALogFormatter<?> formatter)`. If custom formatter is needed only for some piece of code `ALog` methods `formatter(Class<?> clazz, ALogFormatter<?> formatter)` and `formatters(Map<Class<?>, ALogFormatter<?>> formatterMap)` should be used for creation `ALogger` instances with needed formatters support.
 For example if we want to add custom formatter for `android.os.Bundle` class instances it could be done with next code
 ```java
 ALogConfiguration configuration = ALogConfiguration.builder()
@@ -124,6 +133,24 @@ ALogConfiguration configuration = ALogConfiguration.builder()
                 return stringBuilder.toString();
             }
         }))
+        .formatter(Intent.class, ALogFormatter.create(new ALogFormatterComplexDelegate<Intent>() {
+            @Override
+            public String toLoggingString(Intent intent, ALogFormatterDelegate<Object> objectFormatterDelegate) {
+                StringBuilder stringBuilder = new StringBuilder();
+                stringBuilder.append("Intent [action = ");
+                stringBuilder.append(intent.getAction());
+                stringBuilder.append(", categories = ");
+                stringBuilder.append(objectFormatterDelegate.toLoggingString(intent.getCategories()));
+                stringBuilder.append(", type = ");
+                stringBuilder.append(intent.getType());
+                stringBuilder.append(", data = ");
+                stringBuilder.append(objectFormatterDelegate.toLoggingString(intent.getData()));
+                stringBuilder.append(", extras = ");
+                stringBuilder.append(objectFormatterDelegate.toLoggingString(intent.getExtras()));
+                stringBuilder.append("]");
+                return stringBuilder.toString();
+            }
+        }))
         .build();
 ALog.initialize(configuration);
 ```
@@ -134,10 +161,16 @@ arguments.putInt("Key1", 1);
 arguments.putString("Key2", "Some string");
 arguments.putBoolean("Key3", true);
 ALog.d(arguments);
+Intent intent = new Intent(Intent.ACTION_SEND);
+intent.setType("*/*");
+intent.putExtra(Intent.EXTRA_SUBJECT, "Subject");
+intent.putExtra(Intent.EXTRA_TEXT, "Body");
+ALog.d(intent);
 ```
 will produce such logging output
 ```
 02-08 22:27:16.841 4709-4709/ua.pp.ihorzak.alog.sample D/ALogSampleApplication: [main|MainActivity|onCreate|(MainActivity.java:297)] Bundle [ Key1 Key2 Key3 ]
+02-08 22:27:16.842 4709-4709/ua.pp.ihorzak.alog.sample D/ALogSampleApplication: [main|MainActivity|onCreate|(MainActivity.java:302)] Intent [action = android.intent.action.SEND, categories = null, type = */*, data = null, extras = Bundle[{android.intent.extra.SUBJECT=Subject, android.intent.extra.TEXT=Body}]]
 ```
 
 ## Download
@@ -151,7 +184,7 @@ buildscript {
 }
 
 dependencies {
-    compile 'ua.pp.ihorzak:alog:0.5.0'
+    compile 'ua.pp.ihorzak:alog:0.6.0'
 }
 ```
 
@@ -243,5 +276,5 @@ See the License for the specific language governing permissions and
 limitations under the License.
 </pre>
 
-  [1]: https://search.maven.org/artifact/ua.pp.ihorzak/alog/0.5.0/aar
+  [1]: https://search.maven.org/artifact/ua.pp.ihorzak/alog/0.6.0/aar
   [2]: https://ihorzak.github.io/ALog/

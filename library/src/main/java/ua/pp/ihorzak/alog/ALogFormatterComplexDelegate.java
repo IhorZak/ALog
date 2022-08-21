@@ -33,9 +33,9 @@ public interface ALogFormatterComplexDelegate<T> {
      * Transforms passed object into logging string.
      *
      * @param object Object to be transformed into logging string.
-     * @param objectFormatter Formatter to be used to transform this object contained instances to
-     *                        logging strings.
+     * @param objectFormatterDelegate Formatter delegate to be used to transform this object
+     *                                contained instances to logging strings.
      * @return Logging string that represents passed object.
      */
-    String toLoggingString(T object, ALogFormatter<Object> objectFormatter);
+    String toLoggingString(T object, ALogFormatterDelegate<Object> objectFormatterDelegate);
 }

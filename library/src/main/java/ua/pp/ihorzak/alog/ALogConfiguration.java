@@ -79,7 +79,8 @@ public final class ALogConfiguration {
 
     final Collection<ALogPrinter> mPrinters;
 
-    final ALogFormatter<Object> mObjectFormatter;
+    final ALogFormatterDelegate<Object> mObjectFormatterDelegate;
+
     final ALogFormatter<Object> mArrayFormatter;
     final ALogFormatter<Collection<?>> mCollectionFormatter;
     final ALogFormatter<Iterable<?>> mIterableFormatter;
@@ -125,7 +126,7 @@ public final class ALogConfiguration {
             printerList.add(mFilePrinter);
         }
         mPrinters = printerList;
-        mObjectFormatter = new ObjectALogFormatter(this);
+        mObjectFormatterDelegate = new ObjectALogFormatterDelegate(this);
         mArrayFormatter = isArrayFormatterEnabled
                 ? new ArrayALogFormatter(this)
                 : null;
