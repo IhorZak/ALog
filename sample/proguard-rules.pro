@@ -56,6 +56,8 @@
     public static *** t(...);
     public static *** st(...);
     public static *** tst(...);
+    public static *** b(...);
+    public static *** tb(...);
     public static *** formatter(...);
     public static *** formatters(...);
     public static *** v(...);
