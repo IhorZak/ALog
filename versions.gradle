@@ -2,9 +2,9 @@ ext {
     versions = [
         // Gradle Plugins
         plugins : [
-                android                 : "7.2.2",
+                android                 : "7.4.1",
                 nexusPublish            : "1.1.0",
-                versions                : "0.42.0"
+                versions                : "0.45.0"
         ],
 
         // Java Versions
@@ -14,7 +14,7 @@ ext {
         ],
 
         // Android Build Tools
-        buildTools                      : "33.0.0",
+        buildTools                      : "33.0.1",
 
         // Android SDK Versions
         sdk : [
@@ -44,7 +44,7 @@ ext {
 
         // Sample Application Dependencies
         sampleDependencies : [
-                appCompat               : "1.5.0"
+                appCompat               : "1.6.0"
         ]
     ]
 }

@@ -1,5 +1,10 @@
 # Changelog
 
+## Version 0.6.1
+_2023.02.05_
+### Fixed
+* Fixed crash on missed message arguments
+
 ## Version 0.6.0
 _2022.08.21_
 ### New

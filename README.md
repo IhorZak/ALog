@@ -184,7 +184,7 @@ buildscript {
 }
 
 dependencies {
-    compile 'ua.pp.ihorzak:alog:0.6.0'
+    compile 'ua.pp.ihorzak:alog:0.6.1'
 }
 ```
 
@@ -234,6 +234,8 @@ If you want to remove ALog calls from release builds, you can use next ProGuard/
     public static *** t(...);
     public static *** st(...);
     public static *** tst(...);
+    public static *** b(...);
+    public static *** tb(...);
     public static *** formatter(...);
     public static *** formatters(...);
     public static *** v(...);

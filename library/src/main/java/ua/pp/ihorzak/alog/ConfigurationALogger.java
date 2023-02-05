@@ -98,9 +98,7 @@ final class ConfigurationALogger extends BaseALogger {
 
     @Override
     public void wtf(Throwable throwable, String message, Object... args) {
-        if (mConfiguration.mMinimalLevel.compareTo(ALogLevel.WTF) >= 0) {
-            log(ALogLevel.WTF, throwable, message, args);
-        }
+        log(ALogLevel.WTF, throwable, message, args);
     }
 
     @Override
@@ -253,7 +251,14 @@ final class ConfigurationALogger extends BaseALogger {
             if (messageBuilder.length() > 0) {
                 messageBuilder.append(' ');
             }
-            messageBuilder.append(Utils.formatMessageWithArguments(message, args, mConfiguration));
+            String messageWithArguments;
+            try {
+                messageWithArguments = Utils.formatMessageWithArguments(message, args, mConfiguration);
+            } catch (Throwable t) {
+                messageWithArguments = "Cannot format message with arguments: \"" + message
+                        + "\" (" + t.getClass().getName() + ": " + t.getMessage() + ")";
+            }
+            messageBuilder.append(messageWithArguments);
         }
         if (throwable != null) {
             if (messageBuilder.length() > 0) {
