@@ -98,9 +98,7 @@ final class ConfigurationALogger extends BaseALogger {
 
     @Override
     public void wtf(Throwable throwable, String message, Object... args) {
-        if (mConfiguration.mMinimalLevel.compareTo(ALogLevel.WTF) >= 0) {
-            log(ALogLevel.WTF, throwable, message, args);
-        }
+        log(ALogLevel.WTF, throwable, message, args);
     }
 
     @Override
