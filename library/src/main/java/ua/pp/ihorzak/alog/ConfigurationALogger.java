@@ -253,7 +253,14 @@ final class ConfigurationALogger extends BaseALogger {
             if (messageBuilder.length() > 0) {
                 messageBuilder.append(' ');
             }
-            messageBuilder.append(Utils.formatMessageWithArguments(message, args, mConfiguration));
+            String messageWithArguments;
+            try {
+                messageWithArguments = Utils.formatMessageWithArguments(message, args, mConfiguration);
+            } catch (Throwable t) {
+                messageWithArguments = "Cannot format message with arguments: \"" + message
+                        + "\" (" + t.getClass().getName() + ": " + t.getMessage() + ")";
+            }
+            messageBuilder.append(messageWithArguments);
         }
         if (throwable != null) {
             if (messageBuilder.length() > 0) {
